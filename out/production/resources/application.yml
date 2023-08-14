@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    각자 PC에 만들어놓은 Database이름을 써야 합니다.
+    url: jdbc:mysql://checkindb.c7ss16oo4vwq.ap-northeast-2.rds.amazonaws.com:3306/checkindb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    #    sys -> 처음 설정된 기본 scheme 이름입니다 변경 시 바꿔줘야함~
+    #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
+    username: checkin
+    password: checkin1234
+  thymeleaf:
+    cache: false
+
+  # spring data jpa 설정
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update

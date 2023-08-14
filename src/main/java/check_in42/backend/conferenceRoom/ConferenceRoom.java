@@ -1,7 +1,7 @@
 package check_in42.backend.conferenceRoom;
 
+import check_in42.backend.user.User;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -16,5 +16,10 @@ public class ConferenceRoom {
     private LocalDateTime endTime;
 
     private Long location;
+
+    private Long roomInfo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
 }
