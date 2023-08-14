@@ -34,11 +34,14 @@ public class Equipment {
 
     private LocalDateTime returnDate; // 반납 일자
 
+    @Enumerated(EnumType.STRING)
+    private EquipmentType equipment;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Builder
-    protected Equipment(String userName, String phoneNumber, LocalDateTime date, Long equipments,
+    protected Equipment(String userName, String phoneNumber, LocalDateTime date, int equipment,
                                       boolean purpose, String detail, String benefit, LocalDateTime period, LocalDateTime returnDate) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
@@ -48,8 +51,11 @@ public class Equipment {
         this.period = period;
         this.benefit = benefit;
         this.returnDate = returnDate;
+        this.equipment = EquipmentType.values()[equipment];
 
     }
+
+
 }
 
 /*
