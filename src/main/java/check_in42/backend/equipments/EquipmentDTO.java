@@ -2,6 +2,7 @@ package check_in42.backend.equipments;
 
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,20 +15,21 @@ public class EquipmentDTO {
     private boolean purpose;
     private String detail;
     private String benefit;
-    private String period;
+    private int period;
     private String returnDate;
+    private Long formId;
 
-    public static EquipmentDTO create(String userName, String phoneNumber, String date, int equipment,
-                                      boolean purpose, String detail, String benefit, String period, String returnDate) {
+    public static EquipmentDTO create(String userName, String phoneNumber, LocalDate date, int equipment,
+                                      boolean purpose, String detail, String benefit, int period, LocalDate returnDate) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
         equipmentDTO.userName = userName;
         equipmentDTO.phoneNumber = phoneNumber;
-        equipmentDTO.date = date;
+        equipmentDTO.date = date.toString();
         equipmentDTO.purpose = purpose;
         equipmentDTO.detail = detail;
         equipmentDTO.period = period;
         equipmentDTO.benefit = benefit;
-        equipmentDTO.returnDate = returnDate;
+        equipmentDTO.returnDate = returnDate.toString();
         equipmentDTO.equipment = equipment;
 
         return equipmentDTO;

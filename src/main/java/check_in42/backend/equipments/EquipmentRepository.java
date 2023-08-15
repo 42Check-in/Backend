@@ -18,7 +18,7 @@ public class EquipmentRepository {
     }
 
     public Equipment findOne(Long id) {
-       return em.find(Equipment.class, id);
+        return em.find(Equipment.class, id);
     }
 
     public List<Equipment> findAll() {
