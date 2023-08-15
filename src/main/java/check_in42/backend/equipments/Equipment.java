@@ -59,6 +59,7 @@ public class Equipment {
         this.returnDate = LocalDate.parse(returnDate, formatter);
         this.period = LocalDate.parse(period, formatter);
         this.equipment = EquipmentType.values()[equipment];
+
     }
 
 

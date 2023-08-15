@@ -16,6 +16,6 @@ public class EquipmentController {
     public ResponseEntity newForm(@RequestBody EquipmentDTO equipmentDTO) {
         Equipment equipment = equipmentService.create(equipmentDTO);
         Long equipmentFormId = equipmentService.join(equipment);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().body(equipmentFormId);
     }
 }
