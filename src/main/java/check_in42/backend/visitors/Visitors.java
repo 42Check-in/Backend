@@ -3,14 +3,13 @@ package check_in42.backend.visitors;
 import check_in42.backend.user.User;
 import check_in42.backend.visitors.visitUtils.PriorApproval;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
-@Builder
+@NoArgsConstructor
+@SuperBuilder
 public class Visitors {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +18,18 @@ public class Visitors {
     @Embedded
     private PriorApproval priorApproval;
 
-    private boolean confirm;
+    @Builder.Default
+    private boolean confirm = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Builder
+    protected Visitors(User user, PriorApproval priorApproval) {
+        this.user = user;
+        this.priorApproval = priorApproval;
+    }
+    public void vocalConfirm() {
+        this.confirm = true;
+    }
 }

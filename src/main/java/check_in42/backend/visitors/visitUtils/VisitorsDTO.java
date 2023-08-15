@@ -1,10 +1,12 @@
 package check_in42.backend.visitors.visitUtils;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Date;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class VisitorsDTO {
 
     private Long visitorsId;
@@ -13,15 +15,15 @@ public class VisitorsDTO {
 
     private String visitorsName;
 
-    private String visitDate;
+    private Date visitDate;
 
     private String visitTime;
 
-    private VisitPurpose visitPurpose;
+    private int visitPurpose;
 
-    private RelationWithUser relationWithUser;
+    private int relationWithUser;
 
-    private VisitPlace visitPlace;
+    private int visitPlace;
 
     private boolean agreement;
 

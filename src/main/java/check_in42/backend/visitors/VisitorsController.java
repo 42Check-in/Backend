@@ -2,6 +2,7 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.visitors.visitUtils.PriorApproval;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,22 +15,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VisitorsController {
 
-    private final UserService userService;
     private final VisitorsService visitorsService;
+    private final UserService userService;
 
     @PostMapping("visitors/form")
     public ResponseEntity applyVisitorsForm(@RequestBody VisitorsDTO visitorsDTO,
                                             @CookieValue(name = "intraId") String intraId) {
         User user = userService.findByName(intraId);
-        visitorsService.applyVisitorForm(user, visitorsDTO);
+        Visitors visitors = visitorsService.createVisitors(user, visitorsDTO);
+        visitorsService.applyVisitorForm(user, visitors);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("visitors/cancel")
     public ResponseEntity cancelVisitors(@RequestBody VisitorsDTO visitorsDTO,
                                          @CookieValue(name = "intraId") String intraId) {
-        Optional<Visitors> visitors = visitorsService.findById(visitorsDTO.getVisitorsId());
-        visitorsService.delete(visitors, intraId);
+        visitorsService.delete(visitorsDTO, intraId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

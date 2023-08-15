@@ -2,6 +2,7 @@ package check_in42.backend.conferenceRoom;
 
 import check_in42.backend.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 

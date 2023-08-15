@@ -5,7 +5,7 @@ import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
