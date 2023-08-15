@@ -1,12 +1,16 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor
@@ -22,7 +26,7 @@ public class Equipment {
 
     private String phoneNumber;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     private boolean purpose; // 1 -> 42과제, 0 -> 그 외
 
@@ -30,30 +34,33 @@ public class Equipment {
 
     private String benefit;
 
-    private LocalDateTime period; // 빌릴 기간
+    private LocalDate period; // 빌릴 기간
 
-    private LocalDateTime returnDate; // 반납 일자
+    private LocalDate returnDate; // 반납 일자
 
     @Enumerated(EnumType.STRING)
     private EquipmentType equipment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     private User user;
 
     @Builder
-    protected Equipment(String userName, String phoneNumber, LocalDateTime date, int equipment,
-                                      boolean purpose, String detail, String benefit, LocalDateTime period, LocalDateTime returnDate) {
+    protected Equipment(String userName, String phoneNumber, String date, int equipment,
+                                      boolean purpose, String detail, String benefit, String period, String returnDate) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
         this.userName = userName;
         this.phoneNumber = phoneNumber;
-        this.date = date;
         this.purpose = purpose;
         this.detail = detail;
-        this.period = period;
         this.benefit = benefit;
-        this.returnDate = returnDate;
+        this.date = LocalDate.parse(date, formatter);
+        this.returnDate = LocalDate.parse(returnDate, formatter);
+        this.period = LocalDate.parse(period, formatter);
         this.equipment = EquipmentType.values()[equipment];
-
     }
+
 
 
 }

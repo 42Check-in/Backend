@@ -1,4 +1,4 @@
-package check_in42.backend.equipments;
+package check_in42.backend.equipments.utils;
 
 import lombok.Getter;
 //db엔 string, front에는 number
