@@ -5,6 +5,7 @@ import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,17 +36,20 @@ public class EquipmentService {
 
 
     /*
-     * intraid -> user 특정
+     * intraid -> user 특정 가능
      * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         User user = userRepository.findByName(intraId);
         List<Equipment> equipments = user.getEquipments();
+        LocalDate now = LocalDate.now();
         List<EquipmentDTO> res = new ArrayList<>();
 
         for (Equipment equip : equipments) {
-            res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), equip.getEquipment().ordinal(),
-                    equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+            if (equip.getReturnDate().isAfter(now)) {
+                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), equip.getEquipment().ordinal(),
+                        equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+            }
         }
         return res;
     }
