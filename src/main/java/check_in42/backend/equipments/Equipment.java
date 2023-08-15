@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -34,7 +32,7 @@ public class Equipment {
 
     private String benefit;
 
-    private LocalDate period; // 빌릴 기간
+    private int period; // 빌릴 기간
 
     private LocalDate returnDate; // 반납 일자
 
@@ -45,22 +43,25 @@ public class Equipment {
     private User user;
 
     @Builder
-    protected Equipment(String intraId, String userName, String phoneNumber, String date, int equipment,
-                                      boolean purpose, String detail, String benefit, String period, String returnDate) {
+    protected Equipment(String intraId, EquipmentDTO equipmentDTO) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.intraId = intraId;
-        this.userName = userName;
-        this.phoneNumber = phoneNumber;
-        this.purpose = purpose;
-        this.detail = detail;
-        this.benefit = benefit;
-        this.date = LocalDate.parse(date, formatter);
-        this.returnDate = LocalDate.parse(returnDate, formatter);
-        this.period = LocalDate.parse(period, formatter);
-        this.equipment = EquipmentType.values()[equipment];
+        this.userName = equipmentDTO.getUserName();
+        this.phoneNumber = equipmentDTO.getPhoneNumber();
+        this.purpose = equipmentDTO.isPurpose();
+        this.detail = equipmentDTO.getDetail();
+        this.benefit = equipmentDTO.getBenefit();
+        this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
+        this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
+        this.period = equipmentDTO.getPeriod();
+        this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
+        user.addEquipForm(this);
+    }
 
+    public void extendReturnDateByPeriod(int period) {
+        this.returnDate = this.returnDate.plusMonths(period);
     }
 
 
