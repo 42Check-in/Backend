@@ -1,11 +1,14 @@
-package check_in42.backend.visitor.visitUtils;
+package check_in42.backend.visitors.visitUtils;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class VisitorsDTO {
+
+    private Long visitorsId;
+
     private String intraId;
 
     private String visitorsName;

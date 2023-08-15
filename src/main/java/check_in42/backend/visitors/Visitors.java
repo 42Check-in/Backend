@@ -1,11 +1,9 @@
-package check_in42.backend.visitor;
+package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
-import check_in42.backend.visitor.visitUtils.*;
+import check_in42.backend.visitors.visitUtils.*;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Date;
 
 @Entity
 @Getter

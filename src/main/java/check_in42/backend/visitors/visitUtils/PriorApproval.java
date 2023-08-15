@@ -1,14 +1,12 @@
-package check_in42.backend.visitor.visitUtils;
+package check_in42.backend.visitors.visitUtils;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Embeddable
 @NoArgsConstructor
