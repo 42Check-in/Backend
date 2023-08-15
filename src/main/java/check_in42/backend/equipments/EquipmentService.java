@@ -21,13 +21,40 @@ public class EquipmentService {
         return equipment.getId();
     }
 
+    public Equipment getFormByIntraId(String intraId, Long formId) {
+        User user = userRepository.findByName(intraId);
+        List<Equipment> allForm = user.getEquipments();
+
+        for (Equipment equip : allForm) {
+            if (equip.getId().equals(formId))
+                return equip;
+        }
+        return null;
+    }
+
+    public void DeleteFormInUser(String intraId, Long formId) {
+        User user = userRepository.findByName(intraId);
+        List<Equipment> allForm = user.getEquipments();
+
+        for (Equipment equip : allForm) {
+            if (equip.getId().equals(formId)) {
+                allForm.remove(equip);
+                break;
+            }
+        }
+    }
+
     public Equipment findOne(Long id){
         return equipmentRepository.findOne(id);
     }
 
-    public void findAndDelete(Long id) {
-        Equipment equipment = equipmentRepository.findOne(id);
+    public void findAndDelete(String intraId, Long formId) {
+        // db에서 제거
+        Equipment equipment = equipmentRepository.findOne(formId);
         equipmentRepository.delete(equipment);
+
+        // userList에서 제거
+        DeleteFormInUser(intraId, formId);
     }
 
     public Equipment create(String intraId, EquipmentDTO equipmentDTO) {
@@ -60,9 +87,13 @@ public class EquipmentService {
         3. Long formId
     * */
     public void extendDate(String intraId, EquipmentDTO equipmentDTO) {
-        User user = userRepository.findByName(intraId);
-        /* user에 이 사항을 어케 업뎃할까 */
+        //DB의 dirty checking 이용
         Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+
+        //userList의 업데이트
+        Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
+        if (inUserForm != null)
+            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
     }
 }

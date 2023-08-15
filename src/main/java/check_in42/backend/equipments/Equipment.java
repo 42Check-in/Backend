@@ -40,6 +40,7 @@ public class Equipment {
     private EquipmentType equipment;
 
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
