@@ -14,8 +14,18 @@ public class EquipmentService {
         return equipment.getId();
     }
 
-    public Equipment create(EquipmentDTO equipmentDTO) {
+    public Equipment findOne(Long id){
+        return repository.findOne(id);
+    }
+
+    public void findAndDelete(Long id) {
+        Equipment equipment = repository.findOne(id);
+        repository.delete(equipment);
+    }
+
+    public Equipment create(String intraId, EquipmentDTO equipmentDTO) {
         return Equipment.builder()
+                .intraId(intraId)
                 .userName(equipmentDTO.getUserName())
                 .phoneNumber(equipmentDTO.getPhoneNumber())
                 .date(equipmentDTO.getDate())

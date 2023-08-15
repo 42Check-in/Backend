@@ -45,11 +45,12 @@ public class Equipment {
     private User user;
 
     @Builder
-    protected Equipment(String userName, String phoneNumber, String date, int equipment,
+    protected Equipment(String intraId, String userName, String phoneNumber, String date, int equipment,
                                       boolean purpose, String detail, String benefit, String period, String returnDate) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
+        this.intraId = intraId;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.purpose = purpose;
