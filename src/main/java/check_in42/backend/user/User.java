@@ -3,7 +3,7 @@ package check_in42.backend.user;
 import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.Presentation;
-import check_in42.backend.visitor.Visitor;
+import check_in42.backend.visitor.Visitors;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -23,7 +23,7 @@ public class User {
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Visitor> visitors = new ArrayList<>();
+    private List<Visitors> visitors = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Presentation> presentations = new ArrayList<>();

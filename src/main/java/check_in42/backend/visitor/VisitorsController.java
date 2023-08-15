@@ -1,2 +1,4 @@
-package check_in42.backend.visitor;public class VisitorController {
+package check_in42.backend.visitor;
+
+public class VisitorsController {
 }
