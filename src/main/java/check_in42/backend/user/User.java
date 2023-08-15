@@ -19,6 +19,8 @@ public class User {
 
     private String intraId;
 
+    private boolean staff;
+
     @OneToMany(mappedBy = "user")
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
