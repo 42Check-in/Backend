@@ -4,6 +4,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,10 +12,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
     private final UserRepository userRepository;
+
+    @Transactional
     public Long join(Equipment equipment) {
         equipmentRepository.save(equipment);
 
@@ -32,6 +36,7 @@ public class EquipmentService {
         return null;
     }
 
+    @Transactional
     public void addEquipmentToUser(String intraId, Equipment equipment) {
         User user = userRepository.findByName(intraId);
         user.addEquipForm(equipment);
@@ -39,6 +44,7 @@ public class EquipmentService {
         userRepository.save(user); // 컬렉션의 변경을 저장
     }
 
+    @Transactional
     public void DeleteFormInUser(String intraId, Long formId) {
         User user = userRepository.findByName(intraId);
         List<Equipment> allForm = user.getEquipments();
@@ -49,12 +55,19 @@ public class EquipmentService {
                 break;
             }
         }
+        /*
+        * user 부분에서 setter 역할하는 formList 갈아끼우는 로직 필요한데 일단 손 안댓어여
+        * 만약 이부분 추가된다면 transacrional 피료함
+        * */
+        //user.updateFormList(allForm);
+        //userRepository.save(user);
     }
 
     public Equipment findOne(Long id){
         return equipmentRepository.findOne(id);
     }
 
+    @Transactional
     public void findAndDelete(String intraId, Long formId) {
         // db에서 제거
         Equipment equipment = equipmentRepository.findOne(formId);
@@ -93,6 +106,7 @@ public class EquipmentService {
         2. Sting returnDate
         3. Long formId
     * */
+    @Transactional
     public void extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
         Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
