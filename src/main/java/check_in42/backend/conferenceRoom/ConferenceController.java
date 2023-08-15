@@ -5,6 +5,8 @@ import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDaySe
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.user.User;
+import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,11 @@ import java.util.*;
 public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
+    private final UserService userService;
 
     // 불가능한 날짜 정보
     @GetMapping("calender/{year}/{month}")
-    public ResponseEntity<Long> calender(@PathVariable(name = "year")Long year, @PathVariable(name = "month")Long month) {
+    public ResponseEntity<Long> calender(@PathVariable(name = "year") Long year, @PathVariable(name = "month") Long month) {
         Long baseDateBit;
 
         baseDateBit = ConferenceUtil.getDayBit(year, month);
@@ -32,7 +35,7 @@ public class ConferenceController {
     }
 
     @GetMapping("place-time/{day}")
-    public ResponseEntity<Map<String, Long[]>> placeTime(@PathVariable(name = "day")Long day) {
+    public ResponseEntity<Map<String, Long[]>> placeTime(@PathVariable(name = "day") Long day) {
         Map<String, Long[]> result = new HashMap<>();
         PlaceInfo[] placeInfos = PlaceInfo.values();
         RoomCount[] roomInfos = RoomCount.values();
@@ -45,7 +48,7 @@ public class ConferenceController {
 
         cluster = room = time = 0L;
         List<ConferenceRoom> conferenceRooms = conferenceRoomService.findByDay(day);
-        for (ConferenceRoom cr: conferenceRooms) {
+        for (ConferenceRoom cr : conferenceRooms) {
             cluster = cr.getReservationInfo() >> (PlaceInfoBitSize.ROOM.getValue() + PlaceInfoBitSize.TIME.getValue());
             room = (cr.getReservationInfo() >> PlaceInfoBitSize.TIME.getValue()) & PlaceInfoBit.ROOM.getValue();
             time = cr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
@@ -57,7 +60,14 @@ public class ConferenceController {
 
     @PostMapping("form")
     public ResponseEntity inputForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO, @CookieValue(name = "intraId") String intraId) {
-
+        User user = userService.findByName(intraId);
+        ConferenceRoom conferenceRoom = ConferenceRoom.builder()
+                .user(user)
+                .date(conferenceRoomDTO.getDate())
+                .reservationCount(ConferenceUtil.BitN(conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue()))
+                .reservationInfo(conferenceRoomDTO.getReservationInfo())
+                .build();
+        conferenceRoomService.join(conferenceRoom);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
