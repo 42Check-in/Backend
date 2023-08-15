@@ -32,6 +32,13 @@ public class EquipmentService {
         return null;
     }
 
+    public void addEquipmentToUser(String intraId, Equipment equipment) {
+        User user = userRepository.findByName(intraId);
+        user.addEquipForm(equipment);
+
+        userRepository.save(user); // 컬렉션의 변경을 저장
+    }
+
     public void DeleteFormInUser(String intraId, Long formId) {
         User user = userRepository.findByName(intraId);
         List<Equipment> allForm = user.getEquipments();

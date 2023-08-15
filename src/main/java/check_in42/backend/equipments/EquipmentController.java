@@ -24,8 +24,7 @@ public class EquipmentController {
     public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody EquipmentDTO equipmentDTO) {
         Equipment equipment = equipmentService.create(intraId, equipmentDTO);
         Long equipmentFormId = equipmentService.join(equipment);
-        User user = userService.findByName(intraId);
-        user.addEquipForm(equipment);
+        equipmentService.addEquipmentToUser(intraId, equipment);
         return ResponseEntity.ok().body(equipmentFormId);
     }
 
