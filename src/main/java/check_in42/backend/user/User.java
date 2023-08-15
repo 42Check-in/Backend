@@ -3,7 +3,7 @@ package check_in42.backend.user;
 import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.Presentation;
-import check_in42.backend.visitor.Visitor;
+import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -19,15 +19,32 @@ public class User {
 
     private String intraId;
 
+    private boolean staff;
+
     @OneToMany(mappedBy = "user")
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Visitor> visitors = new ArrayList<>();
+    private List<Visitors> visitors = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Presentation> presentations = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Equipment> equipments = new ArrayList<>();
+
+    public void addEquipForm(Equipment equipment) {
+        this.equipments.add(equipment);
+    }
+
+    public void addVisitorsForm(Visitors visitors) {
+        this.visitors.add(visitors);
+    }
+    public void addConferenceForm(ConferenceRoom conferenceRoom) {
+        this.conferenceRooms.add(conferenceRoom);
+    }
+    public void addPresentationForm(Presentation presentation) {
+        this.presentations.add(presentation);
+    }
+
 }
