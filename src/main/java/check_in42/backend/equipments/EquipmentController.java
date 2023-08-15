@@ -32,7 +32,7 @@ public class EquipmentController {
 
     /*
      * 해당 user의 기존에 작성했던 모든 equipments form 보여주기?
-     * 추후에 returnDate와 localDate 비교 후 기한이 남은 form만 DTO에 담아서 반환
+     * returnDate와 localDate 비교 후 기한이 남은 form만 DTO에 담아서 반환
      * */
     @GetMapping("/equipments/form/extension")
     public List<EquipmentDTO> showExtensionForm(@CookieValue String intraId) {
