@@ -53,6 +53,7 @@ public class VisitorsService {
         return visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
+    @Transactional
     public void vocalConfirm(List<Long> formId) {
         formId.stream().map(visitorsRepository::findById).forEach(visitors -> visitors.get().vocalConfirm());
     }
