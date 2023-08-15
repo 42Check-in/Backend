@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 import java.text.SimpleDateFormat;
 
 @Embeddable
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+
 public class PriorApproval {
     private String intraId;
 
@@ -37,9 +38,10 @@ public class PriorApproval {
         this.visitorsName = visitorsDTO.getVisitorsName();
         this.visitDate = simpleDateFormat.format(visitorsDTO.getVisitDate());
         this.visitTime = visitorsDTO.getVisitTime();
-        this.visitPurpose = visitorsDTO.getVisitPurpose();
-        this.relationWithUser = visitorsDTO.getRelationWithUser();
-        this.visitPlace = visitorsDTO.getVisitPlace();
+        this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()];
+        this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()];
+        this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()];
+
         this.agreement = visitorsDTO.isAgreement();
     }
 
