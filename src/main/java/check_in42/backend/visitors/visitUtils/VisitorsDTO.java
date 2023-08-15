@@ -25,5 +25,4 @@ public class VisitorsDTO {
     private int visitPlace;
 
     private boolean agreement;
-
 }
