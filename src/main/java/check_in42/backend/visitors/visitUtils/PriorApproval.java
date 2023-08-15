@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 @Embeddable
 @Getter
 @NoArgsConstructor
+
 public class PriorApproval {
     private String intraId;
 
@@ -33,7 +34,6 @@ public class PriorApproval {
 
     public PriorApproval(VisitorsDTO visitorsDTO) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-
         this.intraId = visitorsDTO.getIntraId();
         this.visitorsName = visitorsDTO.getVisitorsName();
         this.visitDate = simpleDateFormat.format(visitorsDTO.getVisitDate());
@@ -41,8 +41,8 @@ public class PriorApproval {
         this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()];
         this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()];
         this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()];
+
         this.agreement = visitorsDTO.isAgreement();
     }
 
 }
-

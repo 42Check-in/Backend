@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
+
 public class Visitors {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

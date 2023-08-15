@@ -1,7 +1,6 @@
 package check_in42.backend.visitors.visitUtils;
 
 import lombok.*;
-
 import java.util.Date;
 
 @Getter
