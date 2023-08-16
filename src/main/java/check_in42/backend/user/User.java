@@ -6,12 +6,14 @@ import check_in42.backend.presentation.Presentation;
 import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,11 @@ public class User {
     private String intraId;
 
     private boolean staff;
+
+    public User(String intraId, boolean staff) {
+        this.intraId = intraId;
+        this.staff = staff;
+    }
 
     @OneToMany(mappedBy = "user")
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
@@ -54,9 +61,9 @@ public class User {
     public void deleteVisitorsForm(Long formId) {
         this.visitors.removeIf(visitors -> visitors.getId().equals(formId));
     }
-    public void deleteConferenceRoomForm(Long formId) {
-        this.conferenceRooms.removeIf(conferenceRoom -> conferenceRoom.getId().equals(formId));
-    }
+//    public void deleteConferenceRoomForm(Long formId) {
+//        this.conferenceRooms.removeIf(conferenceRoom -> conferenceRoom.getId().equals(formId));
+//    }
     public void deletePresentationForm(Long formId) {
         this.presentations.removeIf(presentation -> presentation.getId().equals(formId));
     }

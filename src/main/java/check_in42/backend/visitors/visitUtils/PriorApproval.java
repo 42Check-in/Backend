@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 @Embeddable
 @Getter
 @NoArgsConstructor
-
 public class PriorApproval {
     private String intraId;
 
@@ -41,7 +40,6 @@ public class PriorApproval {
         this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()];
         this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()];
         this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()];
-
         this.agreement = visitorsDTO.isAgreement();
     }
 
