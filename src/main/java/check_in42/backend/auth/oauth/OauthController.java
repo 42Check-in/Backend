@@ -1,4 +1,4 @@
-package check_in42.backend.oauth;
+package check_in42.backend.auth.oauth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,8 +21,8 @@ public class OauthController {
         }
         return ResponseEntity.notFound().build();
     }
-//    @PostMapping("login")
-//    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
-//
-//    }
+    @PostMapping("login")
+    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
+
+    }
 }
