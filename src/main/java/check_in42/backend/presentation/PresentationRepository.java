@@ -1,5 +1,6 @@
 package check_in42.backend.presentation;
 
+import check_in42.backend.equipments.Equipment;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,15 @@ public class PresentationRepository {
         return em.createQuery("SELECT p FROM Presentation p WHERE p.date BETWEEN :start AND :end", Presentation.class)
                 .setParameter("start", start)
                 .setParameter("end", end)
+                .getResultList();
+    }
+
+    public List<Presentation> findDataBeforeDay(int day) {
+        LocalDate minusDay = LocalDate.now().minusDays(day);
+
+        return em.createQuery("select p from Presentation p where p.agreeDate <= :minusDay " +
+                        "order by p.agreeDate desc", Presentation.class)
+                .setParameter("minusDay", minusDay)
                 .getResultList();
     }
 }

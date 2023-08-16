@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +29,7 @@ class VisitorsTest {
                 .visitorsId(null)
                 .intraId("suhwpark")
                 .visitorsName("상준")
-                .visitDate(new Date())
+                .visitDate(LocalDate.now())
                 .visitTime("13:00")
                 .visitPurpose(1)
                 .visitPlace(0)
@@ -58,7 +58,7 @@ class VisitorsTest {
         //when
         visitors.vocalConfirm();
         //then
-        assertEquals(visitors.isConfirm(), true);
+        assertEquals(visitors.getApproval(), LocalDate.now());
     }
 
     @Test
@@ -75,7 +75,7 @@ class VisitorsTest {
                 .priorApproval(priorApproval)
                 .build();
         //then
-        assertEquals(visitors.isConfirm(), false);
+        assertEquals(visitors.getApproval(), null);
         assertEquals(visitors.getUser(), user);
         assertEquals(visitors.getPriorApproval().getVisitPurpose(), VisitPurpose.STUDYING);
         assertEquals(visitors.getPriorApproval().getRelationWithUser(), RelationWithUser.FAMILY);

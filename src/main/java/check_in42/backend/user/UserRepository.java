@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     public User findByName(String intraId) {
-        return em.createQuery("select u from User u where u.intraId = intraId", User.class)
+        return em.createQuery("select u from User u where u.intraId = :intraId", User.class)
                 .setParameter("intraId", intraId)
                 .getSingleResult();
     }

@@ -19,6 +19,24 @@ public class EquipmentDTO {
     private String returnDate;
     private Long formId;
 
+    public static EquipmentDTO dummy(String userName, String phoneNumber, String date,
+                              int equipment, boolean purpose, String detail, String benefit,
+                              int period, String returnDate, Long formId) {
+        EquipmentDTO equipmentDTO = new EquipmentDTO();
+        equipmentDTO.userName = userName;
+        equipmentDTO.period = period;
+        equipmentDTO.date = date;
+        equipmentDTO.equipment = equipment;
+        equipmentDTO.purpose = purpose;
+        equipmentDTO.detail = detail;
+        equipmentDTO.benefit = benefit;
+        equipmentDTO.phoneNumber = phoneNumber;
+        equipmentDTO.returnDate = returnDate;
+        equipmentDTO.formId = formId;
+
+        return equipmentDTO;
+    }
+
     public static EquipmentDTO create(String userName, String phoneNumber, LocalDate date, int equipment,
                                       boolean purpose, String detail, String benefit, int period, LocalDate returnDate) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();

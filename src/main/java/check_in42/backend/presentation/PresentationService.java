@@ -2,6 +2,7 @@ package check_in42.backend.presentation;
 
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.PresentationTime;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +35,8 @@ public class PresentationService {
         return presentationRepository.findOne(id);
     }
 
-    public Presentation create(String intraId, PresentationDTO presentationDTO) {
-        return new Presentation(intraId, presentationDTO);
+    public Presentation create(User user, PresentationDTO presentationDTO) {
+        return new Presentation(user, presentationDTO);
     }
 
     public List<PresentationDTO> showMonthSchedule(String month) {
@@ -44,16 +45,10 @@ public class PresentationService {
         for (Presentation form : allForms) {
             res.add(PresentationDTO.create(form.getId(), form.getUserName(), form.getSubject(),
                     form.getDate(), form.getType().ordinal(), form.getDetail(), form.getContents(),
-                    form.getTime().ordinal(), form.getScreen()));
+                    PresentationTime.valueOf(form.getTime()).ordinal(), form.isScreen()));
         }
 
         return res;
-    }
-
-    @Transactional
-    public void addPresentationToUser(String intraId, Presentation presentation) {
-        User user = userRepository.findByName(intraId);
-        user.addPresentationForm(presentation);
     }
 
     @Transactional
@@ -76,5 +71,16 @@ public class PresentationService {
             }
         }
         //cascade -> List 삭제 감지
+    }
+
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            presentationRepository.findOne(id).setAgreeDate();
+        }
+    }
+
+    public List<Presentation> findDataBeforeDay(int day) {
+        return presentationRepository.findDataBeforeDay(day);
     }
 }
