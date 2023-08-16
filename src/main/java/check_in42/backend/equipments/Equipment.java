@@ -36,6 +36,10 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
+    private boolean notice;
+
+    private LocalDate agreeDate;
+
     @Enumerated(EnumType.STRING)
     private EquipmentType equipment;
 
@@ -44,11 +48,11 @@ public class Equipment {
     private User user;
 
     @Builder
-    protected Equipment(String intraId, EquipmentDTO equipmentDTO) {
+    protected Equipment(User user, EquipmentDTO equipmentDTO) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.intraId = intraId;
+        this.intraId = user.getIntraId();
         this.userName = equipmentDTO.getUserName();
         this.phoneNumber = equipmentDTO.getPhoneNumber();
         this.purpose = equipmentDTO.isPurpose();
@@ -58,7 +62,8 @@ public class Equipment {
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
         this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
-        user.addEquipForm(this);
+        this.user = user;
+        this.agreeDate = null;
     }
 
     public void extendReturnDateByPeriod(int period) {
