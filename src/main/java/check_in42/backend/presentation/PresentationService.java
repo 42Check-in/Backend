@@ -53,7 +53,7 @@ public class PresentationService {
     @Transactional
     public void addPresentationToUser(String intraId, Presentation presentation) {
         User user = userRepository.findByName(intraId);
-        user.addPresentation(presentation);
+        user.addPresentationForm(presentation);
     }
 
     @Transactional
