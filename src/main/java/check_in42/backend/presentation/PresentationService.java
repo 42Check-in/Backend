@@ -44,7 +44,7 @@ public class PresentationService {
         for (Presentation form : allForms) {
             res.add(PresentationDTO.create(form.getId(), form.getUserName(), form.getSubject(),
                     form.getDate(), form.getType().ordinal(), form.getDetail(), form.getContents(),
-                    form.getTime().ordinal(), form.getScreen()));
+                    form.getTime().ordinal(), form.isScreen()));
         }
 
         return res;
@@ -70,5 +70,12 @@ public class PresentationService {
             }
         }
         //cascade -> List 삭제 감지
+    }
+
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            presentationRepository.findOne(id).setAgreeDate();
+        }
     }
 }

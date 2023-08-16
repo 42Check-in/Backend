@@ -116,4 +116,11 @@ public class EquipmentService {
     public List<Equipment> findAll() {
         return equipmentRepository.findAll();
     }
+
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            equipmentRepository.findOne(id).setAgreeDate();
+        }
+    }
 }
