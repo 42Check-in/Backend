@@ -37,14 +37,6 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void addEquipmentToUser(String intraId, Equipment equipment) {
-        User user = userRepository.findByName(intraId);
-        user.addEquipForm(equipment);
-
-        userRepository.save(user); // 컬렉션의 변경을 저장
-    }
-
-    @Transactional
     public void DeleteFormInUser(String intraId, Long formId) {
         User user = userRepository.findByName(intraId);
         List<Equipment> allForm = user.getEquipments();
@@ -77,8 +69,8 @@ public class EquipmentService {
         DeleteFormInUser(intraId, formId);
     }
 
-    public Equipment create(String intraId, EquipmentDTO equipmentDTO) {
-        return new Equipment(intraId, equipmentDTO);
+    public Equipment create(User user, EquipmentDTO equipmentDTO) {
+        return new Equipment(user, equipmentDTO);
     }
 
 
@@ -88,6 +80,7 @@ public class EquipmentService {
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         User user = userRepository.findByName(intraId);
+
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();
         List<EquipmentDTO> res = new ArrayList<>();
@@ -107,7 +100,7 @@ public class EquipmentService {
         3. Long formId
     * */
     @Transactional
-    public void extendDate(String intraId, EquipmentDTO equipmentDTO) {
+    public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
         Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
@@ -116,5 +109,11 @@ public class EquipmentService {
         Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
         if (inUserForm != null)
             inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+
+        return equipment.getId();
+    }
+
+    public List<Equipment> findAll() {
+        return equipmentRepository.findAll();
     }
 }
