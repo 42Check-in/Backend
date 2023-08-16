@@ -1,4 +1,4 @@
-package check_in42.backend.oauth;
+package check_in42.backend.auth.oauth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

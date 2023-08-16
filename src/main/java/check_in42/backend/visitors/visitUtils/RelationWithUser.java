@@ -1,5 +1,8 @@
 package check_in42.backend.visitors.visitUtils;
 
+import lombok.Getter;
+
+@Getter
 public enum RelationWithUser {
     CADET("42서울에서 인연을 맺었던 구 동료\"피시너, 카뎃\""),
     FRIEND("나를 보고싶어 개포까지 달려올 나의 \"친구\""),

@@ -1,5 +1,8 @@
 package check_in42.backend.visitors.visitUtils;
 
+import lombok.Getter;
+
+@Getter
 public enum VisitPlace {
     B1("지하1층 어셈블리"),
     OPEN_STUDIO("1층 오픈스튜디오"),
