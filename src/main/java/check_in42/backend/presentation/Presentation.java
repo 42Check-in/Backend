@@ -46,8 +46,6 @@ public class Presentation {
 
     private PresentationStatus status;
 
-    private boolean notice;
-
     private LocalDate agreeDate;
 
     @Builder

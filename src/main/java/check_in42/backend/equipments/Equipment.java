@@ -36,8 +36,6 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private boolean notice;
-
     private LocalDate agreeDate;
 
     @Enumerated(EnumType.STRING)
