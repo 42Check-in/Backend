@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -18,8 +21,10 @@ public class Visitors {
     @Embedded
     private PriorApproval priorApproval;
 
+    private LocalDate approval;
+
     @Builder.Default
-    private boolean confirm = false;
+    private boolean notice = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -28,8 +33,9 @@ public class Visitors {
     protected Visitors(User user, PriorApproval priorApproval) {
         this.user = user;
         this.priorApproval = priorApproval;
+        this.approval = null;
     }
     public void vocalConfirm() {
-        this.confirm = true;
+        this.approval = LocalDate.now();
     }
 }
