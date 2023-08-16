@@ -44,11 +44,11 @@ public class Equipment {
     private User user;
 
     @Builder
-    protected Equipment(String intraId, EquipmentDTO equipmentDTO) {
+    protected Equipment(User user, EquipmentDTO equipmentDTO) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.intraId = intraId;
+        this.intraId = user.getIntraId();
         this.userName = equipmentDTO.getUserName();
         this.phoneNumber = equipmentDTO.getPhoneNumber();
         this.purpose = equipmentDTO.isPurpose();
@@ -58,6 +58,7 @@ public class Equipment {
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
         this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
+        this.user = user;
     }
 
     public void extendReturnDateByPeriod(int period) {
