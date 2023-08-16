@@ -24,28 +24,28 @@ public class VocalController {
     private final EquipmentService equipmentService;
 
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
-    @GetMapping("visitors")
+    @GetMapping("/visitors")
     public ResponseEntity allVisitorsApply() {
             List<Visitors> visitorsList = visitorsService.findAll();
         return ResponseEntity.ok().body(visitorsList);
     }
 
     // 전체 수요지식회 목록을 보여주는 기능 월별로 sort?
-    @GetMapping("presentations")
+    @GetMapping("/presentations")
     public ResponseEntity allPresentation() {
         List<Presentation> presentationList = presentationService.findAll();
         return ResponseEntity.ok(presentationList);
     }
 
     // 전체 기자재 신청 목록을 보여주는 기능
-    @GetMapping("equipments")
+    @GetMapping("/equipments")
     public ResponseEntity allEquipment() {
         List<Equipment> equipmentList = equipmentService.findAll();
         return ResponseEntity.ok(equipmentList);
     }
 
     // 외부인 신청에 대한 수락
-    @PostMapping("visitors")
+    @PostMapping("/visitors")
     public ResponseEntity confirmVisitorsApply(@RequestParam List<Long> formId) {
         visitorsService.vocalConfirm(formId);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -53,12 +53,12 @@ public class VocalController {
 
     // 수요지식회의 신청 상태를 운영진이 설정하는 api
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
-    @PostMapping("presentations/status")
+    @PostMapping("/presentations/status")
     public ResponseEntity confirmPresentationApply() {
 
     }
 
-    @PostMapping("equipments")
+    @PostMapping("/equipments")
     public ResponseEntity confirmEquipmentApply() {
 
     }
