@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +28,7 @@ public class NoticeService {
     private final EquipmentService equipmentService;
     private final PresentationService presentationService;
 
-    public List<NoticeDTO> showNotice(String intraId) {
-        User user = userService.findByName(intraId);
+    public List<NoticeDTO> showNotice(User user) {
         final List<Visitors> visitorsList = visitorsService.findByApproval();
         final List<Presentation> presentationList = presentationService.findByApproval();
         final List<Equipment> equipmentList = equipmentService.findByApproval();
@@ -53,7 +54,17 @@ public class NoticeService {
         result.addAll(visitorsResult);
         result.addAll(presentationResult);
         result.addAll(equipmentResult);
-        //sort
+        Collections.sort(result, new Comparator<NoticeDTO>(){
+            @Override
+            public int compare(NoticeDTO o1, NoticeDTO o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        }.reversed());
         return result;
+    }
+
+    public List<NoticeDTO> checkNotice(List<NoticeDTO> notices) {
+        notices.forEach(NoticeDTO::checkNotice);
+        return notices;
     }
 }

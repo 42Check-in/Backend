@@ -25,4 +25,8 @@ public class NoticeDTO {
         this.date = date;
         this.check = check;
     }
+
+    public void checkNotice() {
+        this.check = true;
+    }
 }
