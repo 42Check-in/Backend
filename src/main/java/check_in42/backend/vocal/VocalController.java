@@ -22,22 +22,25 @@ public class VocalController {
         return ResponseEntity.ok().body(visitorsList);
     }
 
-    @GetMapping("presentation")
+    @GetMapping("presentations")
     public ResponseEntity allPresentation() {
 
     }
 
-    @GetMapping("equipment")
+    @GetMapping("equipments")
     public ResponseEntity allEquipment() {
 
     }
 
+    // 외부인 신청에 대한 수락
     @PostMapping("visitors")
     public ResponseEntity confirmVisitorsApply(@RequestParam List<Long> formId) {
         visitorsService.vocalConfirm(formId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    // 수요지식회의 신청 상태를 운영진이 설정하는 api
+    // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
     @PostMapping("presentations/status")
     public ResponseEntity confirmPresentationApply() {
 
