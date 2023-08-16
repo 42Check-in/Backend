@@ -23,9 +23,6 @@ public class Visitors {
 
     private LocalDate approval;
 
-    @Builder.Default
-    private boolean notice = false;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
