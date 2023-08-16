@@ -6,12 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface VisitorsRepository extends JpaRepository<Visitors, Long> {
 
-    @Query("select v from Visitors v where v.approval is not null and v.approval <= :threeDaysAgo")
-    List<Visitors> findByApproval(@Param("threeDaysAgo") LocalDate threeDaysAgo);
+    @Query("select v from Visitors v where v.approval is not null and v.approval >= :threeDaysAgo")
+    List<Visitors> findApprovalList(@Param("threeDaysAgo") LocalDate threeDaysAgo);
 }
