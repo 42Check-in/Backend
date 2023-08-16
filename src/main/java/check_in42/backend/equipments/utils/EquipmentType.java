@@ -13,7 +13,4 @@ public enum EquipmentType {
     EquipmentType(String name) {
         this.name = name;
     }
-
-
-
 }
