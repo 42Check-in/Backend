@@ -15,32 +15,32 @@ public enum PlaceInfo {
 }
 
 enum RoomCount {
-    GAEPO(5),
-    SEOCHO(2);
+    GAEPO(5L),
+    SEOCHO(2L);
 
-    private final int value;
+    private final Long value;
 
-    RoomCount(int value) {
+    RoomCount(Long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public Long getValue() {
         return value;
     }
 }
 
 enum PlaceInfoBit {
-    CLUSTER(0B11),
-    ROOM(0B111111),
-    TIME(0B111111111111111111111111);
+    CLUSTER(0B11L),
+    ROOM(0B111111L),
+    TIME(0B111111111111111111111111L);
 
-    private final int value;
+    private final Long value;
 
-    PlaceInfoBit(int value) {
+    PlaceInfoBit(Long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public Long getValue() {
         return value;
     }
 }

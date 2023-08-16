@@ -16,13 +16,17 @@ public class ConferenceCheckDay {
 
     private Long month;
 
-    private Long fullDay;
+    private Long days;
 
     @Builder
-    protected ConferenceCheckDay(Long id, Long year, Long month, Long fullDay) {
+    protected ConferenceCheckDay(Long id, Long year, Long month, Long days) {
         this.id = id;
         this.year = year;
         this.month = month;
-        this.fullDay = fullDay;
+        this.days = days;
+    }
+
+    public void setDays(Long days) {
+        this.days = days;
     }
 }

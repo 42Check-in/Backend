@@ -21,17 +21,17 @@ public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
     private final UserService userService;
+    private final static Long reservationTimeAllNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
     // 불가능한 날짜 정보
     @GetMapping("calender/{year}/{month}")
     public ResponseEntity<Long> calender(@PathVariable(name = "year") Long year, @PathVariable(name = "month") Long month) {
-        Long baseDateBit;
+        Long baseDateBit = ConferenceUtil.getDayBit(year, month);
 
-        baseDateBit = ConferenceUtil.getDayBit(year, month);
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(year, month);
         if (conferenceCheckDay != null)
             return ResponseEntity.ok().body(baseDateBit);
-        return ResponseEntity.ok().body(baseDateBit ^ conferenceCheckDay.getFullDay());
+        return ResponseEntity.ok().body(conferenceCheckDay.getDays());
     }
 
     @GetMapping("place-time/{day}")
@@ -39,35 +39,53 @@ public class ConferenceController {
         Map<String, Long[]> result = new HashMap<>();
         PlaceInfo[] placeInfos = PlaceInfo.values();
         RoomCount[] roomInfos = RoomCount.values();
-        Long cluster, room, time;
+        Long[] reservationInfo; // base_length: 3, cluster: 0, room: 1, time: 2;
 
         for (int i = 0; i < placeInfos.length; i++) {
-            result.put(placeInfos[i].getValue(), new Long[roomInfos[i].getValue()]);
+            result.put(placeInfos[i].getValue(), new Long[roomInfos[i].getValue().intValue()]);
             Arrays.fill(result.get(placeInfos[i].getValue()), PlaceInfoBit.TIME.getValue());
         }
 
-        cluster = room = time = 0L;
         List<ConferenceRoom> conferenceRooms = conferenceRoomService.findByDay(day);
         for (ConferenceRoom cr : conferenceRooms) {
-            cluster = cr.getReservationInfo() >> (PlaceInfoBitSize.ROOM.getValue() + PlaceInfoBitSize.TIME.getValue());
-            room = (cr.getReservationInfo() >> PlaceInfoBitSize.TIME.getValue()) & PlaceInfoBit.ROOM.getValue();
-            time = cr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-            Long[] rooms = ConferenceUtil.getCluster(result, ConferenceUtil.BitIdx(cluster));
-            rooms[ConferenceUtil.BitIdx(room)] ^= time;
+            reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
+            Long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
+            rooms[ConferenceUtil.BitIdx(reservationInfo[1])] ^= reservationInfo[2];
         }
         return ResponseEntity.ok().body(result);
     }
 
+    // DTO-> date, reservationInfo
     @PostMapping("form")
     public ResponseEntity inputForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO, @CookieValue(name = "intraId") String intraId) {
+        List<ConferenceRoom> reservationList = conferenceRoomService.findByDateAndSamePlace(conferenceRoomDTO.getDate().toString(),
+                conferenceRoomDTO.getReservationInfo() >> PlaceInfoBit.TIME.getValue());
+        Long[] reservationInfo, reqFormReservationInfo;
+        Long emptyTime = PlaceInfoBit.TIME.getValue();
+
+        reqFormReservationInfo = ConferenceUtil.setReservationInfo(conferenceRoomDTO.getReservationInfo());
+        for (ConferenceRoom rcr: reservationList) {
+            reservationInfo = ConferenceUtil.setReservationInfo(rcr.getReservationInfo());
+            emptyTime ^= reservationInfo[2];
+        }
+        if ((emptyTime & reqFormReservationInfo[2]) != reqFormReservationInfo[2])
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
         User user = userService.findByName(intraId);
         ConferenceRoom conferenceRoom = ConferenceRoom.builder()
                 .user(user)
                 .date(conferenceRoomDTO.getDate())
-                .reservationCount(ConferenceUtil.BitN(conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue()))
+                .reservationCount(ConferenceUtil.BitN(PlaceInfoBit.TIME.getValue() & conferenceRoomDTO.getReservationInfo()))
                 .reservationInfo(conferenceRoomDTO.getReservationInfo())
                 .build();
         conferenceRoomService.join(conferenceRoom);
+
+        Long fullCount = conferenceRoomService.getSumReservationCountByDate(conferenceRoomDTO.getDate().toString());
+        if (fullCount < reservationTimeAllNum) {
+            return ResponseEntity.ok(HttpStatus.OK);
+        }
+
+        conferenceCheckDayService.updateCheckDay(conferenceRoomDTO.getDate());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

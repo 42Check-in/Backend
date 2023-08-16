@@ -4,11 +4,8 @@ import check_in42.backend.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity @Getter
 public class ConferenceRoom {

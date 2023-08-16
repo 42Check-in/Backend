@@ -24,7 +24,7 @@ public class ConferenceUtil {
         return result;
     }
 
-    public static Long[] getCluster(Map<String, Long[]> clusters, Integer clusterNum) {
+    public static Long[] getRooms(Map<String, Long[]> clusters, Integer clusterNum) {
         if (clusterNum == PlaceInfo.GAEPO.ordinal())
             return clusters.get(PlaceInfo.GAEPO.getValue());
         if (clusterNum == PlaceInfo.SEOCHO.ordinal())
@@ -32,13 +32,16 @@ public class ConferenceUtil {
         return null;
     }
 
+    public static int getLastDayOfMonth(Long year, Long month) {
+        if (month > 9)
+            return LocalDate.parse(year + "-" + month + "-01").lengthOfMonth();
+        return LocalDate.parse(year + "-0" + month + "-01").lengthOfMonth();
+    }
+
     public static Long getDayBit(Long year, Long month) {
         int lastOfMonth;
 
-        if (month > 9)
-            lastOfMonth = LocalDate.parse(year + "-" + month + "-01").lengthOfMonth();
-        else
-            lastOfMonth = LocalDate.parse(year + "-0" + month + "-01").lengthOfMonth();
+        lastOfMonth = getLastDayOfMonth(year, month);
         if (lastOfMonth == 31)
             return 0B1111111111111111111111111111111L;
         if (lastOfMonth == 30)
@@ -47,5 +50,21 @@ public class ConferenceUtil {
             return 0B11111111111111111111111111111L;
         else
             return 0B1111111111111111111111111111L;
+    }
+
+    public static Long[] setReservationInfo(Long reservationInfoBit) {
+        Long[] result = new Long[3];
+
+        result[0] = reservationInfoBit >> (PlaceInfoBitSize.ROOM.getValue() + PlaceInfoBitSize.TIME.getValue());
+        result[1] = (reservationInfoBit >> PlaceInfoBitSize.TIME.getValue()) & PlaceInfoBit.ROOM.getValue();
+        result[2] = reservationInfoBit & PlaceInfoBit.TIME.getValue();
+        return result;
+    }
+
+    public static Boolean isSamePlace(Long[] reservationInfo, Long[] reqFormReservationInfo) {
+        if (reservationInfo[0] == reqFormReservationInfo[0] &&
+            reservationInfo[1] == reqFormReservationInfo[1])
+            return true;
+        return false;
     }
 }

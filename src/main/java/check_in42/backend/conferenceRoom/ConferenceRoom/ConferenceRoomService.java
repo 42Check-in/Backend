@@ -23,7 +23,15 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.findOne(id);
     }
 
+    public Long getSumReservationCountByDate(String date) {
+        return conferenceRoomRepository.getSumReservationCountByDate(date);
+    }
+
     public List<ConferenceRoom> findByDay(Long day) {
         return conferenceRoomRepository.findByDay(day);
+    }
+
+    public List<ConferenceRoom> findByDateAndSamePlace(String date, Long reqPlaceInfoBit) {
+        return conferenceRoomRepository.findByDateAndSamePlace(date, reqPlaceInfoBit);
     }
 }

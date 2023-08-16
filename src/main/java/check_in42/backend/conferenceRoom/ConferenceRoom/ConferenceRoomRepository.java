@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -27,10 +28,24 @@ public class ConferenceRoomRepository {
                 .getResultList();
     }
 
+    public Long getSumReservationCountByDate(String date) {
+        return em.createQuery("select sum(c.reservationCount) from ConferenceRoom c where date = :date", Long.class)
+                .setParameter("date", date)
+                .getSingleResult();
+    }
+
     public List<ConferenceRoom> findByDay(Long day) {
-        return em.createQuery("select c from ConferenceRoom as c " +
-                        "where date_format(date, '%d') = :day")
+        return em.createQuery("select c from ConferenceRoom c " +
+                        "where date_format(date, '%d') = :day", ConferenceRoom.class)
                 .setParameter("day", day)
+                .getResultList();
+    }
+
+    public List<ConferenceRoom> findByDateAndSamePlace(String date, Long reqPlaceInfoBit) {
+        return em.createQuery("select c from ConferenceRoom c " +
+                        "where date = :date and (reservationInfo & :reqPlaceInfoBit = :reqPlaceInfoBit)", ConferenceRoom.class)
+                .setParameter("date", date)
+                .setParameter("reqPlaceInfoBit", reqPlaceInfoBit)
                 .getResultList();
     }
 }

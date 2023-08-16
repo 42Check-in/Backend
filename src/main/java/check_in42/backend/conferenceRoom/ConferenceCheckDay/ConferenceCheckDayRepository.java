@@ -14,6 +14,7 @@ public class ConferenceCheckDayRepository {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     public void save(ConferenceCheckDay conferenceCheckDay) {
         em.persist(conferenceCheckDay);
     }
@@ -28,7 +29,8 @@ public class ConferenceCheckDayRepository {
     }
 
     public ConferenceCheckDay findByDate(Long year, Long month) {
-        return em.createQuery("select c from ConferenceCheckDay c where c.year = :year and c.month = :month", ConferenceCheckDay.class)
+        return em.createQuery("select c from ConferenceCheckDay c " +
+                        "where year = :year and month = :month", ConferenceCheckDay.class)
                 .setParameter("year", year)
                 .setParameter("month", month)
                 .getSingleResult();
