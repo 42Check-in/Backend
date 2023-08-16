@@ -45,11 +45,11 @@ public class Presentation {
     private PresentationStatus status;
 
     @Builder
-    protected Presentation(String intraId, PresentationDTO presentationDTO) {
+    protected Presentation(User user, PresentationDTO presentationDTO) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.intraId = intraId;
+        this.intraId = user.getIntraId();
         this.userName = presentationDTO.getUserName();
         this.subject = presentationDTO.getSubject();
         this.screen = presentationDTO.getScreen();
@@ -58,6 +58,7 @@ public class Presentation {
         this.date = LocalDate.parse(presentationDTO.getDate(), formatter);
         this.time = PresentationTime.values()[presentationDTO.getTime()];
         this.type = PresentationType.values()[presentationDTO.getType()];
+        this.user = user;
 
         //user.getPresentations().add(this);
     }
