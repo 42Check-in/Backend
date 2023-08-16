@@ -2,6 +2,7 @@ package check_in42.backend.presentation;
 
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.PresentationTime;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class PresentationService {
         for (Presentation form : allForms) {
             res.add(PresentationDTO.create(form.getId(), form.getUserName(), form.getSubject(),
                     form.getDate(), form.getType().ordinal(), form.getDetail(), form.getContents(),
-                    form.getTime().ordinal(), form.isScreen()));
+                    PresentationTime.valueOf(form.getTime()).ordinal(), form.isScreen()));
         }
 
         return res;

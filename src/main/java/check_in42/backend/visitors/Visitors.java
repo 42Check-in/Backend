@@ -18,8 +18,6 @@ public class Visitors {
     @Embedded
     private PriorApproval priorApproval;
 
-    @Builder.Default
-    private boolean confirm = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -28,8 +26,5 @@ public class Visitors {
     protected Visitors(User user, PriorApproval priorApproval) {
         this.user = user;
         this.priorApproval = priorApproval;
-    }
-    public void vocalConfirm() {
-        this.confirm = true;
     }
 }

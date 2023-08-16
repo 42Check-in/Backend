@@ -38,13 +38,13 @@ public class Presentation {
 
     private String detail; // 상세 내용
 
-    private PresentationTime time; // (enum) 15, 30, 45, 1시간
+    private String time; // (enum) 15, 30, 45, 1시간
 
     private PresentationType type; // 유형 겁나 많음 enum
 
     private boolean screen; // 촬영 희망/비희망
 
-    private PresentationStatus status;
+    private String status;
 
     private LocalDate agreeDate;
 
@@ -60,7 +60,7 @@ public class Presentation {
         this.detail = presentationDTO.getDetail();
         this.contents = presentationDTO.getContents();
         this.date = LocalDate.parse(presentationDTO.getDate(), formatter);
-        this.time = PresentationTime.values()[presentationDTO.getTime()];
+        this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
         this.type = PresentationType.values()[presentationDTO.getType()];
         this.user = user;
     }
