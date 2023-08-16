@@ -123,4 +123,8 @@ public class EquipmentService {
             equipmentRepository.findOne(id).setAgreeDate();
         }
     }
+
+    public List<Equipment> findDataBeforeDay(int day) {
+        return equipmentRepository.findDataBeforeDay(day);
+    }
 }

@@ -78,4 +78,8 @@ public class PresentationService {
             presentationRepository.findOne(id).setAgreeDate();
         }
     }
+
+    public List<Presentation> findDataBeforeDay(int day) {
+        return presentationRepository.findDataBeforeDay(day);
+    }
 }
