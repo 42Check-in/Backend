@@ -10,11 +10,13 @@ import check_in42.backend.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Entity
+@NoArgsConstructor
 @Getter
 public class Presentation {
 
@@ -40,9 +42,13 @@ public class Presentation {
 
     private PresentationType type; // 유형 겁나 많음 enum
 
-    private Boolean screen; // 촬영 희망/비희망
+    private boolean screen; // 촬영 희망/비희망
 
     private PresentationStatus status;
+
+    private boolean notice;
+
+    private LocalDate agreeDate;
 
     @Builder
     protected Presentation(User user, PresentationDTO presentationDTO) {
@@ -59,7 +65,9 @@ public class Presentation {
         this.time = PresentationTime.values()[presentationDTO.getTime()];
         this.type = PresentationType.values()[presentationDTO.getType()];
         this.user = user;
+    }
 
-        //user.getPresentations().add(this);
+    public void setAgreeDate() {
+        this.agreeDate = LocalDate.now();
     }
 }

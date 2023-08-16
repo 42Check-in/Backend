@@ -70,7 +70,9 @@ public class Equipment {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-
+    public void setAgreeDate() {
+        this.agreeDate = LocalDate.now();
+    }
 
 }
 
