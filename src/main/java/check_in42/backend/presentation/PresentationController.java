@@ -1,6 +1,8 @@
 package check_in42.backend.presentation;
 
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.user.User;
+import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +16,15 @@ import java.util.List;
 public class PresentationController {
 
     private final PresentationService presentationService;
+    private final UserService userService;
 
     //새로운 신청 폼 작성
     @PostMapping("/presentations/form")
     public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody PresentationDTO presentationDTO) {
-        Presentation presentation = presentationService.create(intraId, presentationDTO);
+        User user = userService.findByName(intraId);
+        Presentation presentation = presentationService.create(user, presentationDTO);
         Long formId = presentationService.join(presentation);
-        presentationService.addPresentationToUser(intraId, presentation);
+        user.addPresentationForm(presentation);
         return ResponseEntity.ok().body(formId);
     }
 

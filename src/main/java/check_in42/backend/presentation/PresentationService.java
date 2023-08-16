@@ -34,8 +34,8 @@ public class PresentationService {
         return presentationRepository.findOne(id);
     }
 
-    public Presentation create(String intraId, PresentationDTO presentationDTO) {
-        return new Presentation(intraId, presentationDTO);
+    public Presentation create(User user, PresentationDTO presentationDTO) {
+        return new Presentation(user, presentationDTO);
     }
 
     public List<PresentationDTO> showMonthSchedule(String month) {
@@ -48,12 +48,6 @@ public class PresentationService {
         }
 
         return res;
-    }
-
-    @Transactional
-    public void addPresentationToUser(String intraId, Presentation presentation) {
-        User user = userRepository.findByName(intraId);
-        user.addPresentation(presentation);
     }
 
     @Transactional
