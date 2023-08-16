@@ -5,6 +5,7 @@ import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class User {
 
     private boolean staff;
 
+    @Builder
     public User(String intraId, boolean staff) {
         this.intraId = intraId;
         this.staff = staff;

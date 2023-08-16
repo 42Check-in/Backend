@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +53,14 @@ public class VisitorsService {
         return visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
-//    @Transactional
-//    public void vocalConfirm(List<Long> formId) {
-//        formId.stream().map(visitorsRepository::findById).forEach(visitors -> visitors.get().vocalConfirm());
-//    }
+    @Transactional
+    public void vocalConfirm(List<Long> formId) {
+        formId.stream().map(visitorsRepository::findById).forEach(visitors -> visitors.get().vocalConfirm());
+    }
+
+    public List<Visitors> findByApproval() {
+        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
+        List<Visitors> visitorsList = visitorsRepository.findApprovalList(threeDaysAgo);
+        return visitorsList;
+    }
 }

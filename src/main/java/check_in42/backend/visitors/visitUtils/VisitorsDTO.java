@@ -1,7 +1,8 @@
 package check_in42.backend.visitors.visitUtils;
 
 import lombok.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class VisitorsDTO {
 
     private String visitorsName;
 
-    private Date visitDate;
+    private LocalDate visitDate;
 
     private String visitTime;
 
