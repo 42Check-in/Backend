@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +58,10 @@ public class VisitorsService {
     @Transactional
     public void vocalConfirm(List<Long> formId) {
         formId.stream().map(visitorsRepository::findById).forEach(visitors -> visitors.get().vocalConfirm());
+    }
+
+    public List<Visitors> findByApproval() {
+        List<Visitors> visitorsList = visitorsRepository.findByApproval(LocalDate.now().minusDays(3));
+        return visitorsList;
     }
 }
