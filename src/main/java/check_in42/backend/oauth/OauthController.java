@@ -21,8 +21,8 @@ public class OauthController {
         }
         return ResponseEntity.notFound().build();
     }
-//    @PostMapping("login")
-//    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
-//
-//    }
+    @PostMapping("login")
+    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
+
+    }
 }
