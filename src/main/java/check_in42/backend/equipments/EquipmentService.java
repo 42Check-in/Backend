@@ -80,6 +80,8 @@ public class EquipmentService {
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         User user = userRepository.findByName(intraId);
+        System.out.println("---------------------------" + user.getIntraId() + "--------------");
+
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();
         List<EquipmentDTO> res = new ArrayList<>();
