@@ -58,7 +58,6 @@ public class Equipment {
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
         this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
-        user.addEquipForm(this);
     }
 
     public void extendReturnDateByPeriod(int period) {

@@ -54,9 +54,9 @@ public class User {
     public void deleteVisitorsForm(Long formId) {
         this.visitors.removeIf(visitors -> visitors.getId().equals(formId));
     }
-    public void deleteConferenceRoomForm(Long formId) {
-        this.conferenceRooms.removeIf(conferenceRoom -> conferenceRoom.getId().equals(formId));
-    }
+//    public void deleteConferenceRoomForm(Long formId) {
+//        this.conferenceRooms.removeIf(conferenceRoom -> conferenceRoom.getId().equals(formId));
+//    }
     public void deletePresentationForm(Long formId) {
         this.presentations.removeIf(presentation -> presentation.getId().equals(formId));
     }
