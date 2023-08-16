@@ -36,6 +36,10 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
+    private boolean notice;
+
+    private LocalDate agreeDate;
+
     @Enumerated(EnumType.STRING)
     private EquipmentType equipment;
 
@@ -59,6 +63,7 @@ public class Equipment {
         this.period = equipmentDTO.getPeriod();
         this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
         this.user = user;
+        this.agreeDate = null;
     }
 
     public void extendReturnDateByPeriod(int period) {

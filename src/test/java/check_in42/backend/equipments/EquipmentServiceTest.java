@@ -25,11 +25,11 @@ public class EquipmentServiceTest {
     @Autowired UserService userService;
 
     @Test
-//    @Rollback(value=false) //db에 남기고싶을 때
+//    @Rollback(value = false) //db에 남기고싶을 때
     public void create_form() throws Exception {
         //given
         EquipmentDTO test = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
-                "베네핏", 3, "2033-04-04", 2L);
+                "베네핏", 3, "2033-04-04", 1L);
         EquipmentDTO test2 = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
                 "베네핏", 3, "2033-04-04", 2L);
         User user = new User("sohyupar", false);
@@ -40,6 +40,7 @@ public class EquipmentServiceTest {
 
         //when
         Long equipmentFormId = equipmentService.join(equipment);
+        System.out.println("............." + equipmentFormId);
         user.addEquipForm(equipment);
         user.addEquipForm(equipment2);
 
@@ -48,20 +49,6 @@ public class EquipmentServiceTest {
         assertEquals(user.getEquipments().get(0).getUserName(), "박소현");
         List<EquipmentDTO> res = equipmentService.showAllFormByName(user.getIntraId());
         assertEquals(2, res.size());
-
-
-    }
-
-    @Test
-    public void 연장_반영_테스트() throws Exception {
-        //given
-
-
-        //when
-
-
-        //then
-
     }
 
     @Test

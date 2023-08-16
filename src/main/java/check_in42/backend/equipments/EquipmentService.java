@@ -80,7 +80,6 @@ public class EquipmentService {
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         User user = userRepository.findByName(intraId);
-        System.out.println("---------------------------" + user.getIntraId() + "--------------");
 
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();
@@ -101,7 +100,7 @@ public class EquipmentService {
         3. Long formId
     * */
     @Transactional
-    public void extendDate(String intraId, EquipmentDTO equipmentDTO) {
+    public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
         Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
@@ -110,6 +109,8 @@ public class EquipmentService {
         Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
         if (inUserForm != null)
             inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+
+        return equipment.getId();
     }
 
     public List<Equipment> findAll() {
