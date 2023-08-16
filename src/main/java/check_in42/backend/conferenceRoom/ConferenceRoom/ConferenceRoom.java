@@ -1,33 +1,26 @@
-package check_in42.backend.conferenceRoom.ConferenceRoom;
+package check_in42.backend.conferenceRoom;
 
 import check_in42.backend.user.User;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity @Getter
+@Entity
 public class ConferenceRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
+
+    private Long location;
+
+    private Long roomInfo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    private LocalDate date;
-
-    private Long reservationCount;
-
-    private Long reservationInfo; // 클러스터 2Bit, 방 6Bit, 시간 24Bit
-
-    @Builder
-    protected ConferenceRoom(Long id, User user, LocalDate date, Long reservationCount, Long reservationInfo) {
-        this.id = id;
-        this.user = user;
-        this.date = date;
-        this.reservationCount = reservationCount;
-        this.reservationInfo = reservationInfo;
-    }
 }
