@@ -21,7 +21,7 @@ public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
     private final UserService userService;
-    private final static Long reservationTimeAllNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
+    private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
     // 불가능한 날짜 정보
     @GetMapping("calender/{year}/{month}")
@@ -55,7 +55,6 @@ public class ConferenceController {
         return ResponseEntity.ok().body(result);
     }
 
-    // DTO-> date, reservationInfo
     @PostMapping("form")
     public ResponseEntity inputForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO, @CookieValue(name = "intraId") String intraId) {
         List<ConferenceRoom> reservationList = conferenceRoomService.findByDateAndSamePlace(conferenceRoomDTO.getDate().toString(),
@@ -80,12 +79,20 @@ public class ConferenceController {
                 .build();
         conferenceRoomService.join(conferenceRoom);
 
-        Long fullCount = conferenceRoomService.getSumReservationCountByDate(conferenceRoomDTO.getDate().toString());
-        if (fullCount < reservationTimeAllNum) {
+        if (conferenceRoomService.getSumReservationCountByDate(conferenceRoomDTO.getDate().toString()) < reservationAllTimeNum) {
             return ResponseEntity.ok(HttpStatus.OK);
         }
 
-        conferenceCheckDayService.updateCheckDay(conferenceRoomDTO.getDate());
+        conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("cancel")
+    public ResponseEntity cancelForm(Long formId) {
+        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(formId);
+
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoom.getDate());
+        conferenceRoomService.delete(conferenceRoom);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

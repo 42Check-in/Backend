@@ -2,8 +2,6 @@ package check_in42.backend.conferenceRoom.ConferenceCheckDay;
 
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +24,7 @@ public class ConferenceCheckDayService {
     }
 
     public ConferenceCheckDay findOne(Long id) {
-        return conferenceCheckDayRepository.findOne(id);
+        return conferenceCheckDayRepository.findById(id).get();
     }
 
     public ConferenceCheckDay findByDate(Long year, Long month) {
@@ -34,12 +32,12 @@ public class ConferenceCheckDayService {
     }
 
     @Transactional
-    public Long updateCheckDay(LocalDate formDate) {
-        Long year, month, day;
+    public Long updateDenyCheckDay(LocalDate formDate) {
+        long year, month, day;
 
-        year = Long.valueOf(formDate.getYear());
-        month = Long.valueOf(formDate.getMonthValue());
-        day = Long.valueOf(formDate.getDayOfMonth());
+        year = formDate.getYear();
+        month = formDate.getMonthValue();
+        day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
         if (conferenceCheckDay == null) {
             conferenceCheckDay = ConferenceCheckDay.builder()
@@ -51,6 +49,20 @@ public class ConferenceCheckDayService {
             return conferenceCheckDay.getId();
         }
         conferenceCheckDay.setDays(conferenceCheckDay.getDays() & (1 << (day - 1)));
+        return conferenceCheckDay.getId();
+    }
+
+    @Transactional
+    public Long updateAllowCheckDay(LocalDate formDate) {
+        long year, month, day;
+
+        year = formDate.getYear();
+        month = formDate.getMonthValue();
+        day = formDate.getDayOfMonth();
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
+        if (conferenceCheckDay == null)
+            return null;
+        conferenceCheckDay.setDays(conferenceCheckDay.getDays() | (1 << (day - 1)));
         return conferenceCheckDay.getId();
     }
 }

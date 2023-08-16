@@ -1,38 +1,12 @@
 package check_in42.backend.conferenceRoom.ConferenceCheckDay;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
-public class ConferenceCheckDayRepository {
+public interface ConferenceCheckDayRepository extends JpaRepository<ConferenceCheckDay, Long> {
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Transactional
-    public void save(ConferenceCheckDay conferenceCheckDay) {
-        em.persist(conferenceCheckDay);
-    }
-
-    public ConferenceCheckDay findOne(Long id) {
-        return em.find(ConferenceCheckDay.class, id);
-    }
-
-    public List<ConferenceCheckDay> findAll() {
-        return em.createQuery("select c from ConferenceCheckDay c", ConferenceCheckDay.class)
-                .getResultList();
-    }
-
-    public ConferenceCheckDay findByDate(Long year, Long month) {
-        return em.createQuery("select c from ConferenceCheckDay c " +
-                        "where year = :year and month = :month", ConferenceCheckDay.class)
-                .setParameter("year", year)
-                .setParameter("month", month)
-                .getSingleResult();
-    }
+    @Query("select c from ConferenceCheckDay c where c.year = :year and c.month = :month")
+    ConferenceCheckDay findByDate(Long year, Long month);
 }

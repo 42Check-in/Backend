@@ -15,7 +15,7 @@ public class ConferenceUtil {
     }
 
     public static Long BitN(Long num) {
-        Long result = 0L;
+        long result = 0L;
 
         while (num != 0) {
             result += num & 1;
