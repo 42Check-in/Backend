@@ -30,6 +30,14 @@ public class TokenProvider {
         return Keys.hmacShaKeyFor(encodedSecretCode.getBytes());
     }
 
+    public String createAccessToken(final String intraId) {
+            return createToken(intraId, accessTokenValidateTime);
+    }
+
+    public String createRefreshToken(final String intraId) {
+        return createToken(intraId, refreshTokenValidateTime);
+    }
+
     private String createToken(String intraId, final long validateTime) {
         final Claims claims = Jwts.claims().setSubject("user");
         claims.put("intraId", intraId);
@@ -37,7 +45,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date.(now.getTime() + validateTime))
+                .setExpiration(new Date(now.getTime() + validateTime))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
