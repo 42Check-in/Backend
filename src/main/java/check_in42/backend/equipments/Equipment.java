@@ -42,6 +42,8 @@ public class Equipment {
 
     private String equipment;
 
+    private boolean notice;
+
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     @JoinColumn(name = "user_id")
     private User user;
@@ -60,7 +62,10 @@ public class Equipment {
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
-        this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()].getName();
+        if (equipmentDTO.getEquipment().ordinal() == 0)
+            this.equipment = equipmentDTO.getEtc();
+        else
+            this.equipment = EquipmentType.values()[equipmentDTO.getEquipment().ordinal()].getName();
         this.user = user;
         this.approval = null;
         this.notice = false;

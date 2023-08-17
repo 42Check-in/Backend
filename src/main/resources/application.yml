@@ -7,6 +7,10 @@ spring:
     #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
     username: checkin
     password: checkin1234
+
+  config:
+    import: classpath:application.yml
+
   thymeleaf:
     cache: false
 
@@ -17,3 +21,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  jwt:
+   access-valid-time: 1200
+   refresh-valid-time: 64300
+   secret-code: asdfasdfasdfasdfasdf
