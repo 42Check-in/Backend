@@ -1,15 +1,11 @@
 package check_in42.backend.myCheckIn;
 
-import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
-import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
-import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
-import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
