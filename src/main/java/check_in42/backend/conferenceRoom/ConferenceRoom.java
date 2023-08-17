@@ -7,6 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class ConferenceRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

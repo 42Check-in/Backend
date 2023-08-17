@@ -2,10 +2,13 @@ package check_in42.backend.myCheckIn;
 
 import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
+import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
+import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
+import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,10 @@ import java.util.List;
 public class MyCheckInController {
 
     private final UserService userService;
+    private final PresentationService presentationService;
+    private final EquipmentService equipmentService;
+    private final VisitorsService visitorsService;
+
     @GetMapping("/conference-room")
     public ResponseEntity myConferenceRooms(@CookieValue(name = "intraId") String intraId) {
         User user = userService.findByName(intraId);
@@ -55,23 +62,27 @@ public class MyCheckInController {
     }
 
     @GetMapping("/visitors/{formId}")
-    public ResponseEntity visitorForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
+    public ResponseEntity visitorForm(@PathVariable Long formId) {
         User user = userService.findByName(intraId);
         final Visitors visitors = user.findVisitorsFormById(formId);
         return ResponseEntity.ok(visitors);
     }
 
     @GetMapping("/presentation/{formId}")
-    public ResponseEntity presentationForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
-        final Presentation presentation = user.findPresentationFormById(formId);
-        return ResponseEntity.ok(presentation);
+    public ResponseEntity presentationForm(@PathVariable Long formId) {
+        return ResponseEntity.ok(presentationService.findOne(formId));
     }
 
     @GetMapping("/equipment/{formId}")
-    public ResponseEntity visitorForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
-        final Equipment equipment = user.findequipFormById(formId);
-        return ResponseEntity.ok(equipment);
+    public ResponseEntity equipmentForm(@PathVariable Long formId) {
+        return ResponseEntity.ok(equipmentService.findOne(formId));
+    }
+
+    @GetMapping("/oneForm/{category}/{intraId}/{form}")
+    public ResponseEntity findOneForm(@PathVariable(name = "category") MyCheckInType category,
+                                      @PathVariable(name = "intraId") String intraId,
+                                      @PathVariable(name = "form") Long form) {
+
+
     }
 }

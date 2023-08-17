@@ -88,8 +88,7 @@ public class EquipmentService {
 
         for (Equipment equip : equipments) {
             if (equip.getReturnDate().isAfter(now)) {
-                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), EquipmentType.valueOf(equip.getEquipment()).ordinal(),
-                        equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+                res.add(EquipmentDTO.create(equip));
             }
         }
         return res;
