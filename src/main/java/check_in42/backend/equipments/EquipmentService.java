@@ -1,5 +1,6 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -87,7 +88,7 @@ public class EquipmentService {
 
         for (Equipment equip : equipments) {
             if (equip.getReturnDate().isAfter(now)) {
-                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), equip.getEquipment().ordinal(),
+                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), EquipmentType.valueOf(equip.getEquipment()).ordinal(),
                         equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
             }
         }
@@ -115,5 +116,16 @@ public class EquipmentService {
 
     public List<Equipment> findAll() {
         return equipmentRepository.findAll();
+    }
+
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            equipmentRepository.findOne(id).setApproval();
+        }
+    }
+
+    public List<Equipment> findDataBeforeDay(int day) {
+        return equipmentRepository.findDataBeforeDay(day);
     }
 }

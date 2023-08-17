@@ -59,7 +59,8 @@ public class VisitorsService {
     }
 
     public List<Visitors> findByApproval() {
-        List<Visitors> visitorsList = visitorsRepository.findByApproval(LocalDate.now().minusDays(3));
+        LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
+        List<Visitors> visitorsList = visitorsRepository.findApprovalList(threeDaysAgo);
         return visitorsList;
     }
 }
