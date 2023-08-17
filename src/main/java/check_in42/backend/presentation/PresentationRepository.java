@@ -52,4 +52,9 @@ public class PresentationRepository {
                 .setParameter("minusDay", minusDay)
                 .getResultList();
     }
+
+    public List<Presentation> findByNoticeFalse() {
+        return em.createQuery("select p from Presentation p where not p.notice", Presentation.class)
+                .getResultList();
+    }
 }

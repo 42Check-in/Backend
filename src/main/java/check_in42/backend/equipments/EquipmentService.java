@@ -128,4 +128,8 @@ public class EquipmentService {
     public List<Equipment> findDataBeforeDay(int day) {
         return equipmentRepository.findDataBeforeDay(day);
     }
+
+    public List<Equipment> findByNoticeFalse() {
+        return equipmentRepository.findByNoticeFalse();
+    }
 }

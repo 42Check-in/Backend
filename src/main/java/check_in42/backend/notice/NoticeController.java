@@ -21,9 +21,6 @@ public class NoticeController {
 
     private final NoticeService noticeService;
     private final UserService userService;
-    private final VisitorsService visitorsService;
-    private final PresentationService presentationService;
-    private final EquipmentService equipmentService;
 
     @GetMapping("/notice")
     public ResponseEntity<List<NoticeDTO>> showNotice(@CookieValue(name = "intraId") String intraId) {
@@ -36,7 +33,7 @@ public class NoticeController {
     public ResponseEntity checkNotice(@CookieValue(name = "intraId") String intraId) {
         User user = userService.findByName(intraId);
 
-        equipmentService.
+        noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -63,4 +63,8 @@ public class VisitorsService {
         List<Visitors> visitorsList = visitorsRepository.findApprovalList(threeDaysAgo);
         return visitorsList;
     }
+
+    public List<Visitors> findByNoticeFalse() {
+        return visitorsRepository.findByNoticeFalse();
+    }
 }

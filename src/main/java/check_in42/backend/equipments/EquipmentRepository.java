@@ -39,4 +39,9 @@ public class EquipmentRepository {
                 .setParameter("minusDay", minusDay)
                 .getResultList();
     }
+
+    public List<Equipment> findByNoticeFalse() {
+        return em.createQuery("select e from Equipment e where not e.notice", Equipment.class)
+                .getResultList();
+    }
 }

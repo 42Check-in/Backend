@@ -13,6 +13,7 @@ import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,21 @@ public class NoticeService {
         return noticeRepository.getNotice(id);
     }
 
+    @Transactional
     public Long updateNotice(Long id) {
-        List<Visitors> visitorsList = visitorsService.
+        List<Visitors> visitorsList = visitorsService.findByNoticeFalse();
+        List<Presentation> presentationList = presentationService.findByNoticeFalse();
+        List<Equipment> equipmentList = equipmentService.findByNoticeFalse();
+
+        for (Visitors visitors: visitorsList) {
+            visitors.setNotice(true);
+        }
+        for (Presentation presentation: presentationList) {
+            presentation.setNotice(true);
+        }
+        for (Equipment equipment: equipmentList) {
+            equipment.setNotice(true);
+        }
+        return id;
     }
 }
