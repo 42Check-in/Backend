@@ -64,10 +64,8 @@ public class MyCheckInController {
     }
 
     @GetMapping("/visitors/{formId}")
-    public ResponseEntity visitorForm(@PathVariable Long formId) {
-        User user = userService.findByName(intraId);
-        final Visitors visitors = user.findVisitorsFormById(formId);
-        return ResponseEntity.ok(visitors);
+    public ResponseEntity visitorForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+        return ResponseEntity.ok(myCheckInService.findVisitorFormFromUser(userService.findByName(intraId), noticeDTO));
     }
 
     @GetMapping("/presentation/{formId}")

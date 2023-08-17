@@ -39,7 +39,7 @@ public class MyCheckInService {
         return null;
     }
 
-    public EquipmentDTO findVisitorFormFromUser(User user, NoticeDTO noticeDTO) {
+    public VisitorsDTO findVisitorFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Visitors visit = user.getVisitors().stream()
                 .filter(visitors -> visitors.getId().equals(noticeDTO.getFormId()))
