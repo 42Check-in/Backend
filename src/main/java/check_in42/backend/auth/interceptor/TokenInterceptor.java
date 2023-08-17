@@ -1,5 +1,6 @@
 package check_in42.backend.auth.interceptor;
 
+import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.user.UserService;
 import io.jsonwebtoken.Claims;
@@ -20,7 +21,8 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         //exception 추가해야함
-        final String token = TokenHeaderValidate.extractToken(request).orElseThrow(Exception::new);
+        final String token = TokenHeaderValidate.extractToken(request)
+                .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseClaim(token);
         final String intraId = claims.get("intraId", String.class);
         userService.findByName(intraId);

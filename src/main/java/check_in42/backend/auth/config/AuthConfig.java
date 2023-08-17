@@ -23,9 +23,9 @@ public class AuthConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/*")
-                .excludePathPatterns("/login");
+                .excludePathPatterns("/login/*");
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/*")
-                .excludePathPatterns("/login");
+                .excludePathPatterns("/login/*");
     }
 }
