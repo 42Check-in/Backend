@@ -35,7 +35,6 @@ public class OauthController {
     @PostMapping("login")
     public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response, @RequestParam("code") String code) {
 
-
         /*
         * Token, user값이 모두 없는 경우 String code값을 갖고 oauthToken을 생성.
         * */
