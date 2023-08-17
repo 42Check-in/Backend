@@ -2,8 +2,8 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
-import check_in42.backend.visitors.visitUtils.PriorApproval;
-import check_in42.backend.visitors.visitUtils.VisitorsDTO;
+import check_in42.backend.visitors.utils.PriorApproval;
+import check_in42.backend.visitors.utils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

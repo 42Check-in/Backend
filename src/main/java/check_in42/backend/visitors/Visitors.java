@@ -1,13 +1,12 @@
 package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
-import check_in42.backend.visitors.visitUtils.PriorApproval;
+import check_in42.backend.visitors.utils.PriorApproval;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

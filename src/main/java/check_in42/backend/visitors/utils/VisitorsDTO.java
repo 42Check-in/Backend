@@ -1,4 +1,4 @@
-package check_in42.backend.visitors.visitUtils;
+package check_in42.backend.visitors.utils;
 
 import lombok.*;
 
@@ -24,6 +24,12 @@ public class VisitorsDTO {
     private int relationWithUser;
 
     private int visitPlace;
+
+    private String etcPurpose;
+
+    private String etcRelation;
+
+    private String etcPlace;
 
     private boolean agreement;
 }

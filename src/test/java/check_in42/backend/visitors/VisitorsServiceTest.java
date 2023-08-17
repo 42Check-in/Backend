@@ -2,8 +2,8 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.visitors.visitUtils.PriorApproval;
-import check_in42.backend.visitors.visitUtils.VisitorsDTO;
+import check_in42.backend.visitors.utils.PriorApproval;
+import check_in42.backend.visitors.utils.VisitorsDTO;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
