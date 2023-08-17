@@ -1,5 +1,6 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,14 +38,6 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void addEquipmentToUser(String intraId, Equipment equipment) {
-        User user = userRepository.findByName(intraId);
-        user.addEquipForm(equipment);
-
-        userRepository.save(user); // 컬렉션의 변경을 저장
-    }
-
-    @Transactional
     public void DeleteFormInUser(String intraId, Long formId) {
         User user = userRepository.findByName(intraId);
         List<Equipment> allForm = user.getEquipments();
@@ -77,8 +70,8 @@ public class EquipmentService {
         DeleteFormInUser(intraId, formId);
     }
 
-    public Equipment create(String intraId, EquipmentDTO equipmentDTO) {
-        return new Equipment(intraId, equipmentDTO);
+    public Equipment create(User user, EquipmentDTO equipmentDTO) {
+        return new Equipment(user, equipmentDTO);
     }
 
 
@@ -88,14 +81,14 @@ public class EquipmentService {
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         User user = userRepository.findByName(intraId);
+
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();
         List<EquipmentDTO> res = new ArrayList<>();
 
         for (Equipment equip : equipments) {
             if (equip.getReturnDate().isAfter(now)) {
-                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), equip.getEquipment().ordinal(),
-                        equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+                res.add(EquipmentDTO.create(equip));
             }
         }
         return res;
@@ -107,7 +100,7 @@ public class EquipmentService {
         3. Long formId
     * */
     @Transactional
-    public void extendDate(String intraId, EquipmentDTO equipmentDTO) {
+    public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
         Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
@@ -116,5 +109,24 @@ public class EquipmentService {
         Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
         if (inUserForm != null)
             inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+
+        return equipment.getId();
+    }
+
+    public List<Equipment> findAll() {
+        return equipmentRepository.findAll();
+    }
+
+    // 수락 떨어지면 현재로 setDate
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            equipmentRepository.findOne(id).setAgreeDate();
+        }
+    }
+
+    // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
+    public List<Equipment> findDataBeforeDay(int day) {
+        return equipmentRepository.findDataBeforeDay(day);
     }
 }

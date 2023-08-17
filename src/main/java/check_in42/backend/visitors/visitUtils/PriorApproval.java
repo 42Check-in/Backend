@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @Embeddable
 @Getter
@@ -20,27 +21,31 @@ public class PriorApproval {
 
     private String visitTime;
 
-    @Enumerated(EnumType.STRING)
-    private VisitPurpose visitPurpose;
+//    @Enumerated(EnumType.STRING)
+    private String visitPurpose;
 
-    @Enumerated(EnumType.STRING)
-    private RelationWithUser relationWithUser;
+//    @Enumerated(EnumType.STRING)
+    private String relationWithUser;
 
-    @Enumerated(EnumType.STRING)
-    private VisitPlace visitPlace;
+//    @Enumerated(EnumType.STRING)
+    private String visitPlace;
 
     private boolean agreement;
 
+    private boolean notice;
+
+
     public PriorApproval(VisitorsDTO visitorsDTO) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.intraId = visitorsDTO.getIntraId();
         this.visitorsName = visitorsDTO.getVisitorsName();
-        this.visitDate = simpleDateFormat.format(visitorsDTO.getVisitDate());
+        this.visitDate = visitorsDTO.getVisitDate().format(dateTimeFormatter);
         this.visitTime = visitorsDTO.getVisitTime();
-        this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()];
-        this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()];
-        this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()];
+        this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
+        this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
+        this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
         this.agreement = visitorsDTO.isAgreement();
+        this.notice = false;
     }
 
 }

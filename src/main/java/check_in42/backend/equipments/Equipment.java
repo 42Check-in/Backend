@@ -36,19 +36,22 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    @Enumerated(EnumType.STRING)
-    private EquipmentType equipment;
+    private LocalDate agreeDate;
+
+    private String equipment;
+
+    private boolean notice;
 
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    protected Equipment(String intraId, EquipmentDTO equipmentDTO) {
+    protected Equipment(User user, EquipmentDTO equipmentDTO) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.intraId = intraId;
+        this.intraId = user.getIntraId();
         this.userName = equipmentDTO.getUserName();
         this.phoneNumber = equipmentDTO.getPhoneNumber();
         this.purpose = equipmentDTO.isPurpose();
@@ -57,15 +60,22 @@ public class Equipment {
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
-        this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()];
-        user.addEquipForm(this);
+        if (equipmentDTO.getEquipment().ordinal() == 0)
+            this.equipment = equipmentDTO.getEtc();
+        else
+            this.equipment = EquipmentType.values()[equipmentDTO.getEquipment().ordinal()].getName();
+        this.user = user;
+        this.agreeDate = null;
+        this.notice = false;
     }
 
     public void extendReturnDateByPeriod(int period) {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-
+    public void setAgreeDate() {
+        this.agreeDate = LocalDate.now();
+    }
 
 }
 

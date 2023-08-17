@@ -1,5 +1,7 @@
 package check_in42.backend.user;
 
+import check_in42.backend.presentation.Presentation;
+import check_in42.backend.presentation.PresentationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +27,5 @@ public class UserService {
     public User findByName(String intraId) {
         return userRepository.findByName(intraId);
     }
+
 }

@@ -1,11 +1,17 @@
 package check_in42.backend.visitors.visitUtils;
 
+import lombok.Getter;
+
+@Getter
 public enum VisitPurpose {
-    FIELD_TRIP(0), STUDYING(1), TALKING(2), ETC(3);
+    FIELD_TRIP("견학: \"너희 교육장이 정말 궁금하구나!\""),
+    STUDYING("학습: \"너와 함께 공부하고 싶어!\""),
+    TALKING("토크: \"이야기할 것이 많으니 교육장 안에서 이야기하자\""),
+    ETC("기타 목적");
 
-    private int purpose;
+    private String purposeType;
 
-    VisitPurpose(int purpose) {
-        this.purpose = purpose;
+    VisitPurpose(String purposeType) {
+        this.purposeType = purposeType;
     }
 }
