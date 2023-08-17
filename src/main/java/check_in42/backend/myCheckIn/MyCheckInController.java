@@ -3,6 +3,7 @@ package check_in42.backend.myCheckIn;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
+import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
@@ -64,11 +65,11 @@ public class MyCheckInController {
     @GetMapping("/presentation/{formId}")
     public ResponseEntity presentationForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
         return ResponseEntity.ok(myCheckInService.findPresentationFormFromUser(userService.findByName(intraId), noticeDTO));
+
     }
 
     @GetMapping("/equipment/{formId}")
     public ResponseEntity equipmentForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
-
         return ResponseEntity.ok(myCheckInService.findEquipFormFromUser(userService.findByName(intraId), noticeDTO));
     }
 

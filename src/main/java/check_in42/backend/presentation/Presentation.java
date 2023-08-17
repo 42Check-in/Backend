@@ -48,6 +48,9 @@ public class Presentation {
 
     private LocalDate agreeDate;
 
+    private boolean notice;
+
+
     @Builder
     protected Presentation(User user, PresentationDTO presentationDTO) {
 
@@ -63,6 +66,7 @@ public class Presentation {
         this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
         this.type = PresentationType.values()[presentationDTO.getType()];
         this.user = user;
+        this.notice = false;
     }
 
     public void setAgreeDate() {
