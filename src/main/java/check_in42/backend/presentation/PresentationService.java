@@ -43,9 +43,7 @@ public class PresentationService {
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
         List<PresentationDTO> res = new ArrayList<>();
         for (Presentation form : allForms) {
-            res.add(PresentationDTO.create(form.getId(), form.getUserName(), form.getSubject(),
-                    form.getDate(), form.getType().ordinal(), form.getDetail(), form.getContents(),
-                    PresentationTime.valueOf(form.getTime()).ordinal(), form.isScreen()));
+            res.add(PresentationDTO.create(form));
         }
 
         return res;
