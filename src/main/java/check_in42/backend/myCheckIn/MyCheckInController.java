@@ -22,9 +22,6 @@ import java.util.List;
 public class MyCheckInController {
 
     private final UserService userService;
-    private final PresentationService presentationService;
-    private final EquipmentService equipmentService;
-    private final VisitorsService visitorsService;
     private final MyCheckInService myCheckInService;
 
     @GetMapping("/conference-room")
