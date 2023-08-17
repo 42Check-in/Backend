@@ -52,4 +52,9 @@ public class PresentationRepository {
                 .setParameter("minusDay", minusDay)
                 .getResultList();
     }
+
+    public List<Presentation> findAllDESC() {
+        return em.createQuery("select p from Presentation p order by p.id desc", Presentation.class)
+                .getResultList();
+    }
 }

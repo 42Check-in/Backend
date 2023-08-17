@@ -77,6 +77,9 @@ public class Equipment {
         this.agreeDate = LocalDate.now();
     }
 
+    public void vocalConfirm() {
+        this.agreeDate = LocalDate.now();
+    }
 }
 
 /*

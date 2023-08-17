@@ -39,4 +39,9 @@ public class EquipmentRepository {
                 .setParameter("minusDay", minusDay)
                 .getResultList();
     }
+
+    public List<Equipment> findAllDESC() {
+        return em.createQuery("select e from Equipment e order by e.id desc", Equipment.class)
+                .getResultList();
+    }
 }

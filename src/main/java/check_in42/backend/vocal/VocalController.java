@@ -4,9 +4,9 @@ import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
+import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
-import check_in42.backend.vocal.utils.AppCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +31,26 @@ public class VocalController {
     }
 
     // 전체 수요지식회 목록을 보여주는 기능 월별로 sort?
+    /*
+    *
+    *   보컬의 수요 지식회 신청 목록 status 변경
+        대기열 바로 업데이트 원함..
+
+        최상위 → 신청 중
+        같은 날에 또 신청 → 대기중
+        보컬은 최상위의 1, 2, 3 상태값만 관리
+        * 추가 작업이 필요할듯...
+    * */
     @GetMapping("/presentations")
     public ResponseEntity allPresentation() {
-        List<Presentation> presentationList = presentationService.findAll();
+        List<Presentation> presentationList = presentationService.findAllDESC();
         return ResponseEntity.ok(presentationList);
     }
 
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments")
     public ResponseEntity allEquipment() {
-        List<Equipment> equipmentList = equipmentService.findAll();
+        List<Equipment> equipmentList = equipmentService.findAllDESC();
         return ResponseEntity.ok(equipmentList);
     }
 
@@ -53,14 +63,18 @@ public class VocalController {
 
     // 수요지식회의 신청 상태를 운영진이 설정하는 api
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
+    // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations/status")
-    public ResponseEntity confirmPresentationApply() {
+    public ResponseEntity confirmPresentationApply(@RequestBody PresentationDTO presentationDTO) {
+        presentationService.setAgreeDatesAndStatus(presentationDTO.getFormIds(), presentationDTO.getStatus());
 
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply() {
-
+    public ResponseEntity confirmEquipmentApply(@RequestParam List<Long> formId) {
+        equipmentService.setAgreeDates(formId);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }
