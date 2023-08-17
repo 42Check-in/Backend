@@ -1,4 +1,4 @@
-package check_in42.backend.auth.exception;
+package check_in42.backend.allException;
 
 import lombok.Getter;
 import lombok.ToString;

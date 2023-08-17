@@ -1,5 +1,6 @@
 package check_in42.backend.auth.jwt;
 
+import check_in42.backend.auth.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
