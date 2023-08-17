@@ -1,5 +1,7 @@
 package check_in42.backend.myCheckIn;
 
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.notice.utils.NoticeDTO;
@@ -48,14 +50,13 @@ public class MyCheckInService {
         return null;
     }
 
-    public EquipmentDTO findConferenceFormFromUser(User user, Long formId) {
+    public ConferenceRoomDTO findConferenceFormFromUser(User user, Long formId) {
 
-        Equipment equip = user.getEquipments().stream()
-                .filter(equipment -> equipment.getId().equals(formId))
+        ConferenceRoom conference = user.getConferenceRooms().stream()
+                .filter(conferenceRoom -> conferenceRoom.getId().equals(formId))
                 .findFirst().orElse(null);
-        if (equip != null)
-            return EquipmentDTO.create(equip);
-
+        if (conference != null)
+            return ConferenceRoomDTO.create(conference);
         return null;
     }
 

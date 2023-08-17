@@ -50,8 +50,6 @@ public class Presentation {
 
     private boolean notice;
 
-    private boolean notice;
-
 
     @Builder
     protected Presentation(User user, PresentationDTO presentationDTO) {

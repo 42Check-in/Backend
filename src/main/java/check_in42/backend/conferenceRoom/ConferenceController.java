@@ -5,6 +5,7 @@ import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDaySe
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.myCheckIn.MyCheckInService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ import java.util.*;
 public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
+
+    private final MyCheckInService myCheckInService;
     private final UserService userService;
     private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
@@ -78,6 +81,7 @@ public class ConferenceController {
                 .reservationInfo(conferenceRoomDTO.getReservationInfo())
                 .build();
         conferenceRoomService.join(conferenceRoom);
+        user.addConferenceForm(conferenceRoom);
 
         if (conferenceRoomService.getSumReservationCountByDate(conferenceRoomDTO.getDate().toString()) < reservationAllTimeNum) {
             return ResponseEntity.ok(HttpStatus.OK);
@@ -88,11 +92,13 @@ public class ConferenceController {
     }
 
     @GetMapping("cancel")
-    public ResponseEntity cancelForm(Long formId) {
-        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(formId);
+    public ResponseEntity cancelForm(@CookieValue("intraId") String intraId, @RequestBody Long formId) {
+        User user = userService.findByName(intraId);
+        ConferenceRoomDTO conferenceRoomDTO = myCheckInService.findConferenceFormFromUser(user, formId);
 
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoom.getDate());
-        conferenceRoomService.delete(conferenceRoom);
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomDTO.getDate());
+        conferenceRoomService.deleteById(formId);
+        user.deleteConferenceRoomForm(formId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

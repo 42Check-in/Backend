@@ -20,10 +20,10 @@ public class ConferenceRoomService {
     }
 
     @Transactional
-    public Long delete(ConferenceRoom conferenceRoom) {
-        conferenceRoomRepository.delete(conferenceRoom);
+    public Long deleteById(Long id) {
+        conferenceRoomRepository.deleteById(id);
 
-        return conferenceRoom.getId();
+        return id;
     }
 
     public List<ConferenceRoom> findConferenceRooms() {
