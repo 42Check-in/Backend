@@ -46,7 +46,9 @@ public class Presentation {
 
     private String status;
 
-    private LocalDate agreeDate;
+    private LocalDate approval;
+
+    private boolean notice;
 
     private boolean notice;
 
@@ -66,10 +68,15 @@ public class Presentation {
         this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
         this.type = PresentationType.values()[presentationDTO.getType()];
         this.user = user;
+        this.approval = null;
         this.notice = false;
     }
 
-    public void setAgreeDate() {
-        this.agreeDate = LocalDate.now();
+    public void setApproval() {
+        this.approval = LocalDate.now();
+    }
+
+    public void setNotice(boolean notice) {
+        this.notice = notice;
     }
 }

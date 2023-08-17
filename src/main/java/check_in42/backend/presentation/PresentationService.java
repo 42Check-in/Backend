@@ -74,11 +74,15 @@ public class PresentationService {
     @Transactional
     public void setAgreeDates(List<Long> formId) {
         for (Long id : formId) {
-            presentationRepository.findOne(id).setAgreeDate();
+            presentationRepository.findOne(id).setApproval();
         }
     }
 
     public List<Presentation> findDataBeforeDay(int day) {
         return presentationRepository.findDataBeforeDay(day);
+    }
+
+    public List<Presentation> findByNoticeFalse() {
+        return presentationRepository.findByNoticeFalse();
     }
 }

@@ -121,12 +121,16 @@ public class EquipmentService {
     @Transactional
     public void setAgreeDates(List<Long> formId) {
         for (Long id : formId) {
-            equipmentRepository.findOne(id).setAgreeDate();
+            equipmentRepository.findOne(id).setApproval();
         }
     }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
     public List<Equipment> findDataBeforeDay(int day) {
         return equipmentRepository.findDataBeforeDay(day);
+    }
+
+    public List<Equipment> findByNoticeFalse() {
+        return equipmentRepository.findByNoticeFalse();
     }
 }

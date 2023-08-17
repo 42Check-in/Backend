@@ -36,7 +36,9 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private LocalDate agreeDate;
+    private LocalDate approval;
+
+    private boolean notice;
 
     private String equipment;
 
@@ -65,7 +67,7 @@ public class Equipment {
         else
             this.equipment = EquipmentType.values()[equipmentDTO.getEquipment().ordinal()].getName();
         this.user = user;
-        this.agreeDate = null;
+        this.approval = null;
         this.notice = false;
     }
 
@@ -73,10 +75,13 @@ public class Equipment {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-    public void setAgreeDate() {
-        this.agreeDate = LocalDate.now();
+    public void setApproval() {
+        this.approval = LocalDate.now();
     }
 
+    public void setNotice(boolean notice) {
+        this.notice = notice;
+    }
 }
 
 /*
