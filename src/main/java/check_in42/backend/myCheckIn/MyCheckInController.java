@@ -1,7 +1,7 @@
 package check_in42.backend.myCheckIn;
 
-import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
+import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
@@ -19,7 +19,8 @@ import java.util.List;
 public class MyCheckInController {
 
     private final UserService userService;
-    private final PresentationService presentationService;
+    private final MyCheckInService myCheckInService;
+
     @GetMapping("/conference-room")
     public ResponseEntity myConferenceRooms(@CookieValue(name = "intraId") String intraId) {
         User user = userService.findByName(intraId);
@@ -57,21 +58,19 @@ public class MyCheckInController {
     }
 
     @GetMapping("/visitors/{formId}")
-    public ResponseEntity visitorForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
-        final Visitors visitors = user.findVisitorsFormById(formId);
-        return ResponseEntity.ok(visitors);
+    public ResponseEntity visitorForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+        return ResponseEntity.ok(myCheckInService.findVisitorFormFromUser(userService.findByName(intraId), noticeDTO));
     }
 
     @GetMapping("/presentation/{formId}")
-    public ResponseEntity presentationForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        return ResponseEntity.ok(presentationService.findOne(formId));
+    public ResponseEntity presentationForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+        return ResponseEntity.ok(myCheckInService.findPresentationFormFromUser(userService.findByName(intraId), noticeDTO));
+
     }
 
     @GetMapping("/equipment/{formId}")
-    public ResponseEntity visitorForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
-        final Equipment equipment = user.findequipFormById(formId);
-        return ResponseEntity.ok(equipment);
+    public ResponseEntity equipmentForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+        return ResponseEntity.ok(myCheckInService.findEquipFormFromUser(userService.findByName(intraId), noticeDTO));
     }
+
 }

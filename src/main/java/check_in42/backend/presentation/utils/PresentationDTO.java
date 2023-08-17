@@ -1,6 +1,7 @@
 package check_in42.backend.presentation.utils;
 
 import check_in42.backend.equipments.EquipmentDTO;
+import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -14,22 +15,23 @@ public class PresentationDTO {
     private String subject;
     private String contents;
     private String detail;
-    private int time;
-    private int type;
+    private PresentationTime time;
+    private PresentationType type;
+    private PresentationStatus status;
     private Boolean screen;
 
-    public static PresentationDTO create(Long formId, String userName, String subject, LocalDate date, int type,
-                                      String detail, String contents, int time, boolean screen) {
+    public static PresentationDTO create(Presentation presentation) {
         PresentationDTO presentationDTO = new PresentationDTO();
-        presentationDTO.formId = formId;
-        presentationDTO.userName = userName;
-        presentationDTO.date = date.toString();
-        presentationDTO.detail = detail;
-        presentationDTO.subject = subject;
-        presentationDTO.contents = contents;
-        presentationDTO.time = time;
-        presentationDTO.type = type;
-        presentationDTO.screen = screen;
+        presentationDTO.formId = presentation.getId();
+        presentationDTO.userName = presentation.getUserName();
+        presentationDTO.date = presentation.getDate().toString();
+        presentationDTO.detail = presentation.getDetail();
+        presentationDTO.subject = presentation.getSubject();
+        presentationDTO.contents = presentation.getContents();
+        presentationDTO.time = PresentationTime.valueOf(presentation.getTime());
+        presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus());
+        presentationDTO.type = PresentationType.values()[presentation.getType().ordinal()];
+        presentationDTO.screen = presentation.isScreen();
 
         return presentationDTO;
     }

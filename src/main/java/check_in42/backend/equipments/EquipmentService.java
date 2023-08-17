@@ -88,8 +88,7 @@ public class EquipmentService {
 
         for (Equipment equip : equipments) {
             if (equip.getReturnDate().isAfter(now)) {
-                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), EquipmentType.valueOf(equip.getEquipment()).ordinal(),
-                        equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+                res.add(EquipmentDTO.create(equip));
             }
         }
         return res;
@@ -118,6 +117,7 @@ public class EquipmentService {
         return equipmentRepository.findAll();
     }
 
+    // 수락 떨어지면 현재로 setDate
     @Transactional
     public void setAgreeDates(List<Long> formId) {
         for (Long id : formId) {
@@ -125,6 +125,7 @@ public class EquipmentService {
         }
     }
 
+    // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
     public List<Equipment> findDataBeforeDay(int day) {
         return equipmentRepository.findDataBeforeDay(day);
     }
