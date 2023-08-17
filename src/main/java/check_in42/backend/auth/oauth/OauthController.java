@@ -37,6 +37,7 @@ public class OauthController {
         return ResponseEntity.notFound().build();
     }
     @PostMapping("login")
+    @ResponseBody
     public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response, @RequestParam("code") String code) {
 
         /*
@@ -64,7 +65,7 @@ public class OauthController {
             }
         }
 
-        //
+        //쿠키 부분 어
         Cookie cookie = new Cookie("intraId", user42Info.getLogin());
         cookie.setMaxAge(50 * 120);
         cookie.setPath("/");
