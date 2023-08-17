@@ -3,6 +3,7 @@ package check_in42.backend.myCheckIn;
 import check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
@@ -24,6 +25,7 @@ public class MyCheckInController {
     private final PresentationService presentationService;
     private final EquipmentService equipmentService;
     private final VisitorsService visitorsService;
+    private final MyCheckInService myCheckInService;
 
     @GetMapping("/conference-room")
     public ResponseEntity myConferenceRooms(@CookieValue(name = "intraId") String intraId) {
@@ -69,20 +71,14 @@ public class MyCheckInController {
     }
 
     @GetMapping("/presentation/{formId}")
-    public ResponseEntity presentationForm(@PathVariable Long formId) {
-        return ResponseEntity.ok(presentationService.findOne(formId));
+    public ResponseEntity presentationForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+        return ResponseEntity.ok(myCheckInService.findPresentationFormFromUser(userService.findByName(intraId), noticeDTO));
     }
 
     @GetMapping("/equipment/{formId}")
-    public ResponseEntity equipmentForm(@PathVariable Long formId) {
-        return ResponseEntity.ok(equipmentService.findOne(formId));
+    public ResponseEntity equipmentForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
+
+        return ResponseEntity.ok(myCheckInService.findEquipFormFromUser(userService.findByName(intraId), noticeDTO));
     }
 
-    @GetMapping("/oneForm/{category}/{intraId}/{form}")
-    public ResponseEntity findOneForm(@PathVariable(name = "category") MyCheckInType category,
-                                      @PathVariable(name = "intraId") String intraId,
-                                      @PathVariable(name = "form") Long form) {
-
-
-    }
 }
