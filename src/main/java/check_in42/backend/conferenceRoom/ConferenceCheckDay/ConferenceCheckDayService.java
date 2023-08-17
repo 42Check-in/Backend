@@ -48,7 +48,7 @@ public class ConferenceCheckDayService {
             conferenceCheckDayRepository.save(conferenceCheckDay);
             return conferenceCheckDay.getId();
         }
-        conferenceCheckDay.setDays(conferenceCheckDay.getDays() & (1 << (day - 1)));
+        conferenceCheckDay.setDays(conferenceCheckDay.getDays() ^ (1 << (day - 1)));
         return conferenceCheckDay.getId();
     }
 
