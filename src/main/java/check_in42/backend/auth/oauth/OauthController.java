@@ -20,7 +20,7 @@ public class OauthController {
     private final TokenRepository tokenRepository;
     private HttpSession httpSession;
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public ResponseEntity loginPage(HttpServletRequest request,
                             @CookieValue(name = "intraId", required = false) String intraId) {
         HttpSession session = request.getSession(false);
@@ -36,7 +36,7 @@ public class OauthController {
         }
         return ResponseEntity.notFound().build();
     }
-    @PostMapping("login")
+    @PostMapping("/oauth/login")
     @ResponseBody
     public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response, @RequestParam("code") String code) {
 
