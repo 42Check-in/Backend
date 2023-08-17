@@ -8,13 +8,23 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 public class AuthConfig implements WebMvcConfigurer {
+    private final LoginInterceptor loginInterceptor;
+    private final TokenInterceptor tokenInterceptor;
+
+    public AuthConfig(final LoginInterceptor loginInterceptor,
+                      final TokenInterceptor tokenInterceptor) {
+        this.loginInterceptor = loginInterceptor;
+        this.tokenInterceptor = tokenInterceptor;
+    }
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
+
+
+        registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/*")
                 .excludePathPatterns("/login");
-        registry.addInterceptor(new TokenInterceptor())
+        registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/*")
                 .excludePathPatterns("/login");
     }
