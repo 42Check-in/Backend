@@ -22,7 +22,7 @@ public class TokenRepository {
                     .setParameter("name", name)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return  null;
+            return null;
         }
     }
 

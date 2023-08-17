@@ -2,6 +2,7 @@ package check_in42.backend.auth.oauth;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,9 @@ public class OauthController {
 
     private final OauthService oauthService;
     private final UserService userService;
+    private final TokenRepository tokenRepository;
+    private HttpSession httpSession;
+
     @GetMapping("login")
     public ResponseEntity loginPage(HttpServletRequest request,
                             @CookieValue(name = "intraId", required = false) String intraId) {
@@ -42,6 +46,33 @@ public class OauthController {
         User42Info user42Info = oauthService.get42SeoulInfo(oauthToken.getAccess_token());
         User user = userService.findByName(user42Info.getLogin());
 
+        if (user == null) {
 
+            user = new User(user42Info.getLogin(), user42Info.isStaff());
+            userService.join(user);
+
+            tokenRepository.saveRefreshToken(user42Info.getLogin(), oauthToken);
+            httpSession = request.getSession();
+            httpSession.setAttribute("name", user42Info.getLogin());
+        } else {
+
+            httpSession = request.getSession(false);
+            if (httpSession == null) {
+                httpSession = request.getSession();
+                httpSession.setAttribute("name", user42Info.getLogin());
+//                httpSession.setAttribute("staff", user42Info.isStaff());
+            }
+        }
+
+        //
+        Cookie cookie = new Cookie("intraId", user42Info.getLogin());
+        cookie.setMaxAge(50 * 120);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        if (user42Info.isStaff())
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
