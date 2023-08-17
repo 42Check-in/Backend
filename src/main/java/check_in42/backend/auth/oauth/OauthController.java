@@ -71,7 +71,7 @@ public class OauthController {
 
         response.addCookie(cookie);
 
-        if (user42Info.isStaff())
+        if (user.isStaff())
             return new ResponseEntity(HttpStatus.ACCEPTED);
         return new ResponseEntity(HttpStatus.OK);
     }
