@@ -34,8 +34,7 @@ public class NoticeService {
         return noticeRepository.getNotice(id);
     }
 
-    public List<NoticeDTO> checkNotice(List<NoticeDTO> notices) {
-        notices.forEach(NoticeDTO::checkNotice);
-        return notices;
+    public Long updateNotice(Long id) {
+        List<Visitors> visitorsList = visitorsService.
     }
 }

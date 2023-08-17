@@ -69,9 +69,6 @@ public class Equipment {
     public void extendReturnDateByPeriod(int period) {
         this.returnDate = this.returnDate.plusMonths(period);
     }
-
-
-
 }
 
 /*
