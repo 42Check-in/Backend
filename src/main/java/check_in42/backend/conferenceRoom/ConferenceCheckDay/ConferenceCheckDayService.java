@@ -43,12 +43,12 @@ public class ConferenceCheckDayService {
             conferenceCheckDay = ConferenceCheckDay.builder()
                     .year(year)
                     .month(month)
-                    .days(ConferenceUtil.getDayBit(year, month) ^ (1 << (day - 1)))
+                    .days(1L << (day - 1))
                     .build();
             conferenceCheckDayRepository.save(conferenceCheckDay);
             return conferenceCheckDay.getId();
         }
-        conferenceCheckDay.setDays(conferenceCheckDay.getDays() & (1 << (day - 1)));
+        conferenceCheckDay.setDays(conferenceCheckDay.getDays() | (1L << (day - 1)));
         return conferenceCheckDay.getId();
     }
 
@@ -62,7 +62,7 @@ public class ConferenceCheckDayService {
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
         if (conferenceCheckDay == null)
             return null;
-        conferenceCheckDay.setDays(conferenceCheckDay.getDays() | (1 << (day - 1)));
+        conferenceCheckDay.setDays(conferenceCheckDay.getDays() & ~(1L << (day - 1)));
         return conferenceCheckDay.getId();
     }
 }

@@ -1,7 +1,6 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
 import check_in42.backend.user.User;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
