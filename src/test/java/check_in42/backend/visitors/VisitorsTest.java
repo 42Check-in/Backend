@@ -2,16 +2,13 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.visitors.visitUtils.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +26,7 @@ class VisitorsTest {
                 .visitorsId(null)
                 .intraId("suhwpark")
                 .visitorsName("상준")
-                .visitDate(new Date())
+                .visitDate(LocalDate.now())
                 .visitTime("13:00")
                 .visitPurpose(1)
                 .visitPlace(0)
@@ -58,7 +55,7 @@ class VisitorsTest {
         //when
         visitors.vocalConfirm();
         //then
-        assertEquals(visitors.isConfirm(), true);
+        assertEquals(visitors.getApproval(), LocalDate.now());
     }
 
     @Test
@@ -75,7 +72,7 @@ class VisitorsTest {
                 .priorApproval(priorApproval)
                 .build();
         //then
-        assertEquals(visitors.isConfirm(), false);
+        assertEquals(visitors.getApproval(), null);
         assertEquals(visitors.getUser(), user);
         assertEquals(visitors.getPriorApproval().getVisitPurpose(), VisitPurpose.STUDYING);
         assertEquals(visitors.getPriorApproval().getRelationWithUser(), RelationWithUser.FAMILY);

@@ -1,12 +1,10 @@
 package check_in42.backend.visitors.visitUtils;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @Embeddable
 @Getter
@@ -20,26 +18,26 @@ public class PriorApproval {
 
     private String visitTime;
 
-    @Enumerated(EnumType.STRING)
-    private VisitPurpose visitPurpose;
+    private String visitPurpose;
 
-    @Enumerated(EnumType.STRING)
-    private RelationWithUser relationWithUser;
+    private String relationWithUser;
 
-    @Enumerated(EnumType.STRING)
-    private VisitPlace visitPlace;
+    private String visitPlace;
 
     private boolean agreement;
 
     public PriorApproval(VisitorsDTO visitorsDTO) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.intraId = visitorsDTO.getIntraId();
         this.visitorsName = visitorsDTO.getVisitorsName();
-        this.visitDate = simpleDateFormat.format(visitorsDTO.getVisitDate());
+        this.visitDate = visitorsDTO.getVisitDate().format(dateTimeFormatter);
         this.visitTime = visitorsDTO.getVisitTime();
-        this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()];
-        this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()];
-        this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()];
+        this.visitPurpose = visitorsDTO.getEtcPurpose() != null ? VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType()
+                + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
+        this.relationWithUser = visitorsDTO.getEtcRelation() != null ? RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType()
+                + visitorsDTO.getEtcRelation() : RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
+        this.visitPlace = visitorsDTO.getEtcPlace() != null ? VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType()
+                + visitorsDTO.getEtcPlace() : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
         this.agreement = visitorsDTO.isAgreement();
     }
 

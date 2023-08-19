@@ -1,17 +1,20 @@
 package check_in42.backend.user;
 
-import check_in42.backend.conferenceRoom.ConferenceRoom;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +24,22 @@ public class User {
 
     private boolean staff;
 
-    @OneToMany(mappedBy = "user")
+    @Builder
+    public User(String intraId, boolean staff) {
+        this.intraId = intraId;
+        this.staff = staff;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Visitors> visitors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Presentation> presentations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Equipment> equipments = new ArrayList<>();
 
     public void addEquipForm(Equipment equipment) {

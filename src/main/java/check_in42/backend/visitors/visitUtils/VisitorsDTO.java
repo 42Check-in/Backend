@@ -1,11 +1,12 @@
 package check_in42.backend.visitors.visitUtils;
 
+import check_in42.backend.visitors.Visitors;
 import lombok.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Getter
-@AllArgsConstructor
-@Builder
 public class VisitorsDTO {
 
     private Long visitorsId;
@@ -14,7 +15,7 @@ public class VisitorsDTO {
 
     private String visitorsName;
 
-    private Date visitDate;
+    private LocalDate visitDate;
 
     private String visitTime;
 
@@ -24,5 +25,33 @@ public class VisitorsDTO {
 
     private int visitPlace;
 
+    private String etcPurpose;
+
+    private String etcRelation;
+
+    private String etcPlace;
+
     private boolean agreement;
+
+    public static VisitorsDTO create(Visitors visitors) {
+        VisitorsDTO visitorsDTO = new VisitorsDTO();
+        visitorsDTO.visitorsId = visitors.getId();
+        visitorsDTO.intraId = visitors.getPriorApproval().getIntraId();
+        visitorsDTO.visitorsName = visitors.getPriorApproval().getVisitorsName();
+        visitorsDTO.visitDate = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
+                DateTimeFormatter.ISO_LOCAL_DATE);
+        visitorsDTO.visitTime = visitors.getPriorApproval().getVisitTime();
+        visitorsDTO.visitPurpose = VisitPurpose.valueOf(visitors.getPriorApproval()
+                .getVisitPurpose()).ordinal();
+        visitorsDTO.relationWithUser = RelationWithUser.valueOf(visitors.getPriorApproval()
+                .getRelationWithUser()).ordinal();
+        visitorsDTO.visitPlace = VisitPlace.valueOf(visitors.getPriorApproval()
+                .getVisitPlace()).ordinal();
+        visitorsDTO.etcPurpose = visitors.getPriorApproval().getVisitPurpose();
+        visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
+        visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();
+        visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
+
+        return visitorsDTO;
+    }
 }
