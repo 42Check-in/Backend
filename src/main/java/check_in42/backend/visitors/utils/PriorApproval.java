@@ -18,13 +18,10 @@ public class PriorApproval {
 
     private String visitTime;
 
-    //    @Enumerated(EnumType.STRING)
     private String visitPurpose;
 
-    //    @Enumerated(EnumType.STRING)
     private String relationWithUser;
 
-    //    @Enumerated(EnumType.STRING)
     private String visitPlace;
 
     private boolean agreement;

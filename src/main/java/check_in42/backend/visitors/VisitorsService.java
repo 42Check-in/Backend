@@ -2,13 +2,13 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
-import check_in42.backend.visitors.utils.PriorApproval;
-import check_in42.backend.visitors.utils.VisitorsDTO;
+import check_in42.backend.visitors.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,5 +62,29 @@ public class VisitorsService {
         LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
         List<Visitors> visitorsList = visitorsRepository.findApprovalList(threeDaysAgo);
         return visitorsList;
+    }
+
+    public Visitors findByUserAndFormId(User user, Long id) {
+        final Visitors visitors = findByUserAndFormId(user, id);
+        return visitors;
+    }
+
+    public VisitorsDTO visitorsToDto(User user, Long id) {
+        final Visitors visitors = findByUserAndFormId(user, id);
+        VisitorsDTO visitorsDTO = VisitorsDTO.builder()
+                .visitorsId(visitors.getId())
+                .intraId(visitors.getPriorApproval().getIntraId())
+                .visitorsName(visitors.getPriorApproval().getVisitorsName())
+                .visitDate(LocalDate.parse(visitors.getPriorApproval().getVisitDate(), DateTimeFormatter.ISO_DATE))
+                .visitTime(visitors.getPriorApproval().getVisitTime())
+                .visitPurpose(VisitPurpose.valueOf(visitors.getPriorApproval().getVisitPurpose()).ordinal())
+                .relationWithUser(RelationWithUser.valueOf(visitors.getPriorApproval().getRelationWithUser()).ordinal())
+                .visitPlace(VisitPlace.valueOf(visitors.getPriorApproval().getVisitPlace()).ordinal())
+                .etcPurpose(visitors.getPriorApproval().getVisitPurpose())
+                .etcPlace(visitors.getPriorApproval().getVisitPlace())
+                .etcRelation(visitors.getPriorApproval().getRelationWithUser())
+                .agreement(visitors.getPriorApproval().isAgreement())
+                .build();
+        return visitorsDTO;
     }
 }
