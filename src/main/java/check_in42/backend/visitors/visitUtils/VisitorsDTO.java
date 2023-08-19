@@ -25,5 +25,11 @@ public class VisitorsDTO {
 
     private int visitPlace;
 
+    private String etcPurpose;
+
+    private String etcRelation;
+
+    private String etcPlace;
+
     private boolean agreement;
 }

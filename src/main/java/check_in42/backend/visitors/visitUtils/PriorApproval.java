@@ -1,12 +1,9 @@
 package check_in42.backend.visitors.visitUtils;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 @Embeddable
@@ -21,13 +18,10 @@ public class PriorApproval {
 
     private String visitTime;
 
-//    @Enumerated(EnumType.STRING)
     private String visitPurpose;
 
-//    @Enumerated(EnumType.STRING)
     private String relationWithUser;
 
-//    @Enumerated(EnumType.STRING)
     private String visitPlace;
 
     private boolean agreement;
@@ -41,9 +35,12 @@ public class PriorApproval {
         this.visitorsName = visitorsDTO.getVisitorsName();
         this.visitDate = visitorsDTO.getVisitDate().format(dateTimeFormatter);
         this.visitTime = visitorsDTO.getVisitTime();
-        this.visitPurpose = VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
-        this.relationWithUser = RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
-        this.visitPlace = VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
+        this.visitPurpose = visitorsDTO.getEtcPurpose() != null ? VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType()
+                + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
+        this.relationWithUser = visitorsDTO.getEtcRelation() != null ? RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType()
+                + visitorsDTO.getEtcRelation() : RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
+        this.visitPlace = visitorsDTO.getEtcPlace() != null ? VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType()
+                + visitorsDTO.getEtcPlace() : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
         this.agreement = visitorsDTO.isAgreement();
         this.notice = false;
     }
