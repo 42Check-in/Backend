@@ -2,7 +2,6 @@ package check_in42.backend.myCheckIn;
 
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
-import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
