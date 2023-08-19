@@ -26,9 +26,6 @@ public class PriorApproval {
 
     private boolean agreement;
 
-    private boolean notice;
-
-
     public PriorApproval(VisitorsDTO visitorsDTO) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.intraId = visitorsDTO.getIntraId();
@@ -42,7 +39,6 @@ public class PriorApproval {
         this.visitPlace = visitorsDTO.getEtcPlace() != null ? VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType()
                 + visitorsDTO.getEtcPlace() : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
         this.agreement = visitorsDTO.isAgreement();
-        this.notice = false;
     }
 
 }
