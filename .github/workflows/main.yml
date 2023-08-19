@@ -26,7 +26,7 @@ jobs:
         
         # [1]
       - name: Set yaml file 
-        uses: microsoft/variable-substitution@v3
+        uses: microsoft/variable-substitution@v1
         with:
           files: ${{ env.RESOURCE_PATH }} 
         
