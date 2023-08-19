@@ -1,5 +1,6 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -87,8 +88,7 @@ public class EquipmentService {
 
         for (Equipment equip : equipments) {
             if (equip.getReturnDate().isAfter(now)) {
-                res.add(EquipmentDTO.create(equip.getUserName(), equip.getPhoneNumber(), equip.getDate(), equip.getEquipment().ordinal(),
-                        equip.isPurpose(), equip.getDetail(), equip.getBenefit(), equip.getPeriod(), equip.getReturnDate()));
+                res.add(EquipmentDTO.create(equip));
             }
         }
         return res;
@@ -116,4 +116,26 @@ public class EquipmentService {
     public List<Equipment> findAll() {
         return equipmentRepository.findAll();
     }
+
+    // 수락 떨어지면 현재로 setDate
+    @Transactional
+    public void setAgreeDates(List<Long> formId) {
+        for (Long id : formId) {
+            equipmentRepository.findOne(id).setApproval();
+        }
+    }
+
+    // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
+    public List<Equipment> findDataBeforeDay(int day) {
+        return equipmentRepository.findDataBeforeDay(day);
+    }
+
+    public List<Equipment> findAllDESC() {
+        return equipmentRepository.findAllDESC();
+    }
+
+    public List<Equipment> findByNoticeFalse() {
+        return equipmentRepository.findByNoticeFalse();
+    }
+  
 }

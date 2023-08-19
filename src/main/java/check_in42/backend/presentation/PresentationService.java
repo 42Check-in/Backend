@@ -2,6 +2,9 @@ package check_in42.backend.presentation;
 
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.PresentationStatus;
+import check_in42.backend.presentation.utils.PresentationTime;
+import check_in42.backend.presentation.utils.PresentationType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +45,7 @@ public class PresentationService {
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
         List<PresentationDTO> res = new ArrayList<>();
         for (Presentation form : allForms) {
-            res.add(PresentationDTO.create(form.getId(), form.getUserName(), form.getSubject(),
-                    form.getDate(), form.getType().ordinal(), form.getDetail(), form.getContents(),
-                    form.getTime().ordinal(), form.getScreen()));
+            res.add(PresentationDTO.create(form));
         }
 
         return res;
@@ -70,5 +71,31 @@ public class PresentationService {
             }
         }
         //cascade -> List 삭제 감지
+    }
+
+    @Transactional
+    public void setAgreeDatesAndStatus(List<Long> formId, PresentationStatus status) {
+        for (Long id : formId) {
+            Presentation presentation = presentationRepository.findOne(id);
+            presentation.setApproval();
+            presentation.setStatus(status);
+//            presentationRepository.save(presentation); 안써도댐?
+        }
+    }
+
+    public List<Presentation> findDataBeforeDay(int day) {
+        return presentationRepository.findDataBeforeDay(day);
+    }
+
+    public List<Presentation> findAll() {
+        return presentationRepository.findAll();
+    }
+
+    public List<Presentation> findAllDESC() {
+        return presentationRepository.findAllDESC();
+    }
+
+    public List<Presentation> findByNoticeFalse() {
+        return presentationRepository.findByNoticeFalse();
     }
 }

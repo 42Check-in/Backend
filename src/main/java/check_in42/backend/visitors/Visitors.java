@@ -32,6 +32,7 @@ public class Visitors {
         this.user = user;
         this.priorApproval = priorApproval;
         this.approval = null;
+        this.notice = false;
     }
 
     public void vocalConfirm() {
