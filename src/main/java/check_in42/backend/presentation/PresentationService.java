@@ -80,6 +80,7 @@ public class PresentationService {
             presentation.setAgreeDate();
             presentation.setStatus(status);
 //            presentationRepository.save(presentation); 안써도댐?
+            presentationRepository.findOne(id).setApproval();
         }
     }
 
@@ -95,4 +96,7 @@ public class PresentationService {
         return presentationRepository.findAllDESC();
     }
 
+    public List<Presentation> findByNoticeFalse() {
+        return presentationRepository.findByNoticeFalse();
+    }
 }

@@ -121,7 +121,7 @@ public class EquipmentService {
     @Transactional
     public void setAgreeDates(List<Long> formId) {
         for (Long id : formId) {
-            equipmentRepository.findOne(id).setAgreeDate();
+            equipmentRepository.findOne(id).setApproval();
         }
     }
 
@@ -134,4 +134,8 @@ public class EquipmentService {
         return equipmentRepository.findAllDESC();
     }
 
+    public List<Equipment> findByNoticeFalse() {
+        return equipmentRepository.findByNoticeFalse();
+    }
+  
 }

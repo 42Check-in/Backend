@@ -1,5 +1,6 @@
 package check_in42.backend.myCheckIn;
 
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
@@ -51,9 +52,7 @@ public class MyCheckInController {
 
     @GetMapping("/conference-room/{formId}")
     public ResponseEntity conferenceRoomForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
-        final ConferenceRoom conferenceRoom = user.findConferensById(formId);
-        return ResponseEntity.ok(conferenceRoom);
+        return ResponseEntity.ok(myCheckInService.findConferenceFormFromUser(userService.findByName(intraId), formId));
     }
 
     @GetMapping("/visitors/{formId}")

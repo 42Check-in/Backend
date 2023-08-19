@@ -14,19 +14,15 @@ public class NoticeDTO {
 
     private Long formId;
 
-    private LocalDate date;
+    private LocalDate agreeDate;
 
-    private boolean check;
+    private boolean notice;
 
     @Builder
-    protected NoticeDTO(int category, Long formId, LocalDate date, boolean check) {
+    protected NoticeDTO(int category, Long formId, LocalDate agreeDate, boolean notice) {
         this.category = category;
         this.formId = formId;
-        this.date = date;
-        this.check = check;
-    }
-
-    public void checkNotice() {
-        this.check = true;
+        this.agreeDate = agreeDate;
+        this.notice = notice;
     }
 }

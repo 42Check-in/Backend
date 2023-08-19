@@ -1,7 +1,6 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
 import check_in42.backend.user.User;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -14,12 +13,13 @@ public class ConferenceRoomDTO {
     private Long reservationCount;
     private Long reservationInfo;
 
-    @Builder
-    protected ConferenceRoomDTO(Long id, User user, LocalDate date, Long reservationCount, Long reservationInfo) {
-        this.id = id;
-        this.user = user;
-        this.date = date;
-        this.reservationCount = reservationCount;
-        this.reservationInfo = reservationInfo;
+    public static ConferenceRoomDTO create(ConferenceRoom conferenceRoom) {
+        ConferenceRoomDTO conferenceRoomDTO = new ConferenceRoomDTO();
+        conferenceRoomDTO.id = conferenceRoom.getId();
+        conferenceRoomDTO.user = conferenceRoom.getUser();
+        conferenceRoomDTO.date = conferenceRoom.getDate();
+        conferenceRoomDTO.reservationCount = conferenceRoom.getReservationCount();
+        conferenceRoomDTO.reservationInfo = conferenceRoom.getReservationInfo();
+        return conferenceRoomDTO;
     }
 }

@@ -1,6 +1,9 @@
 package check_in42.backend.conferenceRoom;
 
-import java.time.LocalDate;
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
+
 import java.util.Map;
 
 public class ConferenceUtil {
@@ -32,26 +35,6 @@ public class ConferenceUtil {
         return null;
     }
 
-    public static int getLastDayOfMonth(Long year, Long month) {
-        if (month > 9)
-            return LocalDate.parse(year + "-" + month + "-01").lengthOfMonth();
-        return LocalDate.parse(year + "-0" + month + "-01").lengthOfMonth();
-    }
-
-    public static Long getDayBit(Long year, Long month) {
-        int lastOfMonth;
-
-        lastOfMonth = getLastDayOfMonth(year, month);
-        if (lastOfMonth == 31)
-            return 0B1111111111111111111111111111111L;
-        if (lastOfMonth == 30)
-            return 0B111111111111111111111111111111L;
-        if (lastOfMonth == 29)
-            return 0B11111111111111111111111111111L;
-        else
-            return 0B1111111111111111111111111111L;
-    }
-
     public static Long[] setReservationInfo(Long reservationInfoBit) {
         Long[] result = new Long[3];
 
@@ -59,12 +42,5 @@ public class ConferenceUtil {
         result[1] = (reservationInfoBit >> PlaceInfoBitSize.TIME.getValue()) & PlaceInfoBit.ROOM.getValue();
         result[2] = reservationInfoBit & PlaceInfoBit.TIME.getValue();
         return result;
-    }
-
-    public static Boolean isSamePlace(Long[] reservationInfo, Long[] reqFormReservationInfo) {
-        if (reservationInfo[0] == reqFormReservationInfo[0] &&
-            reservationInfo[1] == reqFormReservationInfo[1])
-            return true;
-        return false;
     }
 }

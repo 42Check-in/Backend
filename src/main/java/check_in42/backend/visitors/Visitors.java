@@ -23,6 +23,7 @@ public class Visitors {
 
     private LocalDate approval;
 
+    private boolean notice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -32,9 +33,14 @@ public class Visitors {
         this.user = user;
         this.priorApproval = priorApproval;
         this.approval = null;
+        this.notice = false;
     }
   
     public void vocalConfirm() {
         this.approval = LocalDate.now();
+    }
+
+    public void setNotice(boolean notice) {
+        this.notice = notice;
     }
 }

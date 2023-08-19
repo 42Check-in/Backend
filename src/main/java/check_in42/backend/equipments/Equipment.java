@@ -36,11 +36,11 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private LocalDate agreeDate;
-
-    private String equipment;
+    private LocalDate approval;
 
     private boolean notice;
+
+    private String equipment;
 
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     @JoinColumn(name = "user_id")
@@ -65,7 +65,7 @@ public class Equipment {
         else
             this.equipment = EquipmentType.values()[equipmentDTO.getEquipment().ordinal()].getName();
         this.user = user;
-        this.agreeDate = null;
+        this.approval = null;
         this.notice = false;
     }
 
@@ -73,12 +73,11 @@ public class Equipment {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-    public void setAgreeDate() {
-        this.agreeDate = LocalDate.now();
+    public void setApproval() {
+        this.approval = LocalDate.now();
     }
-
-    public void vocalConfirm() {
-        this.agreeDate = LocalDate.now();
+    public void setNotice(boolean notice) {
+        this.notice = notice;
     }
 }
 
