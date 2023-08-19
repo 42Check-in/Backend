@@ -51,7 +51,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    private Claims parseClaim(final String token) {
+    public Claims parseClaim(final String token) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
