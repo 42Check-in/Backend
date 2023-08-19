@@ -29,7 +29,8 @@ jobs:
         uses: microsoft/variable-substitution@v3
         with:
           files: ${{ env.RESOURCE_PATH }} 
-        env:
+        
+        #env:
           # override.value: from deploy.yaml
           # override.value: 'from deploy.yaml' <-- 이렇게 사용해도 주입이 된다.
 
