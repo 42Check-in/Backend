@@ -2,6 +2,7 @@ package check_in42.backend.conferenceRoom;
 
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.myCheckIn.MyCheckInService;
@@ -46,7 +47,10 @@ public class ConferenceController {
         if (!conferenceRoomService.isInputForm(conferenceRoomDTO))
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
-        conferenceRoomService.join(intraId, conferenceRoomDTO);
+        User user = userService.findByName(intraId);
+        ConferenceRoom conferenceRoom = conferenceRoomService.create(conferenceRoomDTO, user);
+        conferenceRoomService.join(conferenceRoom);
+        user.addConferenceForm(conferenceRoom);
 
         if (conferenceRoomService.isDayFull(conferenceRoomDTO.getDate().toString()))
             conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());

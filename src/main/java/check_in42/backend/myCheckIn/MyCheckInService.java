@@ -44,7 +44,7 @@ public class MyCheckInService {
         Visitors visit = user.getVisitors().stream()
                 .filter(visitors -> visitors.getId().equals(noticeDTO.getFormId()))
                 .findFirst().orElse(null);
-        if (visit != null)
+//        if (visit != null)
 //            return VisitorsDTO.create(visit);
 
         return null;

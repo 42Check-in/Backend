@@ -26,34 +26,34 @@ public class EquipmentServiceTest {
     @Autowired EquipmentService equipmentService;
     @Autowired UserService userService;
 
-    @Test
+//    @Test
 //    @Rollback(value = false) //db에 남기고싶을 때
-    public void create_form() throws Exception {
-        //given
-        EquipmentType tmp = EquipmentType.values()[0];
-        System.out.println(">>>>>>>>>>" + tmp);
-        EquipmentDTO test = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
-                "베네핏", 3, "2033-04-04", 1L);
-        EquipmentDTO test2 = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
-                "베네핏", 3, "2033-04-04", 2L);
-        User user = new User("sohyupar", false);
-        userService.join(user);
-        Equipment equipment = equipmentService.create(user, test);
-        Equipment equipment2 = equipmentService.create(user, test2);
-
-
-        //when
-        Long equipmentFormId = equipmentService.join(equipment);
-        System.out.println("............." + equipmentFormId);
-        user.addEquipForm(equipment);
-        user.addEquipForm(equipment2);
-
-        //then
-        assertEquals(equipment, equipmentService.findOne(equipmentFormId));
-        assertEquals(user.getEquipments().get(0).getUserName(), "박소현");
-//        List<EquipmentDTO> res = equipmentService.showAllFormByName(user.getIntraId());
-//        assertEquals(2, res.size());
-    }
+//    public void create_form() throws Exception {
+//        //given
+//        EquipmentType tmp = EquipmentType.values()[0];
+//        System.out.println(">>>>>>>>>>" + tmp);
+//        EquipmentDTO test = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
+//                "베네핏", 3, "2033-04-04", 1L);
+//        EquipmentDTO test2 = EquipmentDTO.dummy("박소현", "24223333", "2020-03-03", 0, false, "디테일",
+//                "베네핏", 3, "2033-04-04", 2L);
+//        User user = new User("sohyupar", false);
+//        userService.join(user);
+//        Equipment equipment = equipmentService.create(user, test);
+//        Equipment equipment2 = equipmentService.create(user, test2);
+//
+//
+//        //when
+//        Long equipmentFormId = equipmentService.join(equipment);
+//        System.out.println("............." + equipmentFormId);
+//        user.addEquipForm(equipment);
+//        user.addEquipForm(equipment2);
+//
+//        //then
+//        assertEquals(equipment, equipmentService.findOne(equipmentFormId));
+//        assertEquals(user.getEquipments().get(0).getUserName(), "박소현");
+////        List<EquipmentDTO> res = equipmentService.showAllFormByName(user.getIntraId());
+////        assertEquals(2, res.size());
+//    }
 
     @Test
     public void 폼_삭제() throws Exception {

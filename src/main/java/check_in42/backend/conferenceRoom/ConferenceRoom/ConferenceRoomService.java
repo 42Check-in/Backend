@@ -25,12 +25,8 @@ public class ConferenceRoomService {
     private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
     @Transactional
-    public Long join(String intraId, ConferenceRoomDTO conferenceRoomDTO) {
-        User user = userService.findByName(intraId);
-        ConferenceRoom conferenceRoom = create(conferenceRoomDTO, user);
-
+    public Long join(ConferenceRoom conferenceRoom) {
         conferenceRoomRepository.save(conferenceRoom);
-        user.addConferenceForm(conferenceRoom);
         return conferenceRoom.getId();
     }
 
