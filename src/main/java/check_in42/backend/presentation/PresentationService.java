@@ -77,10 +77,9 @@ public class PresentationService {
     public void setAgreeDatesAndStatus(List<Long> formId, PresentationStatus status) {
         for (Long id : formId) {
             Presentation presentation = presentationRepository.findOne(id);
-            presentation.setAgreeDate();
+            presentation.setApproval();
             presentation.setStatus(status);
 //            presentationRepository.save(presentation); 안써도댐?
-            presentationRepository.findOne(id).setApproval();
         }
     }
 
