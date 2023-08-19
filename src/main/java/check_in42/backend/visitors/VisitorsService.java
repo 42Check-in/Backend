@@ -2,7 +2,7 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
-import check_in42.backend.visitors.utils.*;
+import check_in42.backend.visitors.visitUtils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -62,6 +62,10 @@ public class VisitorsService {
         LocalDate threeDaysAgo = LocalDate.now().minusDays(3);
         List<Visitors> visitorsList = visitorsRepository.findApprovalList(threeDaysAgo);
         return visitorsList;
+    }
+
+    public List<Visitors> findByNoticeFalse() {
+        return visitorsRepository.findByNoticeFalse();
     }
 
     public Visitors findByUserAndFormId(User user, Long id) {

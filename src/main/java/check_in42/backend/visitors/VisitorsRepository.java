@@ -15,5 +15,8 @@ public interface VisitorsRepository extends JpaRepository<Visitors, Long> {
     @Query("select v from Visitors v where v.approval is not null and v.approval >= :threeDaysAgo")
     List<Visitors> findApprovalList(@Param("threeDaysAgo") LocalDate threeDaysAgo);
 
+    @Query("select v from Visitors v where not v.notice")
+    List<Visitors> findByNoticeFalse();
+
     Visitors findByIdAndUser(Long id, User user);
 }

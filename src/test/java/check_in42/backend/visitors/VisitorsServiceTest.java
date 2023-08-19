@@ -2,8 +2,8 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.visitors.utils.PriorApproval;
-import check_in42.backend.visitors.utils.VisitorsDTO;
+import check_in42.backend.visitors.visitUtils.PriorApproval;
+import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

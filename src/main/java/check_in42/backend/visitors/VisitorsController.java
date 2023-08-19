@@ -2,7 +2,7 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.visitors.utils.VisitorsDTO;
+import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

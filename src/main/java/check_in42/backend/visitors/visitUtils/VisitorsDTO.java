@@ -1,4 +1,4 @@
-package check_in42.backend.visitors.utils;
+package check_in42.backend.visitors.visitUtils;
 
 import lombok.*;
 

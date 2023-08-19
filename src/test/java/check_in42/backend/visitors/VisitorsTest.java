@@ -1,7 +1,7 @@
 package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
-import check_in42.backend.visitors.utils.*;
+import check_in42.backend.visitors.visitUtils.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
