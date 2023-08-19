@@ -26,7 +26,6 @@ public class PriorApproval {
 
     private boolean agreement;
 
-
     public PriorApproval(VisitorsDTO visitorsDTO) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.intraId = visitorsDTO.getIntraId();
