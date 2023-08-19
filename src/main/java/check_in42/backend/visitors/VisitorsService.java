@@ -68,27 +68,4 @@ public class VisitorsService {
         return visitorsRepository.findByNoticeFalse();
     }
 
-    public Visitors findByUserAndFormId(User user, Long id) {
-        final Visitors visitors = findByUserAndFormId(user, id);
-        return visitors;
-    }
-
-    public VisitorsDTO visitorsToDto(User user, Long id) {
-        final Visitors visitors = findByUserAndFormId(user, id);
-        VisitorsDTO visitorsDTO = VisitorsDTO.builder()
-                .visitorsId(visitors.getId())
-                .intraId(visitors.getPriorApproval().getIntraId())
-                .visitorsName(visitors.getPriorApproval().getVisitorsName())
-                .visitDate(LocalDate.parse(visitors.getPriorApproval().getVisitDate(), DateTimeFormatter.ISO_DATE))
-                .visitTime(visitors.getPriorApproval().getVisitTime())
-                .visitPurpose(VisitPurpose.valueOf(visitors.getPriorApproval().getVisitPurpose()).ordinal())
-                .relationWithUser(RelationWithUser.valueOf(visitors.getPriorApproval().getRelationWithUser()).ordinal())
-                .visitPlace(VisitPlace.valueOf(visitors.getPriorApproval().getVisitPlace()).ordinal())
-                .etcPurpose(visitors.getPriorApproval().getVisitPurpose())
-                .etcPlace(visitors.getPriorApproval().getVisitPlace())
-                .etcRelation(visitors.getPriorApproval().getRelationWithUser())
-                .agreement(visitors.getPriorApproval().isAgreement())
-                .build();
-        return visitorsDTO;
-    }
 }
