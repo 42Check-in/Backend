@@ -130,7 +130,12 @@ public class EquipmentService {
         return equipmentRepository.findDataBeforeDay(day);
     }
 
+    public List<Equipment> findAllDESC() {
+        return equipmentRepository.findAllDESC();
+    }
+
     public List<Equipment> findByNoticeFalse() {
         return equipmentRepository.findByNoticeFalse();
     }
+  
 }

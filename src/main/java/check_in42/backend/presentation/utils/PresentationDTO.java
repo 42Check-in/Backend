@@ -5,6 +5,7 @@ import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class PresentationDTO {
@@ -19,6 +20,7 @@ public class PresentationDTO {
     private PresentationType type;
     private PresentationStatus status;
     private Boolean screen;
+    private List<Long> formIds;
 
     public static PresentationDTO create(Presentation presentation) {
         PresentationDTO presentationDTO = new PresentationDTO();

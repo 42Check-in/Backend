@@ -63,8 +63,8 @@ public class Presentation {
         this.detail = presentationDTO.getDetail();
         this.contents = presentationDTO.getContents();
         this.date = LocalDate.parse(presentationDTO.getDate(), formatter);
-        this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
-        this.type = PresentationType.values()[presentationDTO.getType()];
+        this.time = PresentationTime.values()[presentationDTO.getTime().ordinal()].getTime();
+        this.type = PresentationType.values()[presentationDTO.getType().ordinal()];
         this.user = user;
         this.approval = null;
         this.notice = false;
@@ -77,4 +77,9 @@ public class Presentation {
     public void setNotice(boolean notice) {
         this.notice = notice;
     }
+
+    public void setStatus(PresentationStatus status) {
+        this.status = PresentationStatus.values()[status.ordinal()].getDescription();
+    }
+
 }

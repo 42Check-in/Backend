@@ -2,7 +2,9 @@ package check_in42.backend.presentation;
 
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.PresentationStatus;
 import check_in42.backend.presentation.utils.PresentationTime;
+import check_in42.backend.presentation.utils.PresentationType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,14 +74,26 @@ public class PresentationService {
     }
 
     @Transactional
-    public void setAgreeDates(List<Long> formId) {
+    public void setAgreeDatesAndStatus(List<Long> formId, PresentationStatus status) {
         for (Long id : formId) {
+            Presentation presentation = presentationRepository.findOne(id);
+            presentation.setAgreeDate();
+            presentation.setStatus(status);
+//            presentationRepository.save(presentation); 안써도댐?
             presentationRepository.findOne(id).setApproval();
         }
     }
 
     public List<Presentation> findDataBeforeDay(int day) {
         return presentationRepository.findDataBeforeDay(day);
+    }
+
+    public List<Presentation> findAll() {
+        return presentationRepository.findAll();
+    }
+
+    public List<Presentation> findAllDESC() {
+        return presentationRepository.findAllDESC();
     }
 
     public List<Presentation> findByNoticeFalse() {

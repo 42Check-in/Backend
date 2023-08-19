@@ -53,6 +53,10 @@ public class PresentationRepository {
                 .getResultList();
     }
 
+    public List<Presentation> findAllDESC() {
+        return em.createQuery("select p from Presentation p order by p.id desc", Presentation.class)
+                  .getResultList();
+  }
     public List<Presentation> findByNoticeFalse() {
         return em.createQuery("select p from Presentation p where not p.notice", Presentation.class)
                 .getResultList();

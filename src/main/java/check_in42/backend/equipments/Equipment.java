@@ -76,7 +76,6 @@ public class Equipment {
     public void setApproval() {
         this.approval = LocalDate.now();
     }
-
     public void setNotice(boolean notice) {
         this.notice = notice;
     }
