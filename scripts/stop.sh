@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-PROJECT_ROOT="/home/ec2_user/github_action"
+PROJECT_ROOT="/home/ec2-user/github_action"
 JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
