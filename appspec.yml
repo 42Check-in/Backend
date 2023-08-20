@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source:  /
+    destination: /home/ec2_user/github_action
+    overwrite: yes
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2_user
+    group: ec2_user
+
+hooks:
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: ec2_user
+  ApplicationStart:
+    - location: scripts/gh_deploy.sh
+      timeout: 60
+      runas: ec2_user
