@@ -8,15 +8,15 @@ files:
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2_user
-    group: ec2_user
+    owner: ec2-user
+    group: ec2-user
 
 hooks:
   AfterInstall:
     - location: scripts/stop.sh
       timeout: 60
-      runas: ec2_user
+      runas: ec2-user
   ApplicationStart:
     - location: scripts/gh_deploy.sh
       timeout: 60
-      runas: ec2_user
+      runas: ec2-user
