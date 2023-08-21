@@ -56,7 +56,7 @@ public class ConferenceController {
 
     @GetMapping("cancel")
     public ResponseEntity cancelForm(@CookieValue("intraId") String intraId, @RequestBody Long formId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         ConferenceRoomDTO conferenceRoomDTO = myCheckInService.findConferenceFormFromUser(user, formId);
 
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoomDTO.getDate());

@@ -27,7 +27,7 @@ public class EquipmentService {
     }
 
     public Equipment getFormByIntraId(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId);
+        User user = userRepository.findByName(intraId).get();
         List<Equipment> allForm = user.getEquipments();
 
         for (Equipment equip : allForm) {
@@ -39,7 +39,7 @@ public class EquipmentService {
 
     @Transactional
     public void DeleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId);
+        User user = userRepository.findByName(intraId).get();
         List<Equipment> allForm = user.getEquipments();
 
         for (Equipment equip : allForm) {
@@ -80,7 +80,7 @@ public class EquipmentService {
      * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
-        User user = userRepository.findByName(intraId);
+        User user = userRepository.findByName(intraId).get();
 
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();

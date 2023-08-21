@@ -2,6 +2,7 @@ package check_in42.backend.myCheckIn;
 
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.equipments.Equipment;
+import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
@@ -22,14 +23,14 @@ public class MyCheckInController {
 
     @GetMapping("/conference-room")
     public ResponseEntity myConferenceRooms(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
         return ResponseEntity.ok(conferenceRoomList);
     }
 
     @GetMapping("/visitors")
     public ResponseEntity myVisitors(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         final List<Visitors> visitorsList = user.getVisitors();
         return ResponseEntity.ok(visitorsList);
     }
@@ -37,37 +38,37 @@ public class MyCheckInController {
 
     @GetMapping("/presentation")
     public ResponseEntity myPresentations(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         final List<Presentation> presentationList = user.getPresentations();
         return ResponseEntity.ok(presentationList);
     }
 
     @GetMapping("/equipment")
     public ResponseEntity myEquipments(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         final List<Equipment> equipmentList = user.getEquipments();
         return ResponseEntity.ok(equipmentList);
     }
 
     @GetMapping("/conference-room/{formId}")
     public ResponseEntity conferenceRoomForm(@PathVariable Long formId, @CookieValue(name = "intraId") String intraId) {
-        return ResponseEntity.ok(myCheckInService.findConferenceFormFromUser(userService.findByName(intraId), formId));
+        return ResponseEntity.ok(myCheckInService.findConferenceFormFromUser(userService.findByName(intraId).get(), formId));
     }
 
     @GetMapping("/visitors/{formId}")
     public ResponseEntity visitorForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
-        return ResponseEntity.ok(myCheckInService.findVisitorFormFromUser(userService.findByName(intraId), noticeDTO));
+        return ResponseEntity.ok(myCheckInService.findVisitorFormFromUser(userService.findByName(intraId).get(), noticeDTO));
     }
 
     @GetMapping("/presentation/{formId}")
     public ResponseEntity presentationForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
-        return ResponseEntity.ok(myCheckInService.findPresentationFormFromUser(userService.findByName(intraId), noticeDTO));
+        return ResponseEntity.ok(myCheckInService.findPresentationFormFromUser(userService.findByName(intraId).get(), noticeDTO));
 
     }
 
     @GetMapping("/equipment/{formId}")
     public ResponseEntity equipmentForm(@CookieValue String intraId, @RequestBody NoticeDTO noticeDTO) {
-        return ResponseEntity.ok(myCheckInService.findEquipFormFromUser(userService.findByName(intraId), noticeDTO));
+        return ResponseEntity.ok(myCheckInService.findEquipFormFromUser(userService.findByName(intraId).get(), noticeDTO));
     }
 
 }

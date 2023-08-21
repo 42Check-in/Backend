@@ -1,8 +1,13 @@
 package check_in42.backend.auth.oauth;
 
+import check_in42.backend.auth.jwt.TokenPair;
+import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +32,8 @@ public class OauthService {
     HttpEntity<MultiValueMap<String, String>> req;
     ResponseEntity<String> res;
     MultiValueMap<String, String> params;
+
+    private final TokenProvider tokenProvider;
 
     public OauthToken getOauthToken(String code) {
         req = req42TokenHeader(code);
@@ -108,5 +115,26 @@ public class OauthService {
         params.add("redirect_uri", "연결할 callback 주소");
 
         return new HttpEntity<>(params, headers);
+    }
+
+    public TokenPair login(final String code) {
+        final OauthToken oauthToken = this.getOauthToken(code);
+        final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
+
+        final String intraId = user42Info.getLogin();
+        userService.findByName(intraId).orElseGet(() -> userService.create(intraId, false));
+        final String accessToken = tokenProvider.createAccessToken(intraId);
+        final String refreshToken = tokenProvider.createRefreshToken(intraId);
+
+        return new TokenPair(accessToken, refreshToken);
+    }
+
+    public String reissueToken(final String refreshToken) {
+        final Claims claims = tokenProvider.parseClaim(refreshToken);
+        final String intraId = claims.get("intraId", String.class);
+        userService.findByName(intraId);
+
+        final String accessToken = tokenProvider.createAccessToken(intraId);
+        return accessToken;
     }
 }

@@ -22,7 +22,7 @@ public class EquipmentController {
     * */
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody EquipmentDTO equipmentDTO) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         Equipment equipment = equipmentService.create(user, equipmentDTO);
         Long equipmentFormId = equipmentService.join(equipment);
         user.addEquipForm(equipment);

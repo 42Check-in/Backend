@@ -26,7 +26,7 @@ public class ConferenceRoomService {
 
     @Transactional
     public Long join(String intraId, ConferenceRoomDTO conferenceRoomDTO) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         ConferenceRoom conferenceRoom = create(conferenceRoomDTO, user);
 
         conferenceRoomRepository.save(conferenceRoom);
