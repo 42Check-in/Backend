@@ -45,7 +45,7 @@ public class VisitorsService {
         if (visitors.isEmpty())
             return ;
         visitorsRepository.delete(visitors.get());
-        User user = userRepository.findByName(intraId);
+        User user = userRepository.findByName(intraId).get();
         user.deleteVisitorsForm(visitors.get().getId());
     }
 

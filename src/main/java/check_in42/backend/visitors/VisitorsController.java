@@ -18,7 +18,7 @@ public class VisitorsController {
     @PostMapping("visitors/form")
     public ResponseEntity applyVisitorsForm(@RequestBody VisitorsDTO visitorsDTO,
                                             @CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         Visitors visitors = visitorsService.createVisitors(user, visitorsDTO);
         visitorsService.applyVisitorForm(user, visitors);
         return ResponseEntity.ok(HttpStatus.OK);

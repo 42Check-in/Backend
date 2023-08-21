@@ -61,7 +61,7 @@ public class PresentationService {
 
     @Transactional
     public void DeleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId);
+        User user = userRepository.findByName(intraId).get();
         List<Presentation> allForm = user.getPresentations();
 
         for (Presentation presentation : allForm) {
