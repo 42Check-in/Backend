@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,7 @@ import java.net.URI;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OauthService {
 
     private final ObjectMapper om = new ObjectMapper();
@@ -123,8 +125,9 @@ public class OauthService {
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
 
         final String intraId = user42Info.getLogin();
-        userService.findByName(intraId)
+        User user = userService.findByName(intraId)
                 .orElseGet(() -> userService.create(intraId, false));
+        log.info(user.getIntraId());
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         return new TokenPair(accessToken, refreshToken);
