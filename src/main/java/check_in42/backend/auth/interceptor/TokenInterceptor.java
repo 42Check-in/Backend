@@ -3,6 +3,7 @@ package check_in42.backend.auth.interceptor;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                 .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseClaim(token);
         final String intraId = claims.get("intraId", String.class);
-        userService.findByName(intraId);
+        userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
 
         //유저가 맴버인지 확인하는 거 추가해야함
         return true;

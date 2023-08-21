@@ -21,14 +21,14 @@ public class NoticeController {
 
     @GetMapping("/notice")
     public ResponseEntity<List<NoticeDTO>> showNotice(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         List<NoticeDTO> noticeslist = noticeService.showNotice(user.getId());
         return ResponseEntity.ok().body(noticeslist);
     }
 
     @PostMapping("/notice")
     public ResponseEntity checkNotice(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
 
         noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);

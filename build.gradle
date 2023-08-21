@@ -11,7 +11,8 @@ java {
 	sourceCompatibility = '17'
 }
 
-jar {
+
+jar	{
 	enabled = false
 }
 

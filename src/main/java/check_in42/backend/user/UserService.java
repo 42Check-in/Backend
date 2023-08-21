@@ -5,6 +5,8 @@ import check_in42.backend.presentation.PresentationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -15,6 +17,13 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
+    public User create(String intraId, boolean staff) {
+        User user = User.builder()
+                .intraId(intraId)
+                .staff(staff).build();
+        userRepository.save(user);
+        return user;
+    }
     public Long join(User user) {
         userRepository.save(user);
         return user.getId();
@@ -24,7 +33,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public User findByName(String intraId) {
+    public Optional<User> findByName(String intraId) {
         return userRepository.findByName(intraId);
     }
 

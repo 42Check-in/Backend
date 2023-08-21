@@ -38,7 +38,7 @@ public class NoticeRepository {
 //            "and approval between now() and date_add(now(), interval 3 day) " +
 //        "order by approval desc"
 //    , nativeQuery = true)
-//    List<NoticeDTO> getNotice(@Param("id") Long id);
+//    List<NoticeDTO> getNotice(@Param("userId") Long user_id);
 
     public List<NoticeDTO> getNotice(Long id) {
         String jpql = "SELECT NEW check_in42.backend.notice.utils.NoticeDTO(" +

@@ -1,6 +1,10 @@
 package check_in42.backend.auth.oauth;
 
-import check_in42.backend.user.User;
+import check_in42.backend.auth.argumentresolver.User;
+import check_in42.backend.auth.argumentresolver.UserInfo;
+import check_in42.backend.auth.exception.AuthorizationException;
+import check_in42.backend.auth.jwt.TokenPair;
+import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.user.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,9 +13,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class OauthController {
 
@@ -19,61 +24,84 @@ public class OauthController {
     private final UserService userService;
     private final TokenRepository tokenRepository;
     private HttpSession httpSession;
+    private final TokenProvider tokenProvider;
 
-    @GetMapping("/login")
-    public ResponseEntity loginPage(HttpServletRequest request,
-                            @CookieValue(name = "intraId", required = false) String intraId) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            if (intraId == null) {
-                /*
-                * 1. String으로 반환값 변경
-                * 2. return값들도 발급받은 redir 주소로 변경, Define 추후 설정 필요
-                * */
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(HttpStatus.OK);
+    @GetMapping("api/auth/login")
+    public String loginPage(@User UserInfo userInfo) {
+        if (userInfo.getIntraId() == null) {
+            return "redirect:http://42check-in.kr/oauth/login";
         }
-        return ResponseEntity.notFound().build();
+        return "redirect:http://42check-in.kr/main";
     }
-    @PostMapping("/oauth/login")
+//    @PostMapping("/oauth/login")
+//    @ResponseBody
+//    public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response,
+//                                       @RequestParam("code") String code) {
+//
+//        /*
+//        * Token, user값이 모두 없는 경우 String code값을 갖고 oauthToken을 생성.
+//        * */
+//        OauthToken oauthToken = oauthService.getOauthToken(code);
+//        User42Info user42Info = oauthService.get42SeoulInfo(oauthToken.getAccess_token());
+//        User user = userService.findByName(user42Info.getLogin());
+//
+//        if (user == null) {
+//
+//            user = new User(user42Info.getLogin(), user42Info.isStaff());
+//            userService.join(user);
+//
+//            tokenRepository.saveRefreshToken(user42Info.getLogin(), oauthToken);
+//            LoginResponse loginResponse = LoginResponse.builder()
+//                                                        .accessToken(tokenProvider.createAccessToken(user42Info.getLogin()))
+//                                                        .refreshToken(tokenProvider.createRefreshToken(user42Info.getLogin()))
+//                                                        .build();
+//            httpSession = request.getSession();
+//            httpSession.setAttribute("name", user42Info.getLogin());
+//            return ResponseEntity.ok(loginResponse);
+//        } else {
+//            httpSession = request.getSession(false);
+//            if (httpSession == null) {
+//                httpSession = request.getSession();
+//                httpSession.setAttribute("name", user42Info.getLogin());
+////                httpSession.setAttribute("staff", user42Info.isStaff());
+//            }
+//        }
+//
+//        //쿠키 부분 어
+//        Cookie cookie = new Cookie("intraId", user42Info.getLogin());
+//        cookie.setMaxAge(50 * 120);
+//        cookie.setPath("/");
+//
+//        response.addCookie(cookie);
+//
+//        if (user.isStaff())
+//            return new ResponseEntity(HttpStatus.ACCEPTED);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+    @GetMapping("/oauth/login")
     @ResponseBody
-    public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response, @RequestParam("code") String code) {
+    public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam("code") String code) {
+        final TokenPair tokenPair = oauthService.login(code);
 
-        /*
-        * Token, user값이 모두 없는 경우 String code값을 갖고 oauthToken을 생성.
-        * */
-        OauthToken oauthToken = oauthService.getOauthToken(code);
-        User42Info user42Info = oauthService.get42SeoulInfo(oauthToken.getAccess_token());
-        User user = userService.findByName(user42Info.getLogin());
+        final LoginResponse loginResponse = LoginResponse.builder()
+                .accessToken(tokenPair.getAccessToken())
+                .refreshToken(tokenPair.getRefreshToken())
+                .build();
+        return ResponseEntity.ok(loginResponse);
+    }
 
-        if (user == null) {
+    @GetMapping("/reissue")
+    @ResponseBody
+    public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
 
-            user = new User(user42Info.getLogin(), user42Info.isStaff());
-            userService.join(user);
-
-            tokenRepository.saveRefreshToken(user42Info.getLogin(), oauthToken);
-            httpSession = request.getSession();
-            httpSession.setAttribute("name", user42Info.getLogin());
-        } else {
-
-            httpSession = request.getSession(false);
-            if (httpSession == null) {
-                httpSession = request.getSession();
-                httpSession.setAttribute("name", user42Info.getLogin());
-//                httpSession.setAttribute("staff", user42Info.isStaff());
-            }
+        if (loginResponse.getRefreshToken() == null) {
+            throw new AuthorizationException.RefreshTokenNotFoundException();
         }
-
-        //쿠키 부분 어
-        Cookie cookie = new Cookie("intraId", user42Info.getLogin());
-        cookie.setMaxAge(50 * 120);
-        cookie.setPath("/");
-
-        response.addCookie(cookie);
-
-        if (user.isStaff())
-            return new ResponseEntity(HttpStatus.ACCEPTED);
-        return new ResponseEntity(HttpStatus.OK);
+        final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
+        final LoginResponse newLoginResponse = LoginResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(loginResponse.getRefreshToken()).build();
+        return ResponseEntity.ok(newLoginResponse);
     }
 }

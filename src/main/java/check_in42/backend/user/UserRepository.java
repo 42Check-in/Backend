@@ -1,8 +1,12 @@
 package check_in42.backend.user;
 
+import check_in42.backend.allException.CustomException;
+import check_in42.backend.user.exception.UserRunTimeException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,9 +26,14 @@ public class UserRepository {
         return em.find(User.class, id);
     }
 
-    public User findByName(String intraId) {
-        return em.createQuery("select u from User u where u.intraId = :intraId", User.class)
-                .setParameter("intraId", intraId)
-                .getSingleResult();
+    public Optional<User> findByName(String intraId) throws CustomException {
+        try {
+            User user = em.createQuery("select u from User u where u.intraId = :intraId", User.class)
+                    .setParameter("intraId", intraId)
+                    .getSingleResult();
+            return Optional.of(user);
+        } catch (RuntimeException e) {
+            throw null;
+        }
     }
 }

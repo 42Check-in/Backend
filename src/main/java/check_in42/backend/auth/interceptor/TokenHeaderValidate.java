@@ -3,6 +3,7 @@ package check_in42.backend.auth.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
