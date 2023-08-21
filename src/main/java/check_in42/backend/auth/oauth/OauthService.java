@@ -1,5 +1,6 @@
 package check_in42.backend.auth.oauth;
 
+import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.user.User;
@@ -103,16 +104,16 @@ public class OauthService {
                 .toUri();
     }
 
-    private HttpEntity<MultiValueMap<String, String>> req42TokenHeader(String code) {
+    private HttpEntity<MultiValueMap<String, String>> req42TokenHeader(final String code) {
         headers = new HttpHeaders();
         params = new LinkedMultiValueMap<>();
         headers.set("Content-type", "Application/x-www-form-urlencoded;charset=utf-8");
 
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "u-s4t2ud-3b57ef43b210f8fbf7a0029fa629f976bd0a1506976d74b843eab9f4bafa2727");
-        params.add("client_secret", "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");
+        params.add("client_id", "u-s4t2ud-f90f9eeac95b368279b59a8f0eb2e43a8b348db52752754f2aa249ded96390aa");
+        params.add("client_secret", "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");
         params.add("code", code);
-        params.add("redirect_uri", "연결할 callback 주소");
+        params.add("redirect_uri", "https://42check-in.kr/oauth/login");
 
         return new HttpEntity<>(params, headers);
     }
@@ -122,17 +123,18 @@ public class OauthService {
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
 
         final String intraId = user42Info.getLogin();
-        userService.findByName(intraId).orElseGet(() -> userService.create(intraId, false));
+        userService.findByName(intraId)
+                .orElseGet(() -> userService.create(intraId, false));
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
-
         return new TokenPair(accessToken, refreshToken);
     }
 
     public String reissueToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseClaim(refreshToken);
         final String intraId = claims.get("intraId", String.class);
-        userService.findByName(intraId);
+        userService.findByName(intraId)
+                .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
 
         final String accessToken = tokenProvider.createAccessToken(intraId);
         return accessToken;
