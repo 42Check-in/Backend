@@ -82,6 +82,7 @@ public class OauthController {
 //    }
     @GetMapping("/oauth/login")
     public ResponseEntity seoul42Login(@RequestParam(name = "code") String code) {
+
         log.info("로그인 할꺼니?");
         final TokenPair tokenPair = oauthService.login(code);
 
