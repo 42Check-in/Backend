@@ -21,7 +21,7 @@ public class PresentationController {
     //새로운 신청 폼 작성
     @PostMapping("/presentations/form")
     public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody PresentationDTO presentationDTO) {
-        User user = userService.findByName(intraId);
+        User user = userService.findByName(intraId).get();
         Presentation presentation = presentationService.create(user, presentationDTO);
         Long formId = presentationService.join(presentation);
         user.addPresentationForm(presentation);
