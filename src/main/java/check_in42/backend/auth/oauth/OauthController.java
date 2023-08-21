@@ -81,7 +81,7 @@ public class OauthController {
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public ResponseEntity test() {
         return new ResponseEntity(HttpStatus.OK);
     }
