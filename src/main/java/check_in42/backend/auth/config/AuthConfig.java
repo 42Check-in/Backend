@@ -23,12 +23,10 @@ public class AuthConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/*")
                 .excludePathPatterns("/reissue")
                 .excludePathPatterns("/oauth/*")
                 .excludePathPatterns("/login/*");
         registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/*")
                 .excludePathPatterns("/reissue")
                 .excludePathPatterns("/oauth/*")
                 .excludePathPatterns("/login/*");
