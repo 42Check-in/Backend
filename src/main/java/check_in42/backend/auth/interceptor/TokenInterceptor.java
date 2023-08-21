@@ -2,6 +2,7 @@ package check_in42.backend.auth.interceptor;
 
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import io.jsonwebtoken.Claims;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

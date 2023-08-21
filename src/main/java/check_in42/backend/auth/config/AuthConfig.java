@@ -3,6 +3,7 @@ package check_in42.backend.auth.config;
 import check_in42.backend.auth.argumentresolver.AuthArgumentResolver;
 import check_in42.backend.auth.interceptor.LoginInterceptor;
 import check_in42.backend.auth.interceptor.TokenInterceptor;
+import check_in42.backend.auth.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -20,16 +21,15 @@ public class AuthConfig implements WebMvcConfigurer {
     private final TokenInterceptor tokenInterceptor;
     private final AuthArgumentResolver authArgumentResolver;
 
+    private static final List<String> LOGIN_URL = List.of("/oauth/login");
+    private static final List<String> TOKEN_URL = List.of("/reissue", "/conference-rooms/*",
+            "/presentation/*", "/visitors/*", "/equipments/*", "/vocal/*");
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .excludePathPatterns("http://52.78.13.245:8080/reissue", "/oauth/*", "/login/*");
-//                .excludePathPatterns("/oauth/*")
-//                .excludePathPatterns("/login/*");
-//        registry.addInterceptor(tokenInterceptor)
-//                .excludePathPatterns("http://52.78.13.245:8080/reissue", "/oauth/*", "/login/*");
-//                .excludePathPatterns("/oauth/*")
-//                .excludePathPatterns("/login/*");
+                .addPathPatterns(LOGIN_URL);
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns(TOKEN_URL);
     }
 
     @Override
