@@ -87,6 +87,7 @@ public class OauthController {
     }
     @GetMapping("/oauth/login")
     public ResponseEntity seoul42Login(@RequestParam(name = "code") String code) {
+        log.info("로그인 할꺼니?");
         final TokenPair tokenPair = oauthService.login(code);
 
         final LoginResponse loginResponse = LoginResponse.builder()
@@ -100,7 +101,6 @@ public class OauthController {
     @GetMapping("/reissue")
     public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
 
-        log.info("????");
         if (loginResponse.getRefreshToken() == null) {
             throw new AuthorizationException.RefreshTokenNotFoundException();
         }

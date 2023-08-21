@@ -13,8 +13,6 @@ public class AllExceptionHandler {
     @ExceptionHandler(TokenException.class)
     private ResponseEntity handleTokenException(final CustomException e) {
         log.info(e.toString());
-
         return ResponseEntity.status(e.getCode()).body(e.getMessage());
     }
-
 }
