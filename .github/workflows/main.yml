@@ -40,7 +40,7 @@ jobs:
 
         # [2]
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean && ./gradlew build
         shell: bash
 
         # [3]
