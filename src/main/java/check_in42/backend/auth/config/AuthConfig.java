@@ -23,13 +23,13 @@ public class AuthConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .excludePathPatterns("/reissue")
-                .excludePathPatterns("/oauth/*")
-                .excludePathPatterns("/login/*");
+                .excludePathPatterns("http://52.78.13.245:8080/reissue", "/oauth/*", "/login/*");
+//                .excludePathPatterns("/oauth/*")
+//                .excludePathPatterns("/login/*");
         registry.addInterceptor(tokenInterceptor)
-                .excludePathPatterns("/reissue")
-                .excludePathPatterns("/oauth/*")
-                .excludePathPatterns("/login/*");
+                .excludePathPatterns("/reissue", "/oauth/*", "/login/*");
+//                .excludePathPatterns("/oauth/*")
+//                .excludePathPatterns("/login/*");
     }
 
     @Override
