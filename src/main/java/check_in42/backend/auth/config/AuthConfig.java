@@ -20,17 +20,17 @@ public class AuthConfig implements WebMvcConfigurer {
     private final TokenInterceptor tokenInterceptor;
     private final AuthArgumentResolver authArgumentResolver;
 
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor)
-                .excludePathPatterns("/reissue")
-                .excludePathPatterns("/oauth/*")
-                .excludePathPatterns("/login/*");
-        registry.addInterceptor(tokenInterceptor)
-                .excludePathPatterns("/reissue")
-                .excludePathPatterns("/oauth/*")
-                .excludePathPatterns("/login/*");
-    }
+//    @Override
+//    public void addInterceptors(final InterceptorRegistry registry) {
+//        registry.addInterceptor(loginInterceptor)
+//                .excludePathPatterns("/reissue")
+//                .excludePathPatterns("/oauth/*")
+//                .excludePathPatterns("/login/*");
+//        registry.addInterceptor(tokenInterceptor)
+//                .excludePathPatterns("/reissue")
+//                .excludePathPatterns("/oauth/*")
+//                .excludePathPatterns("/login/*");
+//    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
