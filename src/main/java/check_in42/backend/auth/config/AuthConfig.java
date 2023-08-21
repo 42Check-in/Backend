@@ -24,6 +24,7 @@ public class AuthConfig implements WebMvcConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/*")
+                .excludePathPatterns("/reissue")
                 .excludePathPatterns("/login/*");
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/*")
