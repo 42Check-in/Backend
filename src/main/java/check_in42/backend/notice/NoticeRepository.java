@@ -26,19 +26,19 @@ public class NoticeRepository {
 //    @Query(value =
 //        "select * from (" +
 //            "select 'visitor' as category, id as form_id, approval, notice from visitor " +
-//            "where id = :id " +
+//            "where user_id = :userId " +
 //            "union " +
 //            "select 'equipment' as category, id as form_id, approval, notice from equipment " +
-//            "where id = :id " +
+//            "where user_id = :userId " +
 //            "union " +
 //            "select 'presentation' as category, id as form_id, approval, notice from presentation " +
-//            "where id = :id" +
+//            "where user_id = :userId" +
 //        ") as notice " +
 //        "where approval is not null " +
 //            "and approval between now() and date_add(now(), interval 3 day) " +
 //        "order by approval desc"
 //    , nativeQuery = true)
-//    List<NoticeDTO> getNotice(@Param("id") Long id);
+//    List<NoticeDTO> getNotice(@Param("userId") Long user_id);
 
     public List<NoticeDTO> getNotice(Long id) {
         String jpql = "SELECT NEW check_in42.backend.notice.utils.NoticeDTO(" +
@@ -61,11 +61,9 @@ public class NoticeRepository {
                 "   WHEN v.id = :id THEN v.notice " +
                 "   WHEN e.id = :id THEN e.notice " +
                 "   WHEN p.id = :id THEN p.notice " +
-                "END" +
-                ") " +
+                "END )" +
                 "FROM Visitors v, Equipment e, Presentation p " +
-                "WHERE (v.id = :id OR e.id = :id OR p.id = :id) " +
-                "AND (v.approval IS NOT NULL OR e.approval IS NOT NULL OR p.approval IS NOT NULL) " +
+                "WHERE (v.approval IS NOT NULL OR e.approval IS NOT NULL OR p.approval IS NOT NULL) " +
                 "AND (v.approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 OR e.approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 OR p.approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3) " +
                 "ORDER BY " +
                 "CASE " +

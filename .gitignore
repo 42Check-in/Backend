@@ -24,16 +24,16 @@ hs_err_pid*
 replay_pid*
 
 # IntelliJ project files
-.idea
-.idea/*.xml
+#.idea
+#.idea/*.xml
 *.iml
 out
-gen
+#gen
 build
-rebel.xml
+/out/
+#rebel.xml
 
 # Gradle
-.gradle
-/build/
-.gradletasknamecache
-
+#.gradle
+#/build/
+#.gradletasknamecache

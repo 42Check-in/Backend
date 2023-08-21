@@ -21,7 +21,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  jwt:
-   access-valid-time: 1200
-   refresh-valid-time: 64300
-   secret-code: asdfasdfasdfasdfasdf
+
+#  jwt:
+#    access-valid-time: 1200
+#    refresh-valid-time: 64300
+#    secret-code: asdfasdfasdfasdfasdfsf3r2r23r90nalwjbkjb2djfbd1243ljbasjbfej
