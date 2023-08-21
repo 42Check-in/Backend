@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class OauthController {
 
@@ -26,13 +26,13 @@ public class OauthController {
     private HttpSession httpSession;
     private final TokenProvider tokenProvider;
 
-    @GetMapping("api/auth/login")
-    public String loginPage(@User UserInfo userInfo) {
-        if (userInfo.getIntraId() == null) {
-            return "redirect:http://42check-in.kr/oauth/login";
-        }
-        return "redirect:http://42check-in.kr/main";
-    }
+//    @GetMapping("api/auth/login")
+//    public String loginPage(@User UserInfo userInfo) {
+//        if (userInfo.getIntraId() == null) {
+//            return "redirect:http://42check-in.kr/oauth/login";
+//        }
+//        return "redirect:http://42check-in.kr/main";
+//    }
 //    @PostMapping("/oauth/login")
 //    @ResponseBody
 //    public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response,
@@ -79,9 +79,7 @@ public class OauthController {
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
     @GetMapping("/oauth/login")
-    @ResponseBody
-    public ResponseEntity seoul42Login(HttpServletRequest request, HttpServletResponse response,
-                                       @RequestParam("code") String code) {
+    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
         final TokenPair tokenPair = oauthService.login(code);
 
         final LoginResponse loginResponse = LoginResponse.builder()
@@ -92,7 +90,6 @@ public class OauthController {
     }
 
     @GetMapping("/reissue")
-    @ResponseBody
     public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
 
         if (loginResponse.getRefreshToken() == null) {

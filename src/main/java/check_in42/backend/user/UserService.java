@@ -4,6 +4,7 @@ import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
+    @Transactional
     public User create(String intraId, boolean staff) {
         User user = User.builder()
                 .intraId(intraId)
@@ -24,11 +26,13 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+    @Transactional
     public Long join(User user) {
         userRepository.save(user);
         return user.getId();
     }
 
+    @Transactional
     public void delete(User user) {
         userRepository.delete(user);
     }

@@ -2,6 +2,7 @@ package check_in42.backend.auth.argumentresolver;
 
 import check_in42.backend.auth.interceptor.TokenHeaderValidate;
 import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.user.exception.UserRunTimeException;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletRequest;
