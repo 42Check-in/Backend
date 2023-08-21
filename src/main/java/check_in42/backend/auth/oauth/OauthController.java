@@ -80,7 +80,7 @@ public class OauthController {
 //            return new ResponseEntity(HttpStatus.ACCEPTED);
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
-    @GetMapping("/oauth/login")
+    @PostMapping("/oauth/login")
     public ResponseEntity seoul42Login(@RequestParam(name = "code") String code) {
         log.info("로그인 할꺼니?");
         final TokenPair tokenPair = oauthService.login(code);
