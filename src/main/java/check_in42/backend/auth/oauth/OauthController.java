@@ -81,7 +81,7 @@ public class OauthController {
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
     @GetMapping("/oauth/login")
-    public ResponseEntity seoul42Login(@RequestParam("code") String code) {
+    public ResponseEntity seoul42Login(@RequestParam(name = "code") String code) {
         final TokenPair tokenPair = oauthService.login(code);
 
         final LoginResponse loginResponse = LoginResponse.builder()
