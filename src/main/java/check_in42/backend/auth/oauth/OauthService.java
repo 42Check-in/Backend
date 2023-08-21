@@ -40,8 +40,9 @@ public class OauthService {
 
     public OauthToken getOauthToken(String code) {
         req = req42TokenHeader(code);
+        log.info(code);
         res = resPostApi(req, req42TokenUri());
-
+        log.info(res.getBody());
         return readOauthToken(res.getBody());
     }
 

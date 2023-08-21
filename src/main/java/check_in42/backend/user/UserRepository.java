@@ -33,7 +33,7 @@ public class UserRepository {
                     .getSingleResult();
             return Optional.of(user);
         } catch (RuntimeException e) {
-            throw null;
+            return Optional.empty();
         }
     }
 }
