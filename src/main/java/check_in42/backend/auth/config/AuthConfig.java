@@ -26,8 +26,8 @@ public class AuthConfig implements WebMvcConfigurer {
                 .excludePathPatterns("http://52.78.13.245:8080/reissue", "/oauth/*", "/login/*");
 //                .excludePathPatterns("/oauth/*")
 //                .excludePathPatterns("/login/*");
-        registry.addInterceptor(tokenInterceptor)
-                .excludePathPatterns("/reissue", "/oauth/*", "/login/*");
+//        registry.addInterceptor(tokenInterceptor)
+//                .excludePathPatterns("http://52.78.13.245:8080/reissue", "/oauth/*", "/login/*");
 //                .excludePathPatterns("/oauth/*")
 //                .excludePathPatterns("/login/*");
     }
