@@ -8,9 +8,11 @@ import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +22,12 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
-    private final UserService userService;
 
     private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
     @Transactional
-    public Long join(String intraId, ConferenceRoomDTO conferenceRoomDTO) {
-        User user = userService.findByName(intraId).get();
-        ConferenceRoom conferenceRoom = create(conferenceRoomDTO, user);
-
+    public Long join(ConferenceRoom conferenceRoom) {
         conferenceRoomRepository.save(conferenceRoom);
-        user.addConferenceForm(conferenceRoom);
         return conferenceRoom.getId();
     }
 
@@ -58,23 +55,23 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.findById(id).get();
     }
 
-    public Map<String, Long[]> makeBase() {
-        Map<String, Long[]> result = new HashMap<String, Long[]>();
+    public Map<String, long[]> makeBase() {
+        Map<String, long[]> result = new HashMap<>();
         PlaceInfo[] placeInfos = PlaceInfo.values();
         RoomCount[] roomInfos = RoomCount.values();
 
         for (int i = 0; i < placeInfos.length; i++)
-            result.put(placeInfos[i].getValue(), new Long[roomInfos[i].getValue().intValue()]);
+            result.put(placeInfos[i].getValue(), new long[roomInfos[i].getValue().intValue()]);
         return result;
     }
 
-    public void setReservedInfo(Map<String, Long[]> result, Long day) {
+    public void setReservedInfo(Map<String, long[]> result, LocalDate date) {
         Long[] reservationInfo;
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDay(day);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
 
         for (ConferenceRoom cr: conferenceRooms) {
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
-            Long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
+            long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
     }
@@ -90,10 +87,12 @@ public class ConferenceRoomService {
             emptyTime |= reservationTimeBit;
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+        System.out.println(Long.toBinaryString(emptyTime));
         return (emptyTime & reqFormReservationTimeBit) == 0;
     }
 
-    public boolean isDayFull(String date) {
+    public boolean isDayFull(LocalDate date) {
+        System.out.println("getSumCount => " + conferenceRoomRepository.getSumReservationCountByDate(date));
         return conferenceRoomRepository.getSumReservationCountByDate(date) >= reservationAllTimeNum;
     }
 }
