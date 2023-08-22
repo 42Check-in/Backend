@@ -2,10 +2,11 @@ package check_in42.backend.conferenceRoom.ConferenceRoom;
 
 import check_in42.backend.user.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
+@Getter @Setter
 public class ConferenceRoomDTO {
     private Long id;
     private User user;
