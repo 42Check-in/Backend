@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -34,11 +35,11 @@ public class ConferenceController {
         return ResponseEntity.ok().body(conferenceCheckDay.getDays());
     }
 
-    @GetMapping("place-time/{day}")
-    public ResponseEntity<Map<String, Long[]>> placeTime(@PathVariable(name = "day") Long day) {
-        Map<String, Long[]> result = conferenceRoomService.makeBase();
+    @GetMapping("place-time/{date}")
+    public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") LocalDate date) {
+        Map<String, long[]> result = conferenceRoomService.makeBase();
 
-        conferenceRoomService.setReservedInfo(result, day);
+        conferenceRoomService.setReservedInfo(result, date);
         return ResponseEntity.ok().body(result);
     }
 
@@ -52,7 +53,7 @@ public class ConferenceController {
         conferenceRoomService.join(conferenceRoom);
         user.addConferenceForm(conferenceRoom);
 
-        if (conferenceRoomService.isDayFull(conferenceRoomDTO.getDate().toString()))
+        if (conferenceRoomService.isDayFull(conferenceRoomDTO.getDate()))
             conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());
 
         return ResponseEntity.ok(HttpStatus.OK);
