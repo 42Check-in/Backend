@@ -5,6 +5,7 @@ import check_in42.backend.auth.jwt.TokenProvider;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
@@ -29,9 +31,11 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
+        log.info("dfdfdfdfdfd");
         Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
+        log.info(jwtToken.get());
         Claims claims = tokenProvider.parseAccessTokenClaim(jwtToken.get());
-
-        return UserInfo.builder().intraId(claims.get("intraId", String.class));
+        log.info("success?");
+        return UserInfo.builder().intraId(claims.get("intraId", String.class)).build();
     }
 }
