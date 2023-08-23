@@ -1,5 +1,6 @@
 package check_in42.backend.auth.argumentresolver;
 
+import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.interceptor.TokenHeaderValidate;
 import check_in42.backend.auth.jwt.TokenProvider;
 import io.jsonwebtoken.Claims;
@@ -13,6 +14,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Component
@@ -34,8 +36,9 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
         log.info("Tid");
         Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
         log.info("여기인가.....");
-        log.info(jwtToken.get());
-        Claims claims = tokenProvider.parseAccessTokenClaim(jwtToken.get());
+//        log.info(jwtToken.get());
+        final String accessToken = jwtToken.orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
+        Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
         log.info("success?");
         return UserInfo.builder().intraId(claims.get("intraId", String.class)).build();
     }

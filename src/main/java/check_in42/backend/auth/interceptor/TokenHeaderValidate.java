@@ -24,7 +24,7 @@ public class TokenHeaderValidate {
     private static Optional<String> getToken(final String[] token) {
         log.info(token[0]);
         log.info(token[1]);
-        if (token.length != 2 || !token[0].equals("Bearer ")) {
+        if (token.length != 2 || !token[0].equals("Bearer")) {
             log.info("tlqkf");
             return Optional.empty();
         }
