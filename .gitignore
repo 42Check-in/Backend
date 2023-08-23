@@ -32,7 +32,7 @@ out
 build
 /out/
 #rebel.xml
-
+test/
 # Gradle
 #.gradle
 #/build/
