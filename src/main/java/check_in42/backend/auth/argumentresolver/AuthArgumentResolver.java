@@ -31,7 +31,9 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
+        log.info("Tid");
         Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
+        log.info("여기인가.....");
         log.info(jwtToken.get());
         Claims claims = tokenProvider.parseAccessTokenClaim(jwtToken.get());
         log.info("success?");

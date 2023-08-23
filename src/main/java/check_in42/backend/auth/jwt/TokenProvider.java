@@ -3,6 +3,7 @@ package check_in42.backend.auth.jwt;
 import check_in42.backend.auth.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class TokenProvider {
 
     private final long accessTokenValidateTime;
@@ -52,6 +54,7 @@ public class TokenProvider {
 
     public Claims parseAccessTokenClaim(final String accessToken) {
         try {
+            log.info("살려줘바");
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
