@@ -15,7 +15,7 @@ public class OauthController {
     private final OauthService oauthService;
 
     @PostMapping("/oauth/login")
-    public ResponseEntity seoul42Login(@RequestParam(name = "code") String code) {
+    public ResponseEntity seoul42Login(@RequestBody String code) {
 
         log.info("로그인 할꺼니?");
         log.info(code);
