@@ -3,6 +3,7 @@ package check_in42.backend.equipments;
 import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +81,8 @@ public class EquipmentService {
      * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
-        User user = userRepository.findByName(intraId).get();
+        User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
 
         List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();

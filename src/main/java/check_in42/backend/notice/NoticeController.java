@@ -5,6 +5,7 @@ import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,17 @@ public class NoticeController {
     private final UserService userService;
 
     @GetMapping("/notice")
-    public ResponseEntity<List<NoticeDTO>> showNotice(@UserId UserInfo userInfo) {
-        User user = userService.findByName(userInfo.getIntraId()).get();
+    public ResponseEntity<List<NoticeDTO>> showNotice(@UserId final UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId())
+                .orElseThrow(UserRunTimeException.NoUserException::new);
         List<NoticeDTO> noticeslist = noticeService.showNotice(user.getId());
         return ResponseEntity.ok().body(noticeslist);
     }
 
     @PostMapping("/notice")
-    public ResponseEntity checkNotice(@UserId UserInfo userInfo) {
-        User user = userService.findByName(userInfo.getIntraId()).get();
+    public ResponseEntity checkNotice(@UserId final UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId())
+                .orElseThrow(UserRunTimeException.NoUserException::new);
 
         noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);

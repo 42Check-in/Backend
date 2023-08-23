@@ -1,5 +1,7 @@
 package check_in42.backend.conferenceRoom;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
@@ -8,6 +10,7 @@ import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.myCheckIn.MyCheckInService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +30,8 @@ public class ConferenceController {
     private final UserService userService;
 
     @GetMapping("calender/{year}/{month}")
-    public ResponseEntity<Long> calender(@PathVariable(name = "year") Long year, @PathVariable(name = "month") Long month) {
+    public ResponseEntity<Long> calender(@PathVariable(name = "year") final Long year,
+                                         @PathVariable(name = "month") final Long month) {
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(year, month);
 
         if (conferenceCheckDay != null)
@@ -36,7 +40,7 @@ public class ConferenceController {
     }
 
     @GetMapping("place-time/{date}")
-    public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") LocalDate date) {
+    public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") final LocalDate date) {
         Map<String, long[]> result = conferenceRoomService.makeBase();
 
         conferenceRoomService.setReservedInfo(result, date);
@@ -44,11 +48,12 @@ public class ConferenceController {
     }
 
     @PostMapping("form")
-    public ResponseEntity inputForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO, @CookieValue(name = "intraId") String intraId) {
+    public ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
+                                    @UserId final UserInfo userInfo) {
         if (!conferenceRoomService.isInputForm(conferenceRoomDTO))
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
-        User user = userService.findByName(intraId).get();
+        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
         ConferenceRoom conferenceRoom = conferenceRoomService.create(conferenceRoomDTO, user);
         conferenceRoomService.join(conferenceRoom);
         user.addConferenceForm(conferenceRoom);
@@ -60,8 +65,9 @@ public class ConferenceController {
     }
 
     @GetMapping("cancel")
-    public ResponseEntity cancelForm(@CookieValue("intraId") String intraId, @RequestBody Long formId) {
-        User user = userService.findByName(intraId).get();
+    public ResponseEntity cancelForm(@UserId UserInfo userInfo,
+                                     @RequestBody Long formId) {
+        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
         ConferenceRoomDTO conferenceRoomDTO = myCheckInService.findConferenceFormFromUser(user, formId);
 
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoomDTO.getDate());

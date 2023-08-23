@@ -1,8 +1,11 @@
 package check_in42.backend.presentation;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +23,10 @@ public class PresentationController {
 
     //새로운 신청 폼 작성
     @PostMapping("/presentations/form")
-    public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody PresentationDTO presentationDTO) {
-        User user = userService.findByName(intraId).get();
+    public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
+                                        @RequestBody final PresentationDTO presentationDTO) {
+        User user = userService.findByName(userInfo.getIntraId())
+                .orElseThrow(UserRunTimeException.NoUserException::new);
         Presentation presentation = presentationService.create(user, presentationDTO);
         Long formId = presentationService.join(presentation);
         user.addPresentationForm(presentation);
@@ -33,7 +38,7 @@ public class PresentationController {
     * 이 로직이 맞묘? 해당 달에 신청한 form들 추려서 dto list로 만들어 쏘기
     * */
     @GetMapping("/presentations")
-    public List<PresentationDTO> showList(@RequestParam String month) {
+    public List<PresentationDTO> showList(@RequestParam final String month) {
         return presentationService.showMonthSchedule(month);
     }
 
@@ -42,8 +47,9 @@ public class PresentationController {
     * db에서 form 지우고, user에서 list에서도 지웡
     * */
     @PostMapping("/presentations/cancel")
-    public ResponseEntity cancel(@CookieValue String intraId, @RequestParam Long formId) {
-        presentationService.findAndDelete(intraId, formId);
+    public ResponseEntity cancel(@UserId final UserInfo userInfo,
+                                 @RequestParam final Long formId) {
+        presentationService.findAndDelete(userInfo.getIntraId(), formId);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -1,7 +1,10 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +24,10 @@ public class EquipmentController {
     * intraId를 갖고 user를 찾아서 list에도 equipform 추가
     * */
     @PostMapping("/equipments/form/new")
-    public ResponseEntity createNewForm(@CookieValue String intraId, @RequestBody EquipmentDTO equipmentDTO) {
-        User user = userService.findByName(intraId).get();
+    public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
+                                        @RequestBody final EquipmentDTO equipmentDTO) {
+        User user = userService.findByName(userInfo.getIntraId())
+                .orElseThrow(UserRunTimeException.NoUserException::new);;
         Equipment equipment = equipmentService.create(user, equipmentDTO);
         Long equipmentFormId = equipmentService.join(equipment);
         user.addEquipForm(equipment);
@@ -35,8 +40,8 @@ public class EquipmentController {
      * returnDate와 localDate 비교 후 기한이 남은 form만 DTO에 담아서 반환..
      * */
     @GetMapping("/equipments/form/extension")
-    public List<EquipmentDTO> showExtensionForm(@CookieValue String intraId) {
-        return equipmentService.showAllFormByName(intraId);
+    public List<EquipmentDTO> showExtensionForm(@UserId final UserInfo userInfo) {
+        return equipmentService.showAllFormByName(userInfo.getIntraId());
     }
 
     /*
@@ -47,8 +52,9 @@ public class EquipmentController {
      * user에 따로 update 해저
      * */
     @PostMapping("/equipments/form/extension")
-    public ResponseEntity postExtensionForm(@CookieValue String intraId, @RequestBody EquipmentDTO equipmentDTO) {
-        equipmentService.extendDate(intraId, equipmentDTO);
+    public ResponseEntity postExtensionForm(@UserId final UserInfo userInfo,
+                                            @RequestBody final EquipmentDTO equipmentDTO) {
+        equipmentService.extendDate(userInfo.getIntraId(), equipmentDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -56,8 +62,8 @@ public class EquipmentController {
      * 추가적으로 user의 equipList에서도 제거하기
      * */
     @PostMapping("/equipments/cancel")
-    public ResponseEntity cancel(@CookieValue String intraId, @RequestParam Long formId) {
-        equipmentService.findAndDelete(intraId, formId);
+    public ResponseEntity cancel(@UserId final UserInfo userInfo, @RequestParam final Long formId) {
+        equipmentService.findAndDelete(userInfo.getIntraId(), formId);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

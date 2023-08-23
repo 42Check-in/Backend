@@ -56,7 +56,7 @@ public class VocalController {
 
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
-    public ResponseEntity confirmVisitorsApply(@RequestParam List<Long> formId) {
+    public ResponseEntity confirmVisitorsApply(@RequestParam final List<Long> formId) {
         visitorsService.vocalConfirm(formId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -65,14 +65,14 @@ public class VocalController {
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations/status")
-    public ResponseEntity confirmPresentationApply(@RequestBody PresentationDTO presentationDTO) {
+    public ResponseEntity confirmPresentationApply(@RequestBody final PresentationDTO presentationDTO) {
         presentationService.setAgreeDatesAndStatus(presentationDTO.getFormIds(), presentationDTO.getStatus());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply(@RequestParam List<Long> formId) {
+    public ResponseEntity confirmEquipmentApply(@RequestParam final List<Long> formId) {
         equipmentService.setAgreeDates(formId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
