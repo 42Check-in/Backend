@@ -34,8 +34,8 @@ public class EquipmentRepository {
     public List<Equipment> findDataBeforeDay(int day) {
         LocalDate minusDay = LocalDate.now().minusDays(day);
 
-        return em.createQuery("select e from Equipment e where e.agreeDate <= :minusDay " +
-                        "order by e.agreeDate desc", Equipment.class)
+        return em.createQuery("select e from Equipment e where e.approval <= :minusDay " +
+                        "order by e.approval desc", Equipment.class)
                 .setParameter("minusDay", minusDay)
                 .getResultList();
     }
