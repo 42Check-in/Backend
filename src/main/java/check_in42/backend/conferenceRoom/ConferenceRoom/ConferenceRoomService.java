@@ -87,12 +87,10 @@ public class ConferenceRoomService {
             emptyTime |= reservationTimeBit;
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        System.out.println(Long.toBinaryString(emptyTime));
         return (emptyTime & reqFormReservationTimeBit) == 0;
     }
 
     public boolean isDayFull(LocalDate date) {
-        System.out.println("getSumCount => " + conferenceRoomRepository.getSumReservationCountByDate(date));
         return conferenceRoomRepository.getSumReservationCountByDate(date) >= reservationAllTimeNum;
     }
 }

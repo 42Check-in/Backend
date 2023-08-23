@@ -3,9 +3,11 @@ package check_in42.backend.conferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
+import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.myCheckIn.MyCheckInService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,6 +36,8 @@ class ConferenceControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private MyCheckInService myCheckInService;
     @Autowired
     private ConferenceCheckDayService conferenceCheckDayService;
     @Autowired
@@ -67,16 +71,10 @@ class ConferenceControllerTest {
         ConferenceRoom test4 = ConferenceRoom.builder()
                 .user(user)
                 .date(LocalDate.parse("2023-08-09"))
-                .reservationCount(3L)
-                .reservationInfo(0B01000100000000000000000011100000L)
-                .build();
-        ConferenceRoom test5 = ConferenceRoom.builder()
-                .user(user)
-                .date(LocalDate.parse("2023-08-09"))
                 .reservationCount(2L)
                 .reservationInfo(0B01000100000001100000000000000000L)
                 .build();
-        ConferenceRoom test6 = ConferenceRoom.builder()
+        ConferenceRoom test5 = ConferenceRoom.builder()
                 .user(user)
                 .date(LocalDate.parse("2023-08-09"))
                 .reservationCount(3L)
@@ -87,18 +85,16 @@ class ConferenceControllerTest {
         conferenceRoomService.join(test3);
         conferenceRoomService.join(test4);
         conferenceRoomService.join(test5);
-        conferenceRoomService.join(test6);
         user.addConferenceForm(test1);
         user.addConferenceForm(test2);
         user.addConferenceForm(test3);
         user.addConferenceForm(test4);
         user.addConferenceForm(test5);
-        user.addConferenceForm(test6);
 
         ConferenceCheckDay conferenceCheckDay1 = ConferenceCheckDay.builder()
                 .year(2023L)
                 .month(8L)
-                .days(0B0000000001001001000000000101000L).build();
+                .days(0B0000000001001001000000100101000L).build();
         ConferenceCheckDay conferenceCheckDay2 = ConferenceCheckDay.builder()
                 .year(2023L)
                 .month(7L)
@@ -134,9 +130,25 @@ class ConferenceControllerTest {
         user.addConferenceForm(conferenceRoom);
         System.out.println("Input Form");
         System.out.println(conferenceRoomService.isInputForm(conferenceRoomDTO));
+
+        System.out.println("=========================");
+//        System.out.println(conferenceRoomService.isDayFull(conferenceRoom.getDate()));
+        conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());
+//        0B0000000001001001000000000101000L
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(2023L, 8L);
+        System.out.println(Long.toBinaryString(conferenceCheckDay.getDays()));
     }
 
     @Test
     void cancelForm() {
+        User user = userService.findByName("hyeonsul").get();
+        ConferenceRoomDTO conferenceRoomDTO = new ConferenceRoomDTO();
+
+        conferenceRoomDTO.setDate(LocalDate.parse("2023-08-09"));
+        System.out.println(">>>>>>>>>>>>" + conferenceRoomDTO.getDate());
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomDTO.getDate());
+
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(2023L, 8L);
+        System.out.println(Long.toBinaryString(conferenceCheckDay.getDays()));
     }
 }
