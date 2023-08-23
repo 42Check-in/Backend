@@ -1,8 +1,8 @@
 package check_in42.backend.notice;
 
-import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.notice.utils.NoticeDTO;
-import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +20,15 @@ public class NoticeController {
     private final UserService userService;
 
     @GetMapping("/notice")
-    public ResponseEntity<List<NoticeDTO>> showNotice(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId).get();
+    public ResponseEntity<List<NoticeDTO>> showNotice(@UserId UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId()).get();
         List<NoticeDTO> noticeslist = noticeService.showNotice(user.getId());
         return ResponseEntity.ok().body(noticeslist);
     }
 
     @PostMapping("/notice")
-    public ResponseEntity checkNotice(@CookieValue(name = "intraId") String intraId) {
-        User user = userService.findByName(intraId).get();
+    public ResponseEntity checkNotice(@UserId UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId()).get();
 
         noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);
