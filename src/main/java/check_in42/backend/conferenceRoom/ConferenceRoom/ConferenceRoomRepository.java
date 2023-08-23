@@ -21,5 +21,5 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
             "where date = :date " +
             "and (reservation_info & :reqPlaceInfoBit) = :reqPlaceInfoBit",
             nativeQuery = true)
-    List<ConferenceRoom> findByDateAndSamePlace(@Param("date") String date, @Param("reqPlaceInfoBit") Long reqPlaceInfoBit);
+    List<ConferenceRoom> findByDateAndSamePlace(@Param("date") LocalDate date, @Param("reqPlaceInfoBit") Long reqPlaceInfoBit);
 }

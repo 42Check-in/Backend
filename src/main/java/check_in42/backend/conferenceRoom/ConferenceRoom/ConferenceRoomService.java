@@ -77,8 +77,8 @@ public class ConferenceRoomService {
     }
 
     public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
-        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlace(conferenceRoomDTO.getDate().toString(),
-                conferenceRoomDTO.getReservationInfo() >> PlaceInfoBitSize.TIME.getValue());
+        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlace(conferenceRoomDTO.getDate(),
+                conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue());
         long emptyTime, reservationTimeBit, reqFormReservationTimeBit;
 
         emptyTime = 0;
@@ -87,12 +87,10 @@ public class ConferenceRoomService {
             emptyTime |= reservationTimeBit;
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        System.out.println(Long.toBinaryString(emptyTime));
         return (emptyTime & reqFormReservationTimeBit) == 0;
     }
 
     public boolean isDayFull(LocalDate date) {
-        System.out.println("getSumCount => " + conferenceRoomRepository.getSumReservationCountByDate(date));
         return conferenceRoomRepository.getSumReservationCountByDate(date) >= reservationAllTimeNum;
     }
 }
