@@ -37,3 +37,5 @@ build
 #.gradle
 #/build/
 #.gradletasknamecache
+
+test/

@@ -78,7 +78,7 @@ public class ConferenceRoomService {
 
     public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
         List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlace(conferenceRoomDTO.getDate().toString(),
-                conferenceRoomDTO.getReservationInfo() >> PlaceInfoBitSize.TIME.getValue());
+                conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue());
         long emptyTime, reservationTimeBit, reqFormReservationTimeBit;
 
         emptyTime = 0;

@@ -2,11 +2,15 @@ package check_in42.backend.conferenceRoom;
 
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @SpringBootTest
 @Transactional
@@ -50,11 +55,45 @@ class ConferenceControllerTest {
         ConferenceRoom test2 = ConferenceRoom.builder()
                 .user(user)
                 .date(LocalDate.parse("2023-08-09"))
+                .reservationCount(4L)
+                .reservationInfo(0B01000100000000000000001111000000L)
+                .build();
+        ConferenceRoom test3 = ConferenceRoom.builder()
+                .user(user)
+                .date(LocalDate.parse("2023-08-09"))
+                .reservationCount(4L)
+                .reservationInfo(0B01000100000000000000000000001111L)
+                .build();
+        ConferenceRoom test4 = ConferenceRoom.builder()
+                .user(user)
+                .date(LocalDate.parse("2023-08-09"))
+                .reservationCount(3L)
+                .reservationInfo(0B01000100000000000000000011100000L)
+                .build();
+        ConferenceRoom test5 = ConferenceRoom.builder()
+                .user(user)
+                .date(LocalDate.parse("2023-08-09"))
                 .reservationCount(2L)
-                .reservationInfo(0B01000100000000000110000000000000L)
+                .reservationInfo(0B01000100000001100000000000000000L)
+                .build();
+        ConferenceRoom test6 = ConferenceRoom.builder()
+                .user(user)
+                .date(LocalDate.parse("2023-08-09"))
+                .reservationCount(3L)
+                .reservationInfo(0B01000100001110000000000000000000L)
                 .build();
         conferenceRoomService.join(test1);
         conferenceRoomService.join(test2);
+        conferenceRoomService.join(test3);
+        conferenceRoomService.join(test4);
+        conferenceRoomService.join(test5);
+        conferenceRoomService.join(test6);
+        user.addConferenceForm(test1);
+        user.addConferenceForm(test2);
+        user.addConferenceForm(test3);
+        user.addConferenceForm(test4);
+        user.addConferenceForm(test5);
+        user.addConferenceForm(test6);
 
         ConferenceCheckDay conferenceCheckDay1 = ConferenceCheckDay.builder()
                 .year(2023L)
@@ -69,24 +108,32 @@ class ConferenceControllerTest {
     }
 
     @Test
-    void calender() throws Exception {
-        Long year = 2023L;
-        Long month = 8L;
+    void placeTime() throws Exception {
+        String date = "2023-08-09";
+        ObjectMapper mapper = new ObjectMapper();
 
-        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(year, month);
-        System.out.println("calender 23-08 >>>>>>>>>> " + conferenceCheckDay.getDays());
-        mockMvc.perform(MockMvcRequestBuilders.get("/calender/" + year + "/" + month)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(conferenceCheckDay.getDays().toString()));
+        Map<String, long[]> result = conferenceRoomService.makeBase();
+        conferenceRoomService.setReservedInfo(result, LocalDate.parse(date));
+
+        System.out.println(Long.toBinaryString(result.get(PlaceInfo.GAEPO.getValue())[2]));
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
     }
 
     @Test
-    void placeTime() {
-    }
-
-    @Test
-    void inputForm() {
+    void inputForm() throws Exception {
+        ConferenceRoomDTO conferenceRoomDTO = new ConferenceRoomDTO();
+        conferenceRoomDTO.setReservationInfo(0B01000100110000000000000000000000L);
+        conferenceRoomDTO.setDate(LocalDate.parse("2023-08-09"));
+        if (!conferenceRoomService.isInputForm(conferenceRoomDTO)) {
+            System.out.println("don`t input");
+            return;
+        }
+        User user = userService.findByName("hyeonsul").get();
+        ConferenceRoom conferenceRoom = conferenceRoomService.create(conferenceRoomDTO, user);
+        conferenceRoomService.join(conferenceRoom);
+        user.addConferenceForm(conferenceRoom);
+        System.out.println("Input Form");
+        System.out.println(conferenceRoomService.isInputForm(conferenceRoomDTO));
     }
 
     @Test
