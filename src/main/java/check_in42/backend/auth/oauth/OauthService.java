@@ -5,7 +5,6 @@ import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -135,12 +134,12 @@ public class OauthService {
     }
 
     public String reissueToken(final String refreshToken) {
-        final Claims claims = tokenProvider.parseClaim(refreshToken);
-        final String intraId = claims.get("intraId", String.class);
-        userService.findByName(intraId)
+        final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);
+        userService.findByRefreshToken(refreshToken)
                 .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
+        final String intraId = claims.get("intraId", String.class);
 
-        final String accessToken = tokenProvider.createAccessToken(intraId);
-        return accessToken;
+        return tokenProvider.createAccessToken(intraId);
     }
+
 }

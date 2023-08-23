@@ -15,9 +15,15 @@ public class TokenException extends CustomException {
         }
     }
 
-    public static class ExpiredTokenException extends TokenException {
-        public ExpiredTokenException() {
-            super(ErrorCode.EXPIRED_TOKEN);
+    public static class ExpiredAccessTokenException extends TokenException {
+        public ExpiredAccessTokenException() {
+            super(ErrorCode.EXPIRED_ACCESS_TOKEN);
+        }
+    }
+
+    public static class ExpiredRefreshTokenException extends TokenException {
+        public ExpiredRefreshTokenException() {
+            super(ErrorCode.EXPIRED_REFRESH_TOKEN);
         }
     }
 }

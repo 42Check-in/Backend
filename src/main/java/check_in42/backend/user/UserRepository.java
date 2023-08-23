@@ -1,6 +1,7 @@
 package check_in42.backend.user;
 
 import check_in42.backend.allException.CustomException;
+import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.user.exception.UserRunTimeException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,17 @@ public class UserRepository {
         try {
             User user = em.createQuery("select u from User u where u.intraId = :intraId", User.class)
                     .setParameter("intraId", intraId)
+                    .getSingleResult();
+            return Optional.of(user);
+        } catch (RuntimeException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<User> findByRefreshToken(String refreshToken) {
+        try {
+            User user = em.createQuery("select u from User u where u.refreshToken = :refreshToken", User.class)
+                    .setParameter("refreshToken", refreshToken)
                     .getSingleResult();
             return Optional.of(user);
         } catch (RuntimeException e) {

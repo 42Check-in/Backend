@@ -42,4 +42,7 @@ public class UserService {
         return userRepository.findByName(intraId);
     }
 
+    public Optional<User> findByRefreshToken(String refreshToken) {
+        return userRepository.findByRefreshToken(refreshToken);
+    }
 }

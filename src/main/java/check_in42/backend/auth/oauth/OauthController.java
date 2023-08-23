@@ -1,20 +1,10 @@
 package check_in42.backend.auth.oauth;
 
-import check_in42.backend.auth.argumentresolver.User;
-import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenPair;
-import check_in42.backend.auth.jwt.TokenProvider;
-import check_in42.backend.user.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,10 +34,8 @@ public class OauthController {
         if (loginResponse.getRefreshToken() == null) {
             throw new AuthorizationException.RefreshTokenNotFoundException();
         }
+
         final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
-//        final LoginResponse newLoginResponse = LoginResponse.builder()
-//                .accessToken(accessToken)
-//                .refreshToken(loginResponse.getRefreshToken()).build();
 
         final LoginResponse newLoginResponse = LoginResponse.builder()
                 .accessToken(accessToken).build();

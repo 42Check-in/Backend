@@ -21,6 +21,7 @@ public class PresentationDTO {
     private PresentationStatus status;
     private Boolean screen;
     private List<Long> formIds;
+    private String intraId;
 
     public static PresentationDTO create(Presentation presentation) {
         PresentationDTO presentationDTO = new PresentationDTO();
@@ -34,6 +35,7 @@ public class PresentationDTO {
         presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus());
         presentationDTO.type = PresentationType.values()[presentation.getType().ordinal()];
         presentationDTO.screen = presentation.isScreen();
+        presentationDTO.intraId = presentation.getIntraId();
 
         return presentationDTO;
     }

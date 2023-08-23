@@ -4,10 +4,7 @@ import check_in42.backend.auth.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Base64;
@@ -53,17 +50,31 @@ public class TokenProvider {
                 .compact();
     }
 
-    public Claims parseClaim(final String token) {
+    public Claims parseAccessTokenClaim(final String accessToken) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
-                    .parseClaimsJws(token)
+                    .parseClaimsJws(accessToken)
                     .getBody();
         } catch (MalformedJwtException e) {
             throw new TokenException.NotIssuedTokenException();
         } catch (ExpiredJwtException e) {
-            throw new TokenException.ExpiredTokenException();
+            throw new TokenException.ExpiredAccessTokenException();
+        }
+    }
+
+    public Claims parseRefreshTokenClaim(final String refreshToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(refreshToken)
+                    .getBody();
+        } catch (MalformedJwtException e) {
+            throw new TokenException.NotIssuedTokenException();
+        } catch (ExpiredJwtException e) {
+            throw new TokenException.ExpiredRefreshTokenException();
         }
     }
 }

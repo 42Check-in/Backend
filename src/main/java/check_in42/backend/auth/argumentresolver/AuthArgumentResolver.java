@@ -2,9 +2,7 @@ package check_in42.backend.auth.argumentresolver;
 
 import check_in42.backend.auth.interceptor.TokenHeaderValidate;
 import check_in42.backend.auth.jwt.TokenProvider;
-import check_in42.backend.user.exception.UserRunTimeException;
 import io.jsonwebtoken.Claims;
-import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -32,7 +30,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
         Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
-        Claims claims = tokenProvider.parseClaim(jwtToken.get());
+        Claims claims = tokenProvider.parseAccessTokenClaim(jwtToken.get());
 
         return UserInfo.builder().intraId(claims.get("intraId", String.class));
     }
