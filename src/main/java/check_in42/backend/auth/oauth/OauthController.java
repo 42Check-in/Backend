@@ -18,6 +18,7 @@ public class OauthController {
     public ResponseEntity seoul42Login(@RequestBody String code) {
 
         log.info("로그인 할꺼니?");
+        log.info(code);
         final TokenPair tokenPair = oauthService.login(code);
 
         final LoginResponse loginResponse = LoginResponse.builder()
