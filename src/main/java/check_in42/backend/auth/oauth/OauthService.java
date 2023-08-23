@@ -126,11 +126,11 @@ public class OauthService {
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
 
         final String intraId = user42Info.getLogin();
-        User user = userService.findByName(intraId)
-                .orElseGet(() -> userService.create(intraId, false));
-        log.info(user.getIntraId());
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
+        User user = userService.findByName(intraId)
+                .orElseGet(() -> userService.create(intraId, false, refreshToken));
+        log.info(user.getIntraId());
         return new TokenPair(accessToken, refreshToken);
     }
 

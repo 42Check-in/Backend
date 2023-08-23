@@ -19,10 +19,11 @@ public class UserService {
     }
 
     @Transactional
-    public User create(String intraId, boolean staff) {
+    public User create(String intraId, boolean staff, String refreshToken) {
         User user = User.builder()
                 .intraId(intraId)
-                .staff(staff).build();
+                .staff(staff)
+                .refreshToken(refreshToken).build();
         userRepository.save(user);
         return user;
     }

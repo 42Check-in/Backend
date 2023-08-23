@@ -24,11 +24,20 @@ public class User {
 
     private boolean staff;
 
+    private String refreshToken;
+
     @Builder
-    public User(String intraId, boolean staff) {
+    public User(String intraId, boolean staff, String refreshToken) {
         this.intraId = intraId;
         this.staff = staff;
+        this.refreshToken = refreshToken;
     }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ConferenceRoom> conferenceRooms = new ArrayList<>();
