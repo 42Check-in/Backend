@@ -33,13 +33,11 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
-        log.info("Tid");
         Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
-        log.info("여기인가.....");
-//        log.info(jwtToken.get());
+
         final String accessToken = jwtToken.orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
-        log.info("success?");
+
         return UserInfo.builder().intraId(claims.get("intraId", String.class)).build();
     }
 }
