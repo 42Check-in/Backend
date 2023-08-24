@@ -1,9 +1,12 @@
 package check_in42.backend.auth.utils;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 @Component
+@Order
 @RequestScope
 public class UserContext {
 

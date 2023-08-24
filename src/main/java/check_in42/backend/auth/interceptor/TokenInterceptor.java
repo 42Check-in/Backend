@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-@Order(value = 2)
 @RequiredArgsConstructor
 @Slf4j
 public class TokenInterceptor implements HandlerInterceptor {

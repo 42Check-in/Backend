@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-@Order(value = 1)
 @RequiredArgsConstructor
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
