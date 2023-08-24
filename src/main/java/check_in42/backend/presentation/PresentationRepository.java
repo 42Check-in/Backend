@@ -1,6 +1,7 @@
 package check_in42.backend.presentation;
 
 import check_in42.backend.equipments.Equipment;
+import check_in42.backend.presentation.utils.PresentationStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
@@ -62,5 +63,22 @@ public class PresentationRepository {
     public List<Presentation> findByNoticeFalse() {
         return em.createQuery("select p from Presentation p where not p.notice", Presentation.class)
                 .getResultList();
+    }
+
+    public List<Presentation> findByDate(String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
+
+        return em.createQuery("select p from Presentation p where p.date = :date", Presentation.class)
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    public void setNextPresentation(LocalDate date) {
+        List<Presentation> dateForms = findByDate(date.toString());
+        if (dateForms.size() == 1) {
+            return;
+        }
+        Presentation nextForm = dateForms.get(2);
+        nextForm.setStatus(PresentationStatus.PENDING);
     }
 }
