@@ -25,7 +25,6 @@ public class TokenInterceptor implements HandlerInterceptor {
     private final UserService userService;
     private final UserContext userContext;
 
-    @Bean
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
