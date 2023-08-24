@@ -21,7 +21,7 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/conference-room/")
+@RequestMapping("/conference-rooms/")
 public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;

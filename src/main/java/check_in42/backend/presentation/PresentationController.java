@@ -7,6 +7,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
+@Slf4j
 public class PresentationController {
 
     private final PresentationService presentationService;
@@ -45,8 +47,10 @@ public class PresentationController {
     * 이 로직이 맞묘? 해당 달에 신청한 form들 추려서 dto list로 만들어 쏘기
     * */
     @GetMapping("/presentations")
-    public List<PresentationDTO> showList(@RequestParam final String month) {
-        return presentationService.showMonthSchedule(month);
+    public ResponseEntity<List<PresentationDTO>> showList(@RequestParam final String month) {
+        log.info("month????????????" + month);
+        List<PresentationDTO> res = presentationService.showMonthSchedule(month);
+        return ResponseEntity.ok().body(res);
     }
 
     //수요지식회 취소

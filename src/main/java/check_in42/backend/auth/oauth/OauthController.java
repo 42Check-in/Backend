@@ -29,7 +29,7 @@ public class OauthController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    @GetMapping("/reissue")
+    @PostMapping("/reissue")
     public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
 
         if (loginResponse.getRefreshToken() == null) {
