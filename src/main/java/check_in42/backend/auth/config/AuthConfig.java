@@ -20,18 +20,18 @@ public class AuthConfig implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
     private final TokenInterceptor tokenInterceptor;
     private final AuthArgumentResolver authArgumentResolver;
-//
-//    private static final List<String> LOGIN_URL = List.of("/oauth/login");
-//    private static final List<String> TOKEN_URL = List.of("/reissue", "/conference-room/*",
-//            "/presentation/*", "/visitors/*", "/equipments/*", "/vocal/*");
-//    @Override
-//    public void addInterceptors(final InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor)
-//                .addPathPatterns(LOGIN_URL);
-//        registry.addInterceptor(tokenInterceptor)
-//                .addPathPatterns(TOKEN_URL);
-//    }
-//
+
+    private static final List<String> LOGIN_URL = List.of("/oauth/login");
+    private static final List<String> TOKEN_URL = List.of("/reissue", "/conference-room/*",
+            "/presentation/*", "/visitors/*", "/equipments/*", "/vocal/*");
+    @Override
+    public void addInterceptors(final InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns(LOGIN_URL);
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns(TOKEN_URL);
+    }
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authArgumentResolver);
