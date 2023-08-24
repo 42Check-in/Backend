@@ -11,7 +11,7 @@ public class AuthorizationException extends CustomException {
 
     public static class RefreshTokenNotFoundException extends AuthorizationException {
         public RefreshTokenNotFoundException() {
-            super(ErrorCode.REFRESH_TOKEN_NOT_FOUND_EXCEPTION);
+            super(ErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
     }
 

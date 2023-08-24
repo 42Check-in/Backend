@@ -24,7 +24,7 @@ public class MyCheckInController {
     private final UserService userService;
     private final MyCheckInService myCheckInService;
 
-    @GetMapping("/conference-room")
+    @GetMapping("/conference-rooms")
     public ResponseEntity myConferenceRooms(@UserId final UserInfo userInfo) {
         final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
@@ -41,7 +41,7 @@ public class MyCheckInController {
     }
 
 
-    @GetMapping("/presentation")
+    @GetMapping("/presentations")
     public ResponseEntity myPresentations(@UserId final UserInfo userInfo) {
         final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
@@ -49,7 +49,7 @@ public class MyCheckInController {
         return ResponseEntity.ok(presentationList);
     }
 
-    @GetMapping("/equipment")
+    @GetMapping("/equipments")
     public ResponseEntity myEquipments(@UserId final UserInfo userInfo) {
         final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
@@ -57,7 +57,7 @@ public class MyCheckInController {
         return ResponseEntity.ok(equipmentList);
     }
 
-    @GetMapping("/conference-room/{formId}")
+    @GetMapping("/conference-rooms/{formId}")
     public ResponseEntity conferenceRoomForm(@PathVariable final Long formId,
                                              @UserId final UserInfo userInfo) {
         return ResponseEntity.ok(myCheckInService
@@ -74,7 +74,7 @@ public class MyCheckInController {
                         .orElseThrow(UserRunTimeException.NoUserException::new), noticeDTO));
     }
 
-    @GetMapping("/presentation/{formId}")
+    @GetMapping("/presentations/{formId}")
     public ResponseEntity presentationForm(@UserId final UserInfo userInfo,
                                            @RequestBody final NoticeDTO noticeDTO) {
         return ResponseEntity.ok(myCheckInService
@@ -83,7 +83,7 @@ public class MyCheckInController {
 
     }
 
-    @GetMapping("/equipment/{formId}")
+    @GetMapping("/equipments/{formId}")
     public ResponseEntity equipmentForm(@UserId final UserInfo userInfo,
                                         @RequestBody final NoticeDTO noticeDTO) {
         return ResponseEntity.ok(myCheckInService

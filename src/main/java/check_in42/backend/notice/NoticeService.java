@@ -2,24 +2,16 @@ package check_in42.backend.notice;
 
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentService;
-import check_in42.backend.notice.utils.CategoryType;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
-import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

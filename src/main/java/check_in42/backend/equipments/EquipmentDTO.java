@@ -3,9 +3,6 @@ package check_in42.backend.equipments;
 import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Getter
 public class EquipmentDTO {
 

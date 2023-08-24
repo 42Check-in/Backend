@@ -1,7 +1,5 @@
 package check_in42.backend.presentation;
 
-import check_in42.backend.equipments.EquipmentDTO;
-import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import check_in42.backend.presentation.utils.PresentationTime;
@@ -11,9 +9,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor

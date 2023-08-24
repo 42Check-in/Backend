@@ -3,13 +3,10 @@ package check_in42.backend.auth.config;
 import check_in42.backend.auth.argumentresolver.AuthArgumentResolver;
 import check_in42.backend.auth.interceptor.LoginInterceptor;
 import check_in42.backend.auth.interceptor.TokenInterceptor;
-import check_in42.backend.auth.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.HandlerAdapter;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 

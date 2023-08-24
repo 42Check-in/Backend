@@ -1,8 +1,6 @@
 package check_in42.backend.presentation.utils;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum PresentationStatus {

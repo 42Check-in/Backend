@@ -1,15 +1,10 @@
 package check_in42.backend.presentation;
 
-import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository

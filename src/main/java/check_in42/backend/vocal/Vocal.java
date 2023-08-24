@@ -1,6 +1,5 @@
 package check_in42.backend.vocal;
 
-import check_in42.backend.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

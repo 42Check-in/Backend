@@ -1,5 +1,6 @@
 package check_in42.backend.auth.jwt;
 
+import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -74,7 +75,7 @@ public class TokenProvider {
                     .parseClaimsJws(refreshToken)
                     .getBody();
         } catch (MalformedJwtException e) {
-            throw new TokenException.NotIssuedTokenException();
+            throw new AuthorizationException.RefreshTokenNotFoundException();
         } catch (ExpiredJwtException e) {
             throw new TokenException.ExpiredRefreshTokenException();
         }

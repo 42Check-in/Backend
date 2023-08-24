@@ -1,6 +1,5 @@
 package check_in42.backend.conferenceRoom.ConferenceCheckDay;
 
-import check_in42.backend.conferenceRoom.ConferenceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

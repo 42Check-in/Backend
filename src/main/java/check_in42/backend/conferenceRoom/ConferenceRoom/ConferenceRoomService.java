@@ -1,14 +1,11 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
-import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.user.User;
-import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,16 +1,8 @@
 package check_in42.backend.notice;
 
-import check_in42.backend.equipments.EquipmentRepository;
 import check_in42.backend.notice.utils.NoticeDTO;
-import check_in42.backend.presentation.PresentationRepository;
-import check_in42.backend.user.User;
-import check_in42.backend.visitors.VisitorsRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
