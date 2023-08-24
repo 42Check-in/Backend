@@ -3,10 +3,12 @@ package check_in42.backend.presentation;
 import check_in42.backend.equipments.Equipment;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -32,10 +34,11 @@ public class PresentationRepository {
         return em.find(Presentation.class, id);
     }
 
-    public List<Presentation> findOneMonth(LocalDate month) {
+    public List<Presentation> findOneMonth(String month) {
+        LocalDate res = LocalDate.parse(month);
 
-        LocalDate start = month.withDayOfMonth(1);
-        LocalDate end = month.withDayOfMonth(month.lengthOfMonth());
+        LocalDate start = res.withDayOfMonth(1);
+        LocalDate end = res.withDayOfMonth(res.lengthOfMonth());
 
         return em.createQuery("SELECT p FROM Presentation p WHERE p.date BETWEEN :start AND :end", Presentation.class)
                 .setParameter("start", start)

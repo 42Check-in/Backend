@@ -41,8 +41,8 @@ public class PresentationController {
     * 이 로직이 맞묘? 해당 달에 신청한 form들 추려서 dto list로 만들어 쏘기
     * */
     @GetMapping("/presentations")
-    public List<PresentationDTO> showList(@RequestParam final LocalDate month) {
-        log.info("requestParam?" + month);
+    public List<PresentationDTO> showList(@RequestParam final String month) {
+        log.info("month????????????" + month);
         return presentationService.showMonthSchedule(month);
     }
 
