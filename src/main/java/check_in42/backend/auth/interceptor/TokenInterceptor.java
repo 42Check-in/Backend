@@ -33,9 +33,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         final Claims claims = tokenProvider.parseAccessTokenClaim(token);
         final String intraId = claims.get("intraId", String.class);
         userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
-
+        log.info("왜 안들어올까");
         userContext.setIntraId(intraId);
-        log.info(intraId);
+        log.info("여기서 찍혀야한다고..." + intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
         return true;
     }

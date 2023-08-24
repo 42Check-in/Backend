@@ -26,15 +26,13 @@ public class AuthConfig implements WebMvcConfigurer {
     private static final List<String> LOGIN_URL = List.of("/oauth/login");
     private static final List<String> TOKEN_URL = List.of("/reissue", "/conference-rooms/*",
             "/presentations/*", "/visitors/*", "/equipments/*", "/vocal/*");
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        log.info("여기 됌?");
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns(LOGIN_URL);
-        log.info("여기임?");
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns(TOKEN_URL);
-        log.info("씨바");
     }
 
     @Override

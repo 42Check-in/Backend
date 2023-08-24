@@ -23,6 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             log.info("비어있어야 하자나");
             return true;
         }
+        log.info("헤더가 비어있지 않는다");
         return tokenInterceptor.preHandle(request, response, handler);
     }
 }
