@@ -30,7 +30,7 @@ public class VisitorsController {
 
     @PostMapping("visitors/cancel")
     public ResponseEntity cancelVisitors(@RequestBody final VisitorsDTO visitorsDTO,
-                                         @UserId UserInfo userInfo) {
+                                         @UserId final UserInfo userInfo) {
         visitorsService.delete(visitorsDTO, userInfo.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
