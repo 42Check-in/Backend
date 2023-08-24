@@ -36,11 +36,11 @@ public class PresentationService {
         return presentationRepository.findOne(id);
     }
 
-    public Presentation create(User user, PresentationDTO presentationDTO) {
-        return new Presentation(user, presentationDTO);
+    public Presentation create(User user, PresentationDTO presentationDTO, int count) {
+        return new Presentation(user, presentationDTO, count);
     }
 
-    public List<PresentationDTO> showMonthSchedule(LocalDate month) {
+    public List<PresentationDTO> showMonthSchedule(String month) {
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
         List<PresentationDTO> res = new ArrayList<>();
         for (Presentation form : allForms) {
@@ -53,6 +53,9 @@ public class PresentationService {
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         Presentation presentation = presentationRepository.findOne(formId);
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+            presentationRepository.setNextPresentation(presentation.getDate());
+        }
         presentationRepository.delete(presentation);
 
         deleteFormInUser(intraId, formId);
@@ -92,5 +95,9 @@ public class PresentationService {
 
     public List<Presentation> findByNoticeFalse() {
         return presentationRepository.findByNoticeFalse();
+    }
+
+    public List<Presentation> findByDate(String date) {
+        return presentationRepository.findByDate(date);
     }
 }
