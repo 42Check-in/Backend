@@ -1,12 +1,10 @@
 package check_in42.backend.presentation;
 
-import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.PresentationStatus;
-import check_in42.backend.presentation.utils.PresentationTime;
-import check_in42.backend.presentation.utils.PresentationType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,20 +55,16 @@ public class PresentationService {
         Presentation presentation = presentationRepository.findOne(formId);
         presentationRepository.delete(presentation);
 
-        DeleteFormInUser(intraId, formId);
+        deleteFormInUser(intraId, formId);
     }
 
     @Transactional
-    public void DeleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId).get();
+    public void deleteFormInUser(String intraId, Long formId) {
+        User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
         List<Presentation> allForm = user.getPresentations();
-
-        for (Presentation presentation : allForm) {
-            if (presentation.getId().equals(formId)) {
-                allForm.remove(presentation);
-                break;
-            }
-        }
+        Presentation presentation = presentationRepository.findOne(formId);
+        allForm.remove(presentation);
         //cascade -> List 삭제 감지
     }
 
