@@ -20,6 +20,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         if (TokenHeaderValidate.extractToken(request).isEmpty()) {
+            log.info("비어있어야 하자나");
             return true;
         }
         return tokenInterceptor.preHandle(request, response, handler);
