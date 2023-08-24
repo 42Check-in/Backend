@@ -13,6 +13,7 @@ public class TokenHeaderValidate {
 
     public static Optional<String> extractToken(final HttpServletRequest request) {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info(authorization);
         if (Strings.isEmpty(authorization)) {
             log.info("tokenValidate1");
             return Optional.empty();

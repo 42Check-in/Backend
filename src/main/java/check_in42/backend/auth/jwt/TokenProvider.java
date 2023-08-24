@@ -54,7 +54,6 @@ public class TokenProvider {
 
     public Claims parseAccessTokenClaim(final String accessToken) {
         try {
-            log.info("살려줘바");
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
