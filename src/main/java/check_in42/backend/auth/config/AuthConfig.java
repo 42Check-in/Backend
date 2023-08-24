@@ -24,7 +24,7 @@ public class AuthConfig implements WebMvcConfigurer {
     private final AuthArgumentResolver authArgumentResolver;
 
     private static final List<String> LOGIN_URL = List.of("/oauth/login");
-    private static final List<String> TOKEN_URL = List.of("/reissue", "/conference-rooms/**",
+    private static final List<String> TOKEN_URL = List.of("/notice", "/reissue", "/conference-rooms/**",
             "/presentations/**", "/visitors/**", "/equipments/**", "/vocal/**");
 
     @Override
