@@ -29,7 +29,7 @@ public class ConferenceController {
     private final MyCheckInService myCheckInService;
     private final UserService userService;
 
-    @GetMapping("calender/{year}/{month}")
+    @GetMapping("calendar/{year}/{month}")
     public ResponseEntity<Long> calender(@PathVariable(name = "year") final String year,
                                          @PathVariable(name = "month") final String month) {
         System.out.println(year + month);
