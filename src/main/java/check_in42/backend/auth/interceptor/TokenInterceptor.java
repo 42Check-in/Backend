@@ -28,6 +28,10 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
+//        if (request.getMethod().equals("OPTIONS")) {
+//            return true;
+//        }
+
         //exception 추가해야함
         log.info("여기는 왜들어와?");
         final String token = TokenHeaderValidate.extractToken(request)
