@@ -28,7 +28,7 @@ public class ConferenceCheckDayService {
     }
 
     public ConferenceCheckDay findByDate(String year, String month) {
-        return conferenceCheckDayRepository.findByDate(year, month);
+        return conferenceCheckDayRepository.findByYearMonth(year, month);
     }
 
     @Transactional
@@ -61,7 +61,7 @@ public class ConferenceCheckDayService {
         year = "" + formDate.getYear();
         month = "" + formDate.getMonthValue();
         day = formDate.getDayOfMonth();
-        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null)
             return null;
         conferenceCheckDay.setDays(conferenceCheckDay.getDays() & ~(1L << (day - 1)));
