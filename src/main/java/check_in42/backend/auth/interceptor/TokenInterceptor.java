@@ -27,6 +27,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         //exception 추가해야함
+        log.info("여기는 왜들어와?");
         final String token = TokenHeaderValidate.extractToken(request)
                 .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseAccessTokenClaim(token);
