@@ -33,10 +33,11 @@ public class ConferenceCheckDayService {
 
     @Transactional
     public Long updateDenyCheckDay(LocalDate formDate) {
-        long year, month, day;
+        long day;
+        String year, month;
 
-        year = formDate.getYear();
-        month = formDate.getMonthValue();
+        year = Long.toString(formDate.getYear());
+        month = Long.toString(formDate.getMonthValue());
         day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
         if (conferenceCheckDay == null) {
@@ -56,7 +57,6 @@ public class ConferenceCheckDayService {
     public Long updateAllowCheckDay(LocalDate formDate) {
         long day;
         String year, month;
-
 
         year = Long.toString(formDate.getYear());
         month = Long.toString(formDate.getMonthValue());
