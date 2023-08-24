@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentService equipmentService;
@@ -40,8 +40,9 @@ public class EquipmentController {
      * returnDate와 localDate 비교 후 기한이 남은 form만 DTO에 담아서 반환..
      * */
     @GetMapping("/equipments/form/extension")
-    public List<EquipmentDTO> showExtensionForm(@UserId final UserInfo userInfo) {
-        return equipmentService.showAllFormByName(userInfo.getIntraId());
+    public ResponseEntity<List<EquipmentDTO>> showExtensionForm(@UserId final UserInfo userInfo) {
+        List<EquipmentDTO> res =  equipmentService.showAllFormByName(userInfo.getIntraId());
+        return ResponseEntity.ok().body(res);
     }
 
     /*
