@@ -2,6 +2,7 @@ package check_in42.backend.auth.interceptor;
 
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.auth.utils.UserContext;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import io.jsonwebtoken.Claims;
@@ -17,6 +18,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     private final TokenProvider tokenProvider;
     private final UserService userService;
+    private final UserContext userContext;
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
@@ -27,6 +29,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         final String intraId = claims.get("intraId", String.class);
         userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
 
+        userContext.setIntraId(intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
         return true;
     }

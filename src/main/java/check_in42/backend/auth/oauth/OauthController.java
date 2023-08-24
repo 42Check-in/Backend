@@ -2,6 +2,7 @@ package check_in42.backend.auth.oauth;
 
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenPair;
+import check_in42.backend.auth.oauth.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,12 @@ public class OauthController {
         }
 
         final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
-
+        final boolean staff = oauthService.isStaff(accessToken);
+        log.info("" + staff);
         final LoginResponse newLoginResponse = LoginResponse.builder()
-                .accessToken(accessToken).build();
-
+                .accessToken(accessToken)
+                .staff(staff)
+                .build();
         return ResponseEntity.ok(newLoginResponse);
     }
 }

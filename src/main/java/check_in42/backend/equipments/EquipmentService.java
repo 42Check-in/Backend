@@ -1,6 +1,5 @@
 package check_in42.backend.equipments;
 
-import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,16 +39,13 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void DeleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId).get();
+    public void deleteFormInUser(String intraId, Long formId) {
+        User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
         List<Equipment> allForm = user.getEquipments();
 
-        for (Equipment equip : allForm) {
-            if (equip.getId().equals(formId)) {
-                allForm.remove(equip);
-                break;
-            }
-        }
+        Equipment equipment = equipmentRepository.findOne(formId);
+        allForm.remove(equipment);
         /*
         * user 부분에서 setter 역할하는 formList 갈아끼우는 로직 필요한데 일단 손 안댓어여
         * 만약 이부분 추가된다면 transacrional 피료함
@@ -68,7 +65,7 @@ public class EquipmentService {
         equipmentRepository.delete(equipment);
 
         // userList에서 제거
-        DeleteFormInUser(intraId, formId);
+        deleteFormInUser(intraId, formId);
     }
 
     public Equipment create(User user, EquipmentDTO equipmentDTO) {

@@ -1,5 +1,6 @@
 package check_in42.backend.auth.oauth;
 
+import check_in42.backend.auth.oauth.dto.OauthToken;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
