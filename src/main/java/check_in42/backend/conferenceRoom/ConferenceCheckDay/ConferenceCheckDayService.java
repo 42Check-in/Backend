@@ -36,8 +36,8 @@ public class ConferenceCheckDayService {
         long day;
         String year, month;
 
-        year = Integer.toString(formDate.getYear());
-        month = Integer.toString(formDate.getMonthValue());
+        year = "" + formDate.getYear();
+        month = "" + formDate.getMonthValue();
         day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
         if (conferenceCheckDay == null) {
@@ -58,8 +58,8 @@ public class ConferenceCheckDayService {
         long day;
         String year, month;
 
-        year = Integer.toString(formDate.getYear());
-        month = Integer.toString(formDate.getMonthValue());
+        year = "" + formDate.getYear();
+        month = "" + formDate.getMonthValue();
         day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
         if (conferenceCheckDay == null)
