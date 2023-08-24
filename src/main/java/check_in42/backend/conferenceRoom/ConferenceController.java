@@ -35,7 +35,7 @@ public class ConferenceController {
         System.out.println(year + month);
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(year, month);
 
-        if (conferenceCheckDay != null)
+        if (conferenceCheckDay == null)
             return ResponseEntity.ok().body(0L);
         return ResponseEntity.ok().body(conferenceCheckDay.getDays());
     }
