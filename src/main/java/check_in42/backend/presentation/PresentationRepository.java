@@ -64,7 +64,9 @@ public class PresentationRepository {
                 .getResultList();
     }
 
-    public List<Presentation> findByDate(LocalDate date) {
+    public List<Presentation> findByDate(String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
+
         return em.createQuery("select p from Presentation p where p.date = :date", Presentation.class)
                 .setParameter("date", date)
                 .getResultList();

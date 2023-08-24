@@ -8,6 +8,7 @@ import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,8 @@ public class PresentationController {
                                         @RequestBody final PresentationDTO presentationDTO) {
         User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
-        Presentation presentation = presentationService.create(user, presentationDTO);
+        int count = presentationService.findByDate(presentationDTO.getDate()).size();
+        Presentation presentation = presentationService.create(user, presentationDTO, count);
         Long formId = presentationService.join(presentation);
         user.addPresentationForm(presentation);
         return ResponseEntity.ok().body(formId);

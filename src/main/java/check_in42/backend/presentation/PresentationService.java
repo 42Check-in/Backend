@@ -38,8 +38,8 @@ public class PresentationService {
         return presentationRepository.findOne(id);
     }
 
-    public Presentation create(User user, PresentationDTO presentationDTO) {
-        return new Presentation(user, presentationDTO);
+    public Presentation create(User user, PresentationDTO presentationDTO, int count) {
+        return new Presentation(user, presentationDTO, count);
     }
 
     public List<PresentationDTO> showMonthSchedule(String month) {
@@ -100,7 +100,7 @@ public class PresentationService {
         return presentationRepository.findByNoticeFalse();
     }
 
-    public List<Presentation> findByDate(LocalDate date) {
+    public List<Presentation> findByDate(String date) {
         return presentationRepository.findByDate(date);
     }
 }
