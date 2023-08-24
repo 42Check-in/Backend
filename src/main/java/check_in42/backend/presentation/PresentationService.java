@@ -55,6 +55,9 @@ public class PresentationService {
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         Presentation presentation = presentationRepository.findOne(formId);
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+            presentationRepository.setNextPresentation(presentation.getDate());
+        }
         presentationRepository.delete(presentation);
 
         DeleteFormInUser(intraId, formId);
@@ -71,7 +74,7 @@ public class PresentationService {
                 break;
             }
         }
-        //cascade -> List 삭제 감지
+        //cascade -> List 삭제 감지로 해도 되나..
     }
 
     @Transactional

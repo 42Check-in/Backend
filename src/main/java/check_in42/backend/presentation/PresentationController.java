@@ -59,7 +59,7 @@ public class PresentationController {
     /*
     * db에서 form 지우고, user에서 list에서도 지웡
     * 1. 지운 사람의 status가 '신청중'이다
-    * 2. 해당 요일의 '대기중'들 중에서 id값이 가장 작은걸 '신청중'으로 변경시킨다.
+    * 2. 해당 date의 '대기중'들 중에서 id값이 가장 작은걸 '신청중'으로 변경시킨다.
     *
     * */
     @PostMapping("/presentations/cancel")
