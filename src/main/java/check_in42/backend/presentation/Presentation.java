@@ -52,9 +52,7 @@ public class Presentation {
 
 
     @Builder
-    protected Presentation(User user, PresentationDTO presentationDTO) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    protected Presentation(User user, PresentationDTO presentationDTO, int count) {
 
         this.intraId = user.getIntraId();
         this.userName = presentationDTO.getUserName();
@@ -62,9 +60,13 @@ public class Presentation {
         this.screen = presentationDTO.getScreen();
         this.detail = presentationDTO.getDetail();
         this.contents = presentationDTO.getContents();
-        this.date = LocalDate.parse(presentationDTO.getDate(), formatter);
+        this.date = LocalDate.parse(presentationDTO.getDate());
         this.time = PresentationTime.values()[presentationDTO.getTime().ordinal()].getTime();
         this.type = PresentationType.values()[presentationDTO.getType().ordinal()];
+        if (count == 0) {
+            this.type = PresentationType.valueOf(PresentationStatus.PENDING.getDescription());
+        } else
+            this.type = PresentationType.valueOf(PresentationStatus.WAITING.getDescription());
         this.user = user;
         this.approval = null;
         this.notice = false;

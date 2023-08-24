@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class PresentationService {
         return presentationRepository.findOne(id);
     }
 
-    public Presentation create(User user, PresentationDTO presentationDTO) {
-        return new Presentation(user, presentationDTO);
+    public Presentation create(User user, PresentationDTO presentationDTO, int count) {
+        return new Presentation(user, presentationDTO, count);
     }
 
     public List<PresentationDTO> showMonthSchedule(String month) {
@@ -54,8 +55,12 @@ public class PresentationService {
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         Presentation presentation = presentationRepository.findOne(formId);
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+            presentationRepository.setNextPresentation(presentation.getDate());
+        }
         presentationRepository.delete(presentation);
 
+        //확인 필요
         DeleteFormInUser(intraId, formId);
     }
 
@@ -70,7 +75,7 @@ public class PresentationService {
                 break;
             }
         }
-        //cascade -> List 삭제 감지
+        //cascade -> List 삭제 감지로 해도 되나..
     }
 
     @Transactional
@@ -97,5 +102,9 @@ public class PresentationService {
 
     public List<Presentation> findByNoticeFalse() {
         return presentationRepository.findByNoticeFalse();
+    }
+
+    public List<Presentation> findByDate(String date) {
+        return presentationRepository.findByDate(date);
     }
 }
