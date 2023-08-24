@@ -14,14 +14,14 @@ public class ConferenceCheckDay {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String year;
+    private Long year;
 
-    private String month;
+    private Long month;
 
     private Long days;
 
     @Builder
-    protected ConferenceCheckDay(Long id, String year, String month, Long days) {
+    protected ConferenceCheckDay(Long id, Long year, Long month, Long days) {
         this.id = id;
         this.year = year;
         this.month = month;

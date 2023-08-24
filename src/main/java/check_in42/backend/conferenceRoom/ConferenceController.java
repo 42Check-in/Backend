@@ -30,10 +30,9 @@ public class ConferenceController {
     private final UserService userService;
 
     @GetMapping("calendar/{year}/{month}")
-    public ResponseEntity<Long> calender(@PathVariable(name = "year") final String year,
-                                         @PathVariable(name = "month") final String month) {
-        System.out.println(year + month);
-        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByDate(year, month);
+    public ResponseEntity<Long> calender(@PathVariable(name = "year") final Long year,
+                                         @PathVariable(name = "month") final Long month) {
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByYearMonth(year, month);
 
         if (conferenceCheckDay == null)
             return ResponseEntity.ok().body(0L);

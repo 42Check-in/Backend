@@ -27,17 +27,16 @@ public class ConferenceCheckDayService {
         return conferenceCheckDayRepository.findById(id).get();
     }
 
-    public ConferenceCheckDay findByDate(String year, String month) {
+    public ConferenceCheckDay findByYearMonth(Long year, Long month) {
         return conferenceCheckDayRepository.findByYearMonth(year, month);
     }
 
     @Transactional
     public Long updateDenyCheckDay(LocalDate formDate) {
-        long day;
-        String year, month;
+        long year, month, day;
 
-        year = "" + formDate.getYear();
-        month = "" + formDate.getMonthValue();
+        year = formDate.getYear();
+        month = formDate.getMonthValue();
         day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null) {
@@ -55,11 +54,10 @@ public class ConferenceCheckDayService {
 
     @Transactional
     public Long updateAllowCheckDay(LocalDate formDate) {
-        long day;
-        String year, month;
+        long year, month, day;
 
-        year = "" + formDate.getYear();
-        month = "" + formDate.getMonthValue();
+        year = formDate.getYear();
+        month = formDate.getMonthValue();
         day = formDate.getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null)
