@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class PresentationService {
         return new Presentation(user, presentationDTO);
     }
 
-    public List<PresentationDTO> showMonthSchedule(String month) {
+    public List<PresentationDTO> showMonthSchedule(LocalDate month) {
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
         List<PresentationDTO> res = new ArrayList<>();
         for (Presentation form : allForms) {

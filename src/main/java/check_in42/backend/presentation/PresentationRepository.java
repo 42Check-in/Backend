@@ -32,11 +32,10 @@ public class PresentationRepository {
         return em.find(Presentation.class, id);
     }
 
-    public List<Presentation> findOneMonth(String month) {
-        YearMonth mon = YearMonth.parse(month);
+    public List<Presentation> findOneMonth(LocalDate month) {
 
-        LocalDate start = mon.atDay(1);
-        LocalDate end = mon.atEndOfMonth();
+        LocalDate start = month.withDayOfMonth(1);
+        LocalDate end = month.withDayOfMonth(month.lengthOfMonth());
 
         return em.createQuery("SELECT p FROM Presentation p WHERE p.date BETWEEN :start AND :end", Presentation.class)
                 .setParameter("start", start)
