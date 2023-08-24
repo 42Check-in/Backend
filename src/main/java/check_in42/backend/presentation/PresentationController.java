@@ -35,13 +35,13 @@ public class PresentationController {
     @PostMapping("/presentations/form")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final PresentationDTO presentationDTO) {
-        User user = userService.findByName(userInfo.getIntraId())
+        final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
-        int count = presentationService.findByDate(presentationDTO.getDate()).size();
-        Presentation presentation = presentationService.create(user, presentationDTO, count);
-        Long formId = presentationService.join(presentation);
+        final int count = presentationService.findByDate(presentationDTO.getDate()).size();
+        final Presentation presentation = presentationService.create(user, presentationDTO, count);
+        final Long formId = presentationService.join(presentation);
         user.addPresentationForm(presentation);
-        return ResponseEntity.ok().body(formId);
+        return ResponseEntity.ok(formId);
     }
 
     //수요지식회 신청 현황 조회

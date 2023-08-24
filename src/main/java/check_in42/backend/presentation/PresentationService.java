@@ -60,6 +60,7 @@ public class PresentationService {
         }
         presentationRepository.delete(presentation);
 
+        //확인 필요
         DeleteFormInUser(intraId, formId);
     }
 
