@@ -39,7 +39,7 @@ public class ConferenceCheckDayService {
         year = "" + formDate.getYear();
         month = "" + formDate.getMonthValue();
         day = formDate.getDayOfMonth();
-        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByDate(year, month);
+        ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null) {
             conferenceCheckDay = ConferenceCheckDay.builder()
                     .year(year)
