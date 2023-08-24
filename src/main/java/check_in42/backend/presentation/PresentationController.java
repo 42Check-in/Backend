@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -22,6 +23,12 @@ public class PresentationController {
     private final UserService userService;
 
     //새로운 신청 폼 작성
+    /*
+    * Date를 갖고 db 순회, List.size가 0인가?
+    *
+    * 1. 0이다. 해당 요일에 신청자가 아무도 없다 -> approval, status 세팅
+    * 2. 0이 아니다. 해당 요일에 신청자가 이미 있다 -> status 세팅
+    * */
     @PostMapping("/presentations/form")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final PresentationDTO presentationDTO) {
@@ -45,6 +52,9 @@ public class PresentationController {
     //수요지식회 취소
     /*
     * db에서 form 지우고, user에서 list에서도 지웡
+    * 1. 지운 사람의 status가 '신청중'이다
+    * 2. 해당 요일의 '대기중'들 중에서 id값이 가장 작은걸 '신청중'으로 변경시킨다.
+    *
     * */
     @PostMapping("/presentations/cancel")
     public ResponseEntity cancel(@UserId final UserInfo userInfo,

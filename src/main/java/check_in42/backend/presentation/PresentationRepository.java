@@ -61,4 +61,10 @@ public class PresentationRepository {
         return em.createQuery("select p from Presentation p where not p.notice", Presentation.class)
                 .getResultList();
     }
+
+    public List<Presentation> findByDate(LocalDate date) {
+        return em.createQuery("select p from Presentation p where p.date = :date", Presentation.class)
+                .setParameter("date", date)
+                .getResultList();
+    }
 }

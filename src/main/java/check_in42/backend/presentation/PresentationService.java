@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +98,9 @@ public class PresentationService {
 
     public List<Presentation> findByNoticeFalse() {
         return presentationRepository.findByNoticeFalse();
+    }
+
+    public List<Presentation> findByDate(LocalDate date) {
+        return presentationRepository.findByDate(date);
     }
 }
