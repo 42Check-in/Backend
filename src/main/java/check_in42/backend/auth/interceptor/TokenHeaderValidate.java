@@ -14,6 +14,7 @@ public class TokenHeaderValidate {
     public static Optional<String> extractToken(final HttpServletRequest request) {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (Strings.isEmpty(authorization)) {
+            log.info("tokenValidate1");
             return Optional.empty();
         }
         return getToken(authorization.split(" "));
@@ -21,8 +22,10 @@ public class TokenHeaderValidate {
 
     private static Optional<String> getToken(final String[] token) {
         if (token.length != 2 || !token[0].equals("Bearer")) {
+            log.info("tokenValidate2");
             return Optional.empty();
         }
+        log.info("tokenValidate3");
         return Optional.ofNullable(token[1]);
     }
 }
