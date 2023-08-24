@@ -3,8 +3,11 @@ package check_in42.backend.auth.oauth;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.auth.oauth.dto.OauthToken;
+import check_in42.backend.auth.oauth.dto.User42Info;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -125,12 +128,24 @@ public class OauthService {
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
 
         final String intraId = user42Info.getLogin();
+        final boolean staff = user42Info.isStaff();
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         User user = userService.findByName(intraId)
-                .orElseGet(() -> userService.create(intraId, false, refreshToken));
+                .orElseGet(() -> userService.create(intraId, staff, refreshToken));
         log.info(user.getIntraId());
         return new TokenPair(accessToken, refreshToken);
+    }
+
+    public boolean isStaff(final String accessToken) {
+        final Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
+        final String intraId = claims.get("intraId", String.class);
+
+        final User user = userService.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final boolean staff = user.isStaff();
+
+        return staff;
     }
 
     public String reissueToken(final String refreshToken) {

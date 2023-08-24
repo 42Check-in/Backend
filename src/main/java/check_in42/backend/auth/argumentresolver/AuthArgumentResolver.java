@@ -3,6 +3,7 @@ package check_in42.backend.auth.argumentresolver;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.interceptor.TokenHeaderValidate;
 import check_in42.backend.auth.jwt.TokenProvider;
+import check_in42.backend.auth.utils.UserContext;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
+    private final UserContext userContext;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -32,12 +34,12 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
-        Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
-
-        final String accessToken = jwtToken.orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
-        Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
-
-        return UserInfo.builder().intraId(claims.get("intraId", String.class)).build();
+//        HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
+//        Optional<String> jwtToken = TokenHeaderValidate.extractToken(request);
+//
+//        final String accessToken = jwtToken.orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
+//        Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
+        final String intraId = userContext.getIntraId();
+        return UserInfo.builder().intraId(intraId).build();
     }
 }
