@@ -4,10 +4,11 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Component
 @Order
-@RequestScope
+@SessionScope
 public class UserContext {
 
     private static final String unknown = "Unknown";
