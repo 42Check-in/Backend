@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ConferenceCheckDayRepository extends JpaRepository<ConferenceCheckDay, Long> {
 
     @Query("select c from ConferenceCheckDay c where c.year = :year and c.month = :month")
-    ConferenceCheckDay findByDate(@Param("year") Long year, @Param("month") Long month);
+    ConferenceCheckDay findByDate(@Param("year") String year, @Param("month") String month);
 }

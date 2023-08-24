@@ -27,7 +27,7 @@ public class ConferenceCheckDayService {
         return conferenceCheckDayRepository.findById(id).get();
     }
 
-    public ConferenceCheckDay findByDate(Long year, Long month) {
+    public ConferenceCheckDay findByDate(String year, String month) {
         return conferenceCheckDayRepository.findByDate(year, month);
     }
 
