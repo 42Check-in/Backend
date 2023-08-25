@@ -65,30 +65,22 @@ public class MyCheckInService {
     }
 
     public List<EquipmentDTO> userEquipmentsList(final String intraId) {
-        final List<Equipment> equipmentList = userService.findEquipmentList(intraId);
-        final List<EquipmentDTO> result = equipmentList.stream()
-                .map(EquipmentDTO::create).collect(Collectors.toList());
-        return result;
+        final List<EquipmentDTO> equipmentDTOS = userService.findEquipmentList(intraId);
+        return equipmentDTOS;
     }
 
     public List<PresentationDTO> userPresentationList(final String intraId) {
-        final List<Presentation> presentationList = userService.findPresentationList(intraId);
-        final List<PresentationDTO> result = presentationList.stream()
-                .map(PresentationDTO::create).collect(Collectors.toList());
-        return result;
+        final List<PresentationDTO> presentationDTOS = userService.findPresentationList(intraId);
+        return presentationDTOS;
     }
 
     public List<VisitorsDTO> userVisitorsList(final String intraId) {
-        final List<Visitors> visitorsList = userService.findVisitorList(intraId);
-        final List<VisitorsDTO> result = visitorsList.stream()
-                .map(VisitorsDTO::create).collect(Collectors.toList());
-        return result;
+        final List<VisitorsDTO> visitorsDTOS = userService.findVisitorList(intraId);
+        return visitorsDTOS;
     }
 
     public List<ConferenceRoomDTO> userConferenceRoomList(final String intraId) {
-        final List<ConferenceRoom> conferenceRoomList = userService.findConferenceList(intraId);
-        final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
-                .map(ConferenceRoomDTO::create).collect(Collectors.toList());
-        return result;
+        final List<ConferenceRoomDTO> conferenceRoomDTOS = userService.findConferenceList(intraId);
+        return conferenceRoomDTOS;
     }
 }
