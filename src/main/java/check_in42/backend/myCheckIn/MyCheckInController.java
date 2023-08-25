@@ -38,34 +38,29 @@ public class MyCheckInController {
     private final EquipmentService equipmentService;
     @GetMapping("/conference-rooms")
     public ResponseEntity myConferenceRooms(@UserId final UserInfo userInfo) {
-        final User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
+        final List<ConferenceRoomDTO> conferenceRoomList =
+                myCheckInService.finaConferenceRoomList(userInfo.getIntraId());
         return ResponseEntity.ok(conferenceRoomList);
     }
 
     @GetMapping("/visitors")
     public ResponseEntity myVisitors(@UserId final UserInfo userInfo) {
-        final User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Visitors> visitorsList = user.getVisitors();
+        final List<VisitorsDTO> visitorsList = myCheckInService
+                .findVisitorsList(userInfo.getIntraId());
         return ResponseEntity.ok(visitorsList);
     }
 
     @GetMapping("/presentations")
     public ResponseEntity myPresentations(@UserId final UserInfo userInfo) {
-        final User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Presentation> presentationList = user.getPresentations();
+        final List<PresentationDTO> presentationList = myCheckInService
+                .findPresentationList(userInfo.getIntraId());
         return ResponseEntity.ok(presentationList);
     }
 
     @GetMapping("/equipments")
     public ResponseEntity myEquipments(@UserId final UserInfo userInfo) {
-        log.info("---------------------" + userInfo.getIntraId() + "--------------------------");
-        final User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Equipment> equipmentList = user.getEquipments();
+        final List<EquipmentDTO> equipmentList = myCheckInService
+                .findEquipmentsList(userInfo.getIntraId());
         return ResponseEntity.ok(equipmentList);
     }
 
