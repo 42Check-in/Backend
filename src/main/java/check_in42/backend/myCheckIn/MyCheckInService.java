@@ -9,7 +9,6 @@ import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
@@ -65,37 +64,29 @@ public class MyCheckInService {
         return null;
     }
 
-    public List<EquipmentDTO> findEquipmentsList(final String intraId) {
-        final User user = userService.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Equipment> equipmentList = user.getEquipments();
+    public List<EquipmentDTO> userEquipmentsList(final String intraId) {
+        final List<Equipment> equipmentList = userService.findEquipmentList(intraId);
         final List<EquipmentDTO> result = equipmentList.stream()
                 .map(EquipmentDTO::create).collect(Collectors.toList());
         return result;
     }
 
-    public List<PresentationDTO> findPresentationList(final String intraId) {
-        final User user = userService.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Presentation> presentationList = user.getPresentations();
+    public List<PresentationDTO> userPresentationList(final String intraId) {
+        final List<Presentation> presentationList = userService.findPresentationList(intraId);
         final List<PresentationDTO> result = presentationList.stream()
                 .map(PresentationDTO::create).collect(Collectors.toList());
         return result;
     }
 
-    public List<VisitorsDTO> findVisitorsList(final String intraId) {
-        final User user = userService.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<Visitors> visitorsList = user.getVisitors();
+    public List<VisitorsDTO> userVisitorsList(final String intraId) {
+        final List<Visitors> visitorsList = userService.findVisitorList(intraId);
         final List<VisitorsDTO> result = visitorsList.stream()
                 .map(VisitorsDTO::create).collect(Collectors.toList());
         return result;
     }
 
-    public List<ConferenceRoomDTO> finaConferenceRoomList(final String intraId) {
-        final User user = userService.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
+    public List<ConferenceRoomDTO> userConferenceRoomList(final String intraId) {
+        final List<ConferenceRoom> conferenceRoomList = userService.findConferenceList(intraId);
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
                 .map(ConferenceRoomDTO::create).collect(Collectors.toList());
         return result;

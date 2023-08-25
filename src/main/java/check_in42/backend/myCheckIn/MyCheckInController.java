@@ -11,9 +11,7 @@ import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
-import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
@@ -39,28 +37,28 @@ public class MyCheckInController {
     @GetMapping("/conference-rooms")
     public ResponseEntity myConferenceRooms(@UserId final UserInfo userInfo) {
         final List<ConferenceRoomDTO> conferenceRoomList =
-                myCheckInService.finaConferenceRoomList(userInfo.getIntraId());
+                myCheckInService.userConferenceRoomList(userInfo.getIntraId());
         return ResponseEntity.ok(conferenceRoomList);
     }
 
     @GetMapping("/visitors")
     public ResponseEntity myVisitors(@UserId final UserInfo userInfo) {
         final List<VisitorsDTO> visitorsList = myCheckInService
-                .findVisitorsList(userInfo.getIntraId());
+                .userVisitorsList(userInfo.getIntraId());
         return ResponseEntity.ok(visitorsList);
     }
 
     @GetMapping("/presentations")
     public ResponseEntity myPresentations(@UserId final UserInfo userInfo) {
         final List<PresentationDTO> presentationList = myCheckInService
-                .findPresentationList(userInfo.getIntraId());
+                .userPresentationList(userInfo.getIntraId());
         return ResponseEntity.ok(presentationList);
     }
 
     @GetMapping("/equipments")
     public ResponseEntity myEquipments(@UserId final UserInfo userInfo) {
         final List<EquipmentDTO> equipmentList = myCheckInService
-                .findEquipmentsList(userInfo.getIntraId());
+                .userEquipmentsList(userInfo.getIntraId());
         return ResponseEntity.ok(equipmentList);
     }
 
