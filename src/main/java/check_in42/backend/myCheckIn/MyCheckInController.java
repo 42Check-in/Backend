@@ -8,7 +8,6 @@ import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
-import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;

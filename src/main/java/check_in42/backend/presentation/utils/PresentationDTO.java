@@ -3,7 +3,6 @@ package check_in42.backend.presentation.utils;
 import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
