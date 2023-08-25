@@ -22,7 +22,7 @@ public class AuthConfig implements WebMvcConfigurer {
 
     private static final List<String> LOGIN_URL = List.of("/oauth/login");
     private static final List<String> TOKEN_URL = List.of("/notice", "/reissue", "/conference-rooms/**",
-            "/presentations/**", "/visitors/**", "/equipments/**", "/vocal/**");
+            "/presentations/**", "/visitors/**", "/equipments/**", "/vocal/**", "/my-checkin/**");
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
