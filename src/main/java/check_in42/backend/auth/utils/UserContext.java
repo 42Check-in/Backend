@@ -11,8 +11,14 @@ public class UserContext {
 
     private String intraId = unknown;
 
+    private boolean staff;
+
     public void setIntraId(final String intraId) {
         this.intraId = intraId;
+    }
+
+    public void setStaff(final Boolean staff) {
+        this.staff = staff;
     }
 
     public String getIntraId() {

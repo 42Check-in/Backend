@@ -26,7 +26,6 @@ public class OauthController {
                 .accessToken(tokenPair.getAccessToken())
                 .refreshToken(tokenPair.getRefreshToken())
                 .build();
-        log.info(loginResponse.getAccessToken(), loginResponse.getRefreshToken());
         return ResponseEntity.ok(loginResponse);
     }
 
@@ -39,7 +38,7 @@ public class OauthController {
 
         final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
         final boolean staff = oauthService.isStaff(accessToken);
-        log.info("" + staff);
+        log.info("T/F?" + staff);
         final LoginResponse newLoginResponse = LoginResponse.builder()
                 .accessToken(accessToken)
                 .staff(staff)

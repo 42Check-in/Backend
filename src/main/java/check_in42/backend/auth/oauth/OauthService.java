@@ -5,6 +5,7 @@ import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.auth.oauth.dto.OauthToken;
 import check_in42.backend.auth.oauth.dto.User42Info;
+import check_in42.backend.auth.utils.UserContext;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
@@ -133,7 +134,7 @@ public class OauthService {
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         User user = userService.findByName(intraId)
                 .orElseGet(() -> userService.create(intraId, staff, refreshToken));
-        log.info(user.getIntraId());
+        log.info("너 스태프묘????" + staff);
         return new TokenPair(accessToken, refreshToken);
     }
 

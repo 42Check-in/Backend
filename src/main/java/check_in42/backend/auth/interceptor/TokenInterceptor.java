@@ -31,19 +31,17 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         //exception 추가해야함
-        log.info("여기는 왜들어와?");
         final String token = TokenHeaderValidate.extractToken(request)
                 .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseAccessTokenClaim(token);
         final String intraId = claims.get("intraId", String.class);
-        final String staff = claims.get("staff?", String.class);
 
-        log.info(">>>>>>>>>> 너 정체가 머임? " + staff);
         userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
-        log.info("왜 안들어올까");
         userContext.setIntraId(intraId);
-        log.info("여기서 찍혀야한다고..." + intraId);
+        log.info("In tokenInterceptor! intra id is...." + intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
+        boolean isStaff = claims.get("staff?", Boolean.class);
+        userContext.setStaff(isStaff);
         return true;
     }
 }
