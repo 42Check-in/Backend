@@ -5,8 +5,10 @@ import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
+import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class VocalController {
     private final VisitorsService visitorsService;
     private final PresentationService presentationService;
     private final EquipmentService equipmentService;
+    private final UserService userService;
 
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
     @GetMapping("/visitors")
@@ -75,6 +78,12 @@ public class VocalController {
     public ResponseEntity confirmEquipmentApply(@RequestParam final List<Long> formId) {
         equipmentService.setAgreeDates(formId);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("visitors/{intraId}")
+    public ResponseEntity searchByIntraId(@PathVariable String intraId) {
+        final List<VisitorsDTO> visitorsDTOS = userService.findVisitorList(intraId);
+        return ResponseEntity.ok(visitorsDTOS);
     }
 
 }
