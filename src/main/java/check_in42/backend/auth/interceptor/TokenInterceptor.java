@@ -5,6 +5,7 @@ import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.auth.utils.UserContext;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,6 +52,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         userContext.setIntraId(intraId);
         log.info("In tokenInterceptor! intra id is...." + intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String payloadJson = objectMapper.writeValueAsString(claims);
+        log.info("JWT Token Payload: ??????" + payloadJson);
 
         boolean isStaffClaimPresent = isStaffClaimPresent(claims);
 
