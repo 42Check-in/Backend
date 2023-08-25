@@ -130,7 +130,7 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        // 여기서 갈라야되지 않을까 staff용 token / user용 token
+        // 여기서 가르기? cadet / staff
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         User user = userService.findByName(intraId)
