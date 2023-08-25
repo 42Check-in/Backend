@@ -53,20 +53,15 @@ public class TokenInterceptor implements HandlerInterceptor {
         log.info("In tokenInterceptor! intra id is...." + intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String payloadJson = objectMapper.writeValueAsString(claims);
-        log.info("JWT Token Payload: ??????" + payloadJson);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String payloadJson = objectMapper.writeValueAsString(claims);
+//        log.info("JWT Token Payload: ??????" + payloadJson);
 
-        boolean isStaffClaimPresent = isStaffClaimPresent(claims);
+        String sub = claims.get("sub", String.class);
+        log.info("sub is.... : " + sub);
+        userContext.setStaff(!sub.equals("user"));
 
-        if (isStaffClaimPresent) {
-            boolean isStaff = getStaffClaimValue(claims);
-            userContext.setStaff(isStaff);
-            log.info("key is present!!!!!!!" + isStaff);
-        } else  {
-            log.info("key doesn't exist;;;;;");
-            userContext.setStaff(false);
-        }
+        //"sub":"user"
         return true;
     }
 }
