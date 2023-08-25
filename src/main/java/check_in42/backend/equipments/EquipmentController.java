@@ -41,7 +41,7 @@ public class EquipmentController {
     @GetMapping("/equipments/form/extension")
     public ResponseEntity<List<EquipmentDTO>> showExtensionForm(@UserId final UserInfo userInfo) {
         List<EquipmentDTO> res =  equipmentService.showAllFormByName(userInfo.getIntraId());
-        return ResponseEntity.ok().body(res);
+        return ResponseEntity.ok(res);
     }
 
     /*
