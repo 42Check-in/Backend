@@ -18,6 +18,7 @@ import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/my-checkin")
 @RequiredArgsConstructor
+@Slf4j
 public class MyCheckInController {
 
     private final UserService userService;
@@ -50,7 +52,6 @@ public class MyCheckInController {
         return ResponseEntity.ok(visitorsList);
     }
 
-
     @GetMapping("/presentations")
     public ResponseEntity myPresentations(@UserId final UserInfo userInfo) {
         final User user = userService.findByName(userInfo.getIntraId())
@@ -61,6 +62,7 @@ public class MyCheckInController {
 
     @GetMapping("/equipments")
     public ResponseEntity myEquipments(@UserId final UserInfo userInfo) {
+        log.info(userInfo.getIntraId());
         final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Equipment> equipmentList = user.getEquipments();
