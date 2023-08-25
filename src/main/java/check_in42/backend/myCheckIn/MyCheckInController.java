@@ -62,7 +62,7 @@ public class MyCheckInController {
 
     @GetMapping("/equipments")
     public ResponseEntity myEquipments(@UserId final UserInfo userInfo) {
-        log.info(userInfo.getIntraId());
+        log.info("---------------------" + userInfo.getIntraId() + "--------------------------");
         final User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Equipment> equipmentList = user.getEquipments();
