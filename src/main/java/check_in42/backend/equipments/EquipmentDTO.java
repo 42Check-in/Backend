@@ -9,7 +9,7 @@ public class EquipmentDTO {
     private String userName;
     private String phoneNumber;
     private String date;
-    private EquipmentType equipment;
+    private int equipment;
     private boolean purpose;
     private String detail;
     private String benefit;
@@ -28,7 +28,7 @@ public class EquipmentDTO {
         equipmentDTO.period = equipment.getPeriod();
         equipmentDTO.benefit = equipment.getBenefit();
         equipmentDTO.returnDate = equipment.getReturnDate().toString();
-        equipmentDTO.equipment = EquipmentType.valueOf(equipment.getEquipment());
+        equipmentDTO.equipment = EquipmentType.valueOf(equipment.getEquipment()).ordinal();
 
         return equipmentDTO;
     }

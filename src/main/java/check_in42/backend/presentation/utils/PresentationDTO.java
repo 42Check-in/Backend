@@ -14,9 +14,9 @@ public class PresentationDTO {
     private String subject;
     private String contents;
     private String detail;
-    private PresentationTime time;
-    private PresentationType type;
-    private PresentationStatus status;
+    private int time;
+    private int type;
+    private int status;
     private Boolean screen;
     private List<Long> formIds;
     private String intraId;
@@ -29,9 +29,9 @@ public class PresentationDTO {
         presentationDTO.detail = presentation.getDetail();
         presentationDTO.subject = presentation.getSubject();
         presentationDTO.contents = presentation.getContents();
-        presentationDTO.time = PresentationTime.valueOf(presentation.getTime());
-        presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus());
-        presentationDTO.type = PresentationType.values()[presentation.getType().ordinal()];
+        presentationDTO.time = PresentationTime.valueOf(presentation.getTime()).ordinal();
+        presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus()).ordinal();
+        presentationDTO.type = PresentationType.values()[presentation.getType().ordinal()].ordinal();
         presentationDTO.screen = presentation.isScreen();
         presentationDTO.intraId = presentation.getIntraId();
 
