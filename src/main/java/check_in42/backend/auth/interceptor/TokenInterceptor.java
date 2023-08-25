@@ -23,11 +23,11 @@ public class TokenInterceptor implements HandlerInterceptor {
     private final UserContext userContext;
 
     public boolean isStaffClaimPresent(Claims claims) {
-        return claims.containsKey("staff?");
+        return claims.containsKey("staff");
     }
 
     public boolean getStaffClaimValue(Claims claims) {
-        Object staffClaimValue = claims.get("staff?");
+        Object staffClaimValue = claims.get("staff");
         if (staffClaimValue instanceof Boolean) {
             return (Boolean) staffClaimValue;
         }
