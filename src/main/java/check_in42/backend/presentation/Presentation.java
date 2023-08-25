@@ -57,8 +57,8 @@ public class Presentation {
         this.detail = presentationDTO.getDetail();
         this.contents = presentationDTO.getContents();
         this.date = LocalDate.parse(presentationDTO.getDate());
-        this.time = PresentationTime.values()[presentationDTO.getTime().ordinal()].getTime();
-        this.type = PresentationType.values()[presentationDTO.getType().ordinal()];
+        this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
+        this.type = PresentationType.values()[presentationDTO.getType()];
         if (count == 0) {
             this.type = PresentationType.valueOf(PresentationStatus.PENDING.getDescription());
         } else
