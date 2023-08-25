@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +42,26 @@ public class PresentationService {
         return new Presentation(user, presentationDTO, count);
     }
 
+    // 해당 월에서 신청자가 있으면 그 list, 없으면 yyyy-MM-dd만 보내
     public List<PresentationDTO> showMonthSchedule(String month) {
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
+        Presentation empty = new Presentation();
+
+        LocalDate localMonth = LocalDate.parse(month);
+
+        //첫 수요일
+        LocalDate firstWednesday = localMonth.with(TemporalAdjusters.firstInMonth(DayOfWeek.WEDNESDAY));
+
+        // 해당 월의 마지막 날짜
+        LocalDate lastDayOfMonth = localMonth.with(TemporalAdjusters.lastDayOfMonth());
+
+        // 모든 수요일 순회
+        LocalDate wednesday = firstWednesday;
+        while (!wednesday.isAfter(lastDayOfMonth)) {
+            System.out.println("수요일: " + wednesday);
+            wednesday = wednesday.plusWeeks(1);
+        }
+
         List<PresentationDTO> res = new ArrayList<>();
         for (Presentation form : allForms) {
             res.add(PresentationDTO.create(form));
