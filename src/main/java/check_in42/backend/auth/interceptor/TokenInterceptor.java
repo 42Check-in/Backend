@@ -22,6 +22,17 @@ public class TokenInterceptor implements HandlerInterceptor {
     private final UserService userService;
     private final UserContext userContext;
 
+    public boolean isStaffClaimPresent(Claims claims) {
+        return claims.containsKey("staff?");
+    }
+
+    public boolean getStaffClaimValue(Claims claims) {
+        Object staffClaimValue = claims.get("staff?");
+        if (staffClaimValue instanceof Boolean) {
+            return (Boolean) staffClaimValue;
+        }
+        return false;
+    }
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
@@ -40,8 +51,17 @@ public class TokenInterceptor implements HandlerInterceptor {
         userContext.setIntraId(intraId);
         log.info("In tokenInterceptor! intra id is...." + intraId);
         //유저가 맴버인지 확인하는 거 추가해야함
-        boolean isStaff = claims.get("staff?", Boolean.class);
-        userContext.setStaff(isStaff);
+
+        boolean isStaffClaimPresent = isStaffClaimPresent(claims);
+
+        if (isStaffClaimPresent) {
+            boolean isStaff = getStaffClaimValue(claims);
+            userContext.setStaff(isStaff);
+            log.info("key is present!!!!!!!" + isStaff);
+        } else  {
+            log.info("key doesn't exist;;;;;");
+            userContext.setStaff(false);
+        }
         return true;
     }
 }
