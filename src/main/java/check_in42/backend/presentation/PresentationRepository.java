@@ -74,6 +74,6 @@ public class PresentationRepository {
             return;
         }
         Presentation nextForm = dateForms.get(2);
-        nextForm.setStatus(PresentationStatus.PENDING);
+        nextForm.setStatus(PresentationStatus.PENDING.ordinal());
     }
 }

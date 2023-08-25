@@ -76,8 +76,8 @@ public class Presentation {
         this.notice = notice;
     }
 
-    public void setStatus(PresentationStatus status) {
-        this.status = PresentationStatus.values()[status.ordinal()].getDescription();
+    public void setStatus(int status) {
+        this.status = PresentationStatus.values()[status].getDescription();
     }
 
 }

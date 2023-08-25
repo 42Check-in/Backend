@@ -60,10 +60,10 @@ public class Equipment {
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
         this.period = equipmentDTO.getPeriod();
-        if (equipmentDTO.getEquipment().ordinal() == 0)
+        if (equipmentDTO.getEquipment() == 0)
             this.equipment = equipmentDTO.getEtc();
         else
-            this.equipment = EquipmentType.values()[equipmentDTO.getEquipment().ordinal()].getName();
+            this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()].getName();
         this.user = user;
         this.approval = null;
         this.notice = false;

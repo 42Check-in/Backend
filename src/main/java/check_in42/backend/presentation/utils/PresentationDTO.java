@@ -3,6 +3,7 @@ package check_in42.backend.presentation.utils;
 import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -36,6 +37,10 @@ public class PresentationDTO {
         presentationDTO.intraId = presentation.getIntraId();
 
         return presentationDTO;
+    }
+
+    public void setDate(String wednesday) {
+        this.date = wednesday;
     }
 }
 /*

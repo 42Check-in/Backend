@@ -42,31 +42,39 @@ public class PresentationService {
         return new Presentation(user, presentationDTO, count);
     }
 
+
     // 해당 월에서 신청자가 있으면 그 list, 없으면 yyyy-MM-dd만 보내
     public List<PresentationDTO> showMonthSchedule(String month) {
+        // 해당 월에 작성한 모든 form들을 찾아옴.
         List<Presentation> allForms = presentationRepository.findOneMonth(month);
-        Presentation empty = new Presentation();
 
         LocalDate localMonth = LocalDate.parse(month);
-
-        //첫 수요일
         LocalDate firstWednesday = localMonth.with(TemporalAdjusters.firstInMonth(DayOfWeek.WEDNESDAY));
-
-        // 해당 월의 마지막 날짜
         LocalDate lastDayOfMonth = localMonth.with(TemporalAdjusters.lastDayOfMonth());
 
-        // 모든 수요일 순회
+        //4주 순회
         LocalDate wednesday = firstWednesday;
+        List<PresentationDTO> res = new ArrayList<>();
         while (!wednesday.isAfter(lastDayOfMonth)) {
-            System.out.println("수요일: " + wednesday);
+
+            List<Presentation> presentations = new ArrayList<>();
+            for (Presentation form : allForms) {
+                if (form.getDate().equals(wednesday)) {
+                    presentations.add(form);
+                }
+            }
+            PresentationDTO presentationDTO = new PresentationDTO();
+            if (!presentations.isEmpty()) {
+                for (Presentation pre : presentations) {
+                    res.add(PresentationDTO.create(pre));
+                }
+            }
+            else {
+                presentationDTO.setDate(wednesday.toString());
+                res.add(presentationDTO);
+            }
             wednesday = wednesday.plusWeeks(1);
         }
-
-        List<PresentationDTO> res = new ArrayList<>();
-        for (Presentation form : allForms) {
-            res.add(PresentationDTO.create(form));
-        }
-
         return res;
     }
 
@@ -92,7 +100,7 @@ public class PresentationService {
     }
 
     @Transactional
-    public void setAgreeDatesAndStatus(List<Long> formId, PresentationStatus status) {
+    public void setAgreeDatesAndStatus(List<Long> formId, int status) {
         for (Long id : formId) {
             Presentation presentation = presentationRepository.findOne(id);
             presentation.setApproval();
