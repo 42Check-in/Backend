@@ -6,6 +6,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,5 +128,17 @@ public class PresentationService {
 
     public List<Presentation> findByDate(String date) {
         return presentationRepository.findByDate(date);
+    }
+
+    @Transactional
+    public Long createNewForm(final String intraId,
+                              final PresentationDTO presentationDTO) {
+        final User user = userRepository.findByName(intraId).get();
+        final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
+        final Presentation presentation = create(user, presentationDTO, count);
+        final Long formId = join(presentation);
+        user.addPresentationForm(presentation);
+
+        return formId;
     }
 }

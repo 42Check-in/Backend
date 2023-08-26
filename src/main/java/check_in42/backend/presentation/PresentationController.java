@@ -31,12 +31,13 @@ public class PresentationController {
     @PostMapping("/presentations/form")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final PresentationDTO presentationDTO) {
-        final User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final int count = presentationService.findByDate(presentationDTO.getDate()).size();
-        final Presentation presentation = presentationService.create(user, presentationDTO, count);
-        final Long formId = presentationService.join(presentation);
-        user.addPresentationForm(presentation);
+//        final User user = userService.findByName(userInfo.getIntraId())
+//                .orElseThrow(UserRunTimeException.NoUserException::new);
+//        final int count = presentationService.findByDate(presentationDTO.getDate()).size();
+//        final Presentation presentation = presentationService.create(user, presentationDTO, count);
+//        final Long formId = presentationService.join(presentation);
+//        user.addPresentationForm(presentation);
+        final Long formId = presentationService.createNewForm(userInfo.getIntraId(), presentationDTO);
         return ResponseEntity.ok(formId);
     }
 
