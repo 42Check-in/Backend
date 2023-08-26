@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class VisitorsController {
 
     private final VisitorsService visitorsService;
-    private final UserService userService;
 
     @PostMapping("visitors/form")
     public ResponseEntity applyVisitorsForm(@RequestBody final VisitorsDTO visitorsDTO,
