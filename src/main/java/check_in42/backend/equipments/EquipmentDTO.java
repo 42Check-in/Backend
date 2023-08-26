@@ -10,7 +10,7 @@ public class EquipmentDTO {
     private String phoneNumber;
     private String date;
     private int equipment;
-    private boolean purpose;
+    private int purpose;
     private String detail;
     private String benefit;
     private int period;
@@ -23,7 +23,7 @@ public class EquipmentDTO {
         equipmentDTO.userName = equipment.getUserName();
         equipmentDTO.phoneNumber = equipment.getPhoneNumber();
         equipmentDTO.date = equipment.getDate().toString();
-        equipmentDTO.purpose = equipment.isPurpose();
+        equipmentDTO.purpose = equipment.getPurpose();
         equipmentDTO.detail = equipment.getDetail();
         equipmentDTO.period = equipment.getPeriod();
         equipmentDTO.benefit = equipment.getBenefit();

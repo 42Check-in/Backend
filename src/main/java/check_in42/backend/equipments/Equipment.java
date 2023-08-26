@@ -26,7 +26,7 @@ public class Equipment {
 
     private LocalDate date;
 
-    private boolean purpose; // 1 -> 42과제, 0 -> 그 외
+    private int purpose; // 1 -> 42과제, 0 -> 그 외
 
     private String detail;
 
@@ -54,7 +54,7 @@ public class Equipment {
         this.intraId = user.getIntraId();
         this.userName = equipmentDTO.getUserName();
         this.phoneNumber = equipmentDTO.getPhoneNumber();
-        this.purpose = equipmentDTO.isPurpose();
+        this.purpose = equipmentDTO.getPurpose();
         this.detail = equipmentDTO.getDetail();
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);

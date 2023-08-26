@@ -38,7 +38,7 @@ public class Presentation {
 
     private PresentationType type; // 유형 겁나 많음 enum
 
-    private boolean screen; // 촬영 희망/비희망
+    private int screen; // 촬영 희망/비희망
 
     private String status;
 
