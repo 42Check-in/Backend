@@ -26,7 +26,6 @@ public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
 
-    private final MyCheckInService myCheckInService;
     private final UserService userService;
 
     @GetMapping("calendar/{year}/{month}")
@@ -68,9 +67,9 @@ public class ConferenceController {
     public ResponseEntity cancelForm(@UserId UserInfo userInfo,
                                      @RequestBody Long formId) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
-        ConferenceRoomDTO conferenceRoomDTO = myCheckInService.findConferenceFormFromUser(user, formId);
+        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(formId);
 
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomDTO.getDate());
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoom.getDate());
         conferenceRoomService.deleteById(user, formId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
