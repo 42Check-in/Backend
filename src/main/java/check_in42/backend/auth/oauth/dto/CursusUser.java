@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @NoArgsConstructor
-public class Cursus_users {
+public class CursusUser {
     private String grade;
 }
