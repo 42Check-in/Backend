@@ -25,6 +25,7 @@ public class VisitorsService {
         final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final Visitors visitors = this.createVisitors(user, visitorsDTO);
+        visitors.getPriorApproval().setIntraId(intraId);
         visitorsRepository.save(visitors);
         user.addVisitorsForm(visitors);
         return visitors.getId();

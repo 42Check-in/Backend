@@ -63,8 +63,11 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
+        Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
-                .map(ConferenceRoomDTO::create).collect(Collectors.toList());
+                .sorted(descendingComparator)
+                .map(ConferenceRoomDTO::create)
+                .collect(Collectors.toList());
         return result;
     }
 
@@ -84,8 +87,11 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Presentation> presentationList = user.getPresentations();
+        Comparator<Presentation> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<PresentationDTO> result = presentationList.stream()
-                .map(PresentationDTO::create).collect(Collectors.toList());
+                .sorted(descendingComparator)
+                .map(PresentationDTO::create)
+                .collect(Collectors.toList());
         return result;
     }
 
@@ -93,8 +99,11 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Equipment> equipmentList = user.getEquipments();
+        Comparator<Equipment> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<EquipmentDTO> result = equipmentList.stream()
-                .map(EquipmentDTO::create).collect(Collectors.toList());
+                .sorted(descendingComparator)
+                .map(EquipmentDTO::create)
+                .collect(Collectors.toList());
         return result;
     }
 }

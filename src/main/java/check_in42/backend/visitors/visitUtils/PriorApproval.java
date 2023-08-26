@@ -41,4 +41,7 @@ public class PriorApproval {
         this.agreement = visitorsDTO.isAgreement();
     }
 
+    public void setIntraId(String intraId) {
+        this.intraId = intraId;
+    }
 }
