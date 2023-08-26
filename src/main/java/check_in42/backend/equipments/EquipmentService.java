@@ -135,5 +135,14 @@ public class EquipmentService {
     public List<Equipment> findByNoticeFalse() {
         return equipmentRepository.findByNoticeFalse();
     }
-  
+
+    @Transactional
+    public Long createNewForm(String intraId, EquipmentDTO equipmentDTO) {
+
+        User user = userRepository.findByName(intraId).get();
+        Equipment equipment = create(user, equipmentDTO);
+        Long formId = join(equipment);
+        user.addEquipForm(equipment);
+        return formId;
+    }
 }

@@ -25,11 +25,12 @@ public class EquipmentController {
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final EquipmentDTO equipmentDTO) {
-        User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);;
-        Equipment equipment = equipmentService.create(user, equipmentDTO);
-        Long equipmentFormId = equipmentService.join(equipment);
-        user.addEquipForm(equipment);
+//        User user = userService.findByName(userInfo.getIntraId())
+//                .orElseThrow(UserRunTimeException.NoUserException::new);;
+//        Equipment equipment = equipmentService.create(user, equipmentDTO);
+//        Long equipmentFormId = equipmentService.join(equipment);
+//        user.addEquipForm(equipment);
+        final Long equipmentFormId = equipmentService.createNewForm(userInfo.getIntraId(), equipmentDTO);
         return ResponseEntity.ok().body(equipmentFormId);
     }
 
