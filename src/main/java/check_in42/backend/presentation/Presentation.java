@@ -36,7 +36,7 @@ public class Presentation {
 
     private String time; // (enum) 15, 30, 45, 1시간
 
-    private PresentationType type; // 유형 겁나 많음 enum
+    private String type; // 유형 겁나 많음 enum
 
     private int screen; // 촬영 희망/비희망
 
@@ -58,11 +58,11 @@ public class Presentation {
         this.contents = presentationDTO.getContents();
         this.date = LocalDate.parse(presentationDTO.getDate());
         this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
-        this.type = PresentationType.values()[presentationDTO.getType()];
+        this.type = PresentationType.values()[presentationDTO.getType()].getType();
         if (count == 0) {
-            this.type = PresentationType.valueOf(PresentationStatus.PENDING.getDescription());
+            this.status = PresentationStatus.PENDING.getDescription();
         } else
-            this.type = PresentationType.valueOf(PresentationStatus.WAITING.getDescription());
+            this.status = PresentationStatus.WAITING.getDescription();
         this.user = user;
         this.approval = null;
         this.notice = false;

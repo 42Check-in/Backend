@@ -17,7 +17,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(1004, "유효한 리프레시 토큰이 없습니다"),
 
     //userRunTimeException
-    NO_USER(1005, "유저가 없습니다");
+    NO_USER(1005, "유저가 없습니다"),
+    BAD_DATE(1006, "날짜가 양식에 맞지 않습니다");
 
     private final int code;
     private final String message;
