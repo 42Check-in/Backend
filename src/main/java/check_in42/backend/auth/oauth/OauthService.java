@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -132,8 +133,9 @@ public class OauthService {
         final boolean staff = user42Info.isStaff();
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
-        User user = userService.findByName(intraId)
-                .orElseGet(() -> userService.create(intraId, staff, refreshToken));
+        userService.findByName(intraId)
+                .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
+                        () -> userService.create(intraId, staff, refreshToken));
         return new TokenPair(accessToken, refreshToken);
     }
 
