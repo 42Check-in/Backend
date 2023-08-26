@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,6 +71,7 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Visitors> visitorsList = user.getVisitors();
+        visitorsList.sort(Collections.reverseOrder());
         final List<VisitorsDTO> result = visitorsList.stream()
                 .map(VisitorsDTO::create).collect(Collectors.toList());
         return result;
