@@ -35,6 +35,7 @@ public class OauthController {
     public ResponseEntity reissueToken(@RequestBody final String refreshToken) {
 
         log.info("Reissue!!!");
+        log.info(refreshToken + "---------------------------------------------");
         if (refreshToken == null) {
             throw new AuthorizationException.RefreshTokenNotFoundException();
         }
