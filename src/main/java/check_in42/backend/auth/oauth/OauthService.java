@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -125,6 +126,7 @@ public class OauthService {
         return new HttpEntity<>(params, headers);
     }
 
+    @Transactional
     public TokenPair login(final String code) {
         final OauthToken oauthToken = this.getOauthToken(code);
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
