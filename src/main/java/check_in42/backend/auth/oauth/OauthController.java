@@ -32,14 +32,14 @@ public class OauthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
+    public ResponseEntity reissueToken(@RequestBody final String refreshToken) {
 
         log.info("Reissue!!!");
-        if (loginResponse.getRefreshToken() == null) {
+        if (refreshToken == null) {
             throw new AuthorizationException.RefreshTokenNotFoundException();
         }
 
-        final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
+        final String accessToken = oauthService.reissueToken(refreshToken);
         final boolean staff = oauthService.isStaff(accessToken);
 
         final LoginResponse newLoginResponse = LoginResponse.builder()
