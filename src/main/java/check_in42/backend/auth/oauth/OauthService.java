@@ -130,12 +130,10 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        // 여기서 가르기? cadet / staff
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         User user = userService.findByName(intraId)
                 .orElseGet(() -> userService.create(intraId, staff, refreshToken));
-        log.info("너 스태프묘????" + staff);
         return new TokenPair(accessToken, refreshToken);
     }
 

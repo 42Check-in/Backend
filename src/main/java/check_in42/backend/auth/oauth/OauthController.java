@@ -21,10 +21,12 @@ public class OauthController {
         log.info("로그인 할꺼니?");
         log.info(code);
         final TokenPair tokenPair = oauthService.login(code);
+        final boolean staff = oauthService.isStaff(tokenPair.getAccessToken());
 
         final LoginResponse loginResponse = LoginResponse.builder()
                 .accessToken(tokenPair.getAccessToken())
                 .refreshToken(tokenPair.getRefreshToken())
+                .staff(staff)
                 .build();
         return ResponseEntity.ok(loginResponse);
     }
@@ -38,7 +40,7 @@ public class OauthController {
 
         final String accessToken = oauthService.reissueToken(loginResponse.getRefreshToken());
         final boolean staff = oauthService.isStaff(accessToken);
-        log.info("T/F?" + staff);
+
         final LoginResponse newLoginResponse = LoginResponse.builder()
                 .accessToken(accessToken)
                 .staff(staff)
