@@ -44,19 +44,19 @@ public class VisitorsDTO {
         try {
             visitorsDTO.visitPurpose = VisitPurpose.valueOf(visitors.getPriorApproval()
                     .getVisitPurpose()).ordinal();
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             visitorsDTO.visitPurpose = 0;
         }
         try {
             visitorsDTO.relationWithUser = RelationWithUser.valueOf(visitors.getPriorApproval()
                     .getRelationWithUser()).ordinal();
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             visitorsDTO.relationWithUser = 0;
         }
         try {
             visitorsDTO.visitPlace = VisitPlace.valueOf(visitors.getPriorApproval()
                     .getVisitPlace()).ordinal();
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             visitorsDTO.visitPlace = 0;
         }
         visitorsDTO.etcPurpose = visitors.getPriorApproval().getVisitPurpose();
