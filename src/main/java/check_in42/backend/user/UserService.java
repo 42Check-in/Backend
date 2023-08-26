@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -71,9 +72,11 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<Visitors> visitorsList = user.getVisitors();
-        visitorsList.sort(Collections.reverseOrder());
+        Comparator<Visitors> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<VisitorsDTO> result = visitorsList.stream()
-                .map(VisitorsDTO::create).collect(Collectors.toList());
+                .sorted(descendingComparator)
+                .map(VisitorsDTO::create)
+                .collect(Collectors.toList());
         return result;
     }
 
