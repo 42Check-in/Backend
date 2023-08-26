@@ -22,9 +22,9 @@ public class VisitorsService {
 
     @Transactional
     public Long applyVisitorForm(String intraId, VisitorsDTO visitorsDTO) {
-        User user = userRepository.findByName(intraId)
+        final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
-        Visitors visitors = this.createVisitors(user, visitorsDTO);
+        final Visitors visitors = this.createVisitors(user, visitorsDTO);
         visitorsRepository.save(visitors);
         user.addVisitorsForm(visitors);
         return visitors.getId();
