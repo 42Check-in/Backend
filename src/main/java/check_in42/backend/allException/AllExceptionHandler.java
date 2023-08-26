@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AllExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
-    private ResponseEntity handleAuthenticationException(final CustomException e) {
+    public ResponseEntity handleAuthenticationException(final CustomException e) {
         log.info(e.toString());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getCode());
     }
     @ExceptionHandler(TokenException.class)
-    private ResponseEntity handleTokenException(final CustomException e) {
+    public ResponseEntity handleTokenException(final CustomException e) {
         log.info(e.toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
     }
 
     @ExceptionHandler(UserRunTimeException.class)
-    private ResponseEntity handleUserRunException(final CustomException e) {
+    public ResponseEntity handleUserRunException(final CustomException e) {
         log.info(e.toString());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getCode());
     }
