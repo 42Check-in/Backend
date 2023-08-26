@@ -32,7 +32,7 @@ public class PresentationDTO {
         presentationDTO.contents = presentation.getContents();
         presentationDTO.time = PresentationTime.valueOf(presentation.getTime()).ordinal();
         presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus()).ordinal();
-        presentationDTO.type = PresentationType.values()[presentation.getType().ordinal()].ordinal();
+        presentationDTO.type = PresentationType.valueOf(presentation.getType()).ordinal();
         presentationDTO.screen = presentation.getScreen();
         presentationDTO.intraId = presentation.getIntraId();
 
