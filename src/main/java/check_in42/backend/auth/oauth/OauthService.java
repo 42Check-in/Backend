@@ -19,12 +19,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +126,7 @@ public class OauthService {
         return new HttpEntity<>(params, headers);
     }
 
+    @Transactional
     public TokenPair login(final String code) {
         final OauthToken oauthToken = this.getOauthToken(code);
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
@@ -132,8 +135,9 @@ public class OauthService {
         final boolean staff = user42Info.isStaff();
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
-        User user = userService.findByName(intraId)
-                .orElseGet(() -> userService.create(intraId, staff, refreshToken));
+        userService.findByName(intraId)
+                .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
+                        () -> userService.create(intraId, staff, refreshToken));
         return new TokenPair(accessToken, refreshToken);
     }
 

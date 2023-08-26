@@ -2,6 +2,7 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
+import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.visitUtils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -20,7 +21,10 @@ public class VisitorsService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long applyVisitorForm(User user, Visitors visitors) {
+    public Long applyVisitorForm(String intraId, VisitorsDTO visitorsDTO) {
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final Visitors visitors = this.createVisitors(user, visitorsDTO);
         visitorsRepository.save(visitors);
         user.addVisitorsForm(visitors);
         return visitors.getId();

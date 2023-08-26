@@ -46,7 +46,6 @@ public class PresentationController {
     * */
     @GetMapping("/presentations")
     public ResponseEntity<List<PresentationDTO>> showList(@RequestParam final String month) {
-        log.info("month????????????" + month);
         List<PresentationDTO> res = presentationService.showMonthSchedule(month);
         return ResponseEntity.ok().body(res);
     }

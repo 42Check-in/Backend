@@ -24,7 +24,7 @@ public class TokenProvider {
                          @Value("${jwt.refresh-valid-time}") final long refreshTokenValidateTime,
                          @Value("${jwt.secret-code}") final String secretCode) {
         this.accessTokenValidateTime = accessTokenValidateTime * 100;
-        this.refreshTokenValidateTime = refreshTokenValidateTime * 100;
+        this.refreshTokenValidateTime = refreshTokenValidateTime * 1000;
         this.secretKey = generateSecretKey(secretCode);
     }
 
