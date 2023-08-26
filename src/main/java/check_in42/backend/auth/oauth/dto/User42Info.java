@@ -10,4 +10,5 @@ public class User42Info {
     private String login;
     @JsonProperty("staff?")
     private boolean staff;
+    private Cursus_users cursus_users;
 }
