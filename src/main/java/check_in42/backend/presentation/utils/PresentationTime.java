@@ -10,10 +10,10 @@ public enum PresentationTime {
     THREE("1시간"),
     FOUR("1시간 이상");
 
-    private final String time;
+    private String description;
 
-    PresentationTime(String time) {
-        this.time = time;
+    PresentationTime(String description) {
+        this.description = description;
     }
 
 

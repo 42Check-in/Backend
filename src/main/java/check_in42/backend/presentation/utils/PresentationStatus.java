@@ -11,7 +11,7 @@ public enum PresentationStatus {
     LECTURE_COMPLETED("강의 완료"),
     WAITING("대기 중");
 
-    private final String description;
+    private String description;
 
     PresentationStatus(String description) {
         this.description = description;

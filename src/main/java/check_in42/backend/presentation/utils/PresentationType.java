@@ -16,9 +16,9 @@ public enum PresentationType {
     challenge("challenge"),
     extern("extern");
 
-    private final String type;
+    private String description;
 
-    PresentationType(String type) {
-        this.type = type;
+    PresentationType(String description) {
+        this.description = description;
     }
 }
