@@ -34,6 +34,7 @@ public class OauthController {
     @PostMapping("/reissue")
     public ResponseEntity reissueToken(@RequestBody final LoginResponse loginResponse) {
 
+        log.info("Reissue!!!");
         if (loginResponse.getRefreshToken() == null) {
             throw new AuthorizationException.RefreshTokenNotFoundException();
         }
