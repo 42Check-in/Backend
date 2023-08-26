@@ -21,10 +21,10 @@ public class VisitorsController {
     @PostMapping("visitors/form")
     public ResponseEntity applyVisitorsForm(@RequestBody final VisitorsDTO visitorsDTO,
                                             @UserId final UserInfo userInfo) {
-        User user = userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        Visitors visitors = visitorsService.createVisitors(user, visitorsDTO);
-        visitorsService.applyVisitorForm(user, visitors);
+//        User user = userService.findByName(userInfo.getIntraId())
+//                .orElseThrow(UserRunTimeException.NoUserException::new);
+//        Visitors visitors = visitorsService.createVisitors(user, visitorsDTO);
+        visitorsService.applyVisitorForm(userInfo.getIntraId(), visitorsDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
