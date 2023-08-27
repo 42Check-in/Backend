@@ -61,14 +61,14 @@ public class ConferenceController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping(value = "cancel", consumes = {"text/plain", "application/*", MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity cancelForm(@UserId UserInfo userInfo,
-                                     @RequestBody Long formId) {
+    @PostMapping("cancel")
+    public ResponseEntity cancelForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
+                                     @UserId final UserInfo userInfo) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
-        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(formId);
+        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(conferenceRoomDTO.getId());
 
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoom.getDate());
-        conferenceRoomService.deleteById(user, formId);
+        conferenceRoomService.deleteById(user, conferenceRoomDTO.getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
