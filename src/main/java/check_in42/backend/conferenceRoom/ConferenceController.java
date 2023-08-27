@@ -13,6 +13,7 @@ import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +61,7 @@ public class ConferenceController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("cancel")
+    @PostMapping(value = "cancel", consumes = {"text/plain", "application/*", MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity cancelForm(@UserId UserInfo userInfo,
                                      @RequestBody Long formId) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
