@@ -1,6 +1,11 @@
 package check_in42.backend.equipments.utils;
 
+import check_in42.backend.presentation.utils.PresentationTime;
 import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
+
 //db엔 string, front에는 number
 @Getter
 public enum EquipmentType {
@@ -12,5 +17,21 @@ public enum EquipmentType {
     private final String name;
     EquipmentType(String name) {
         this.name = name;
+    }
+
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
+
+    static {
+        for (EquipmentType name : EquipmentType.values()) {
+            descriptionToOrdinal.put(name.name, name.ordinal());
+        }
+    }
+
+    public static int getOrdinalByDescription(String description) {
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        throw new IllegalArgumentException("Invalid description: " + description);
     }
 }
