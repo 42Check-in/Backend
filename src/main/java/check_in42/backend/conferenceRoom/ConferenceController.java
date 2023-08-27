@@ -4,16 +4,11 @@ import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
-import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
-import check_in42.backend.myCheckIn.MyCheckInService;
-import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

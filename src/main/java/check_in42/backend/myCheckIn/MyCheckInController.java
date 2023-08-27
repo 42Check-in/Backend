@@ -28,7 +28,6 @@ import java.util.List;
 @Slf4j
 public class MyCheckInController {
 
-    private final UserService userService;
     private final MyCheckInService myCheckInService;
     private final ConferenceRoomService conferenceRoomService;
     private final VisitorsService visitorsService;
