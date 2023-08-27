@@ -1,8 +1,8 @@
 package check_in42.backend.presentation.utils;
 
+import check_in42.backend.equipments.utils.EnumUtils;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -14,21 +14,13 @@ public enum PresentationTime {
     FOUR("1시간 이상");
 
     private final String description;
-    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
-
-    static {
-        for (PresentationTime time : PresentationTime.values()) {
-            descriptionToOrdinal.put(time.description, time.ordinal());
-        }
-    }
     PresentationTime(String description) {
         this.description = description;
     }
+    private static final Map<String, Integer> descriptionToOrdinal = EnumUtils.createDescriptionToOrdinalMap(PresentationTime.class);
+
+
     public static int getOrdinalByDescription(String description) {
-        Integer ordinalValue = descriptionToOrdinal.get(description);
-        if (ordinalValue != null) {
-            return ordinalValue;
-        }
-        throw new IllegalArgumentException("Invalid description: " + description);
+        return EnumUtils.getOrdinalByDescription(descriptionToOrdinal, description);
     }
 }
