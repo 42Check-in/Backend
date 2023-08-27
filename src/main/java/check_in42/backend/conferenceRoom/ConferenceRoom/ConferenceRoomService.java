@@ -1,10 +1,13 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.user.User;
+import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,7 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
+    private final UserService userService;
 
     private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
 
@@ -85,6 +89,15 @@ public class ConferenceRoomService {
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
         return (emptyTime & reqFormReservationTimeBit) == 0;
+    }
+
+    @Transactional
+    public Long inputForm(ConferenceRoomDTO conferenceRoomDTO, UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
+        ConferenceRoom conferenceRoom = create(conferenceRoomDTO, user);
+        conferenceRoomRepository.save(conferenceRoom);
+        user.addConferenceForm(conferenceRoom);
+        return conferenceRoom.getId();
     }
 
     public boolean isDayFull(LocalDate date) {

@@ -52,10 +52,7 @@ public class ConferenceController {
         if (!conferenceRoomService.isInputForm(conferenceRoomDTO))
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
 
-        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
-        ConferenceRoom conferenceRoom = conferenceRoomService.create(conferenceRoomDTO, user);
-        conferenceRoomService.join(conferenceRoom);
-        user.addConferenceForm(conferenceRoom);
+        conferenceRoomService.inputForm(conferenceRoomDTO, userInfo);
 
         if (conferenceRoomService.isDayFull(conferenceRoomDTO.getDate()))
             conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());
