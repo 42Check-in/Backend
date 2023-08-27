@@ -45,7 +45,7 @@ public class VisitorsService {
 
     @Transactional
     public void delete(VisitorsDTO visitorsDTO, String intraId) {
-        Optional<Visitors> visitors = visitorsRepository.findById(visitorsDTO.getVisitorsId());
+        Optional<Visitors> visitors = visitorsRepository.findById(visitorsDTO.getFormId());
         if (visitors.isEmpty())
             return ;
         visitorsRepository.delete(visitors.get());

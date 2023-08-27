@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class VisitorsDTO {
 
-    private Long visitorsId;
+    private Long formId;
 
     private String intraId;
 
@@ -35,7 +35,7 @@ public class VisitorsDTO {
 
     public static VisitorsDTO create(Visitors visitors) {
         VisitorsDTO visitorsDTO = new VisitorsDTO();
-        visitorsDTO.visitorsId = visitors.getId();
+        visitorsDTO.formId = visitors.getId();
         visitorsDTO.intraId = visitors.getPriorApproval().getIntraId();
         visitorsDTO.visitorsName = visitors.getPriorApproval().getVisitorsName();
         visitorsDTO.visitDate = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
