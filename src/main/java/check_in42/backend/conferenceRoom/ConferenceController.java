@@ -68,9 +68,4 @@ public class ConferenceController {
         conferenceRoomService.cancelForm(conferenceRoomDTO, userInfo);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    @GetMapping("hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello World!!");
-    }
 }
