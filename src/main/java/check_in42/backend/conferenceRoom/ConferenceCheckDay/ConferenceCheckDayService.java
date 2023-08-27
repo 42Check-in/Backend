@@ -1,5 +1,6 @@
 package check_in42.backend.conferenceRoom.ConferenceCheckDay;
 
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,12 +53,12 @@ public class ConferenceCheckDayService {
     }
 
     @Transactional
-    public Long updateAllowCheckDay(LocalDate formDate) {
+    public Long updateAllowCheckDay(ConferenceRoom conferenceRoom) {
         long year, month, day;
 
-        year = formDate.getYear();
-        month = formDate.getMonthValue();
-        day = formDate.getDayOfMonth();
+        year = conferenceRoom.getDate().getYear();
+        month = conferenceRoom.getDate().getMonthValue();
+        day = conferenceRoom.getDate().getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null)
             return null;

@@ -36,8 +36,8 @@ public class MyCheckInController {
     private final EquipmentService equipmentService;
     @GetMapping("/conference-rooms")
     public ResponseEntity myConferenceRooms(@UserId final UserInfo userInfo) {
-        final List<ConferenceRoomDTO> conferenceRoomList =
-                myCheckInService.userConferenceRoomList(userInfo.getIntraId());
+        final List<ConferenceRoomDTO> conferenceRoomList = myCheckInService
+                .userConferenceRoomList(userInfo.getIntraId());
         return ResponseEntity.ok(conferenceRoomList);
     }
 

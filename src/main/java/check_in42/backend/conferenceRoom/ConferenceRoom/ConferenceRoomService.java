@@ -32,13 +32,6 @@ public class ConferenceRoomService {
         return conferenceRoom.getId();
     }
 
-    @Transactional
-    public Long deleteById(User user, Long formId) {
-        conferenceRoomRepository.deleteById(formId);
-        user.deleteConferenceRoomForm(formId);
-        return formId;
-    }
-
     public ConferenceRoom create(ConferenceRoomDTO conferenceRoomDTO, User user) {
         return ConferenceRoom.builder()
                 .user(user)
@@ -98,6 +91,14 @@ public class ConferenceRoomService {
         conferenceRoomRepository.save(conferenceRoom);
         user.addConferenceForm(conferenceRoom);
         return conferenceRoom.getId();
+    }
+
+    @Transactional
+    public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, UserInfo userInfo) {
+        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
+        conferenceRoomRepository.deleteById(conferenceRoomDTO.getId());
+        user.deleteConferenceRoomForm(conferenceRoomDTO.getId());
+        return conferenceRoomDTO.getId();
     }
 
     public boolean isDayFull(LocalDate date) {
