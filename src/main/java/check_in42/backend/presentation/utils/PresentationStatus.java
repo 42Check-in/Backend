@@ -1,5 +1,7 @@
 package check_in42.backend.presentation.utils;
 
+import check_in42.backend.equipments.utils.EnumUtils;
+import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -20,20 +22,11 @@ public enum PresentationStatus {
         this.description = description;
     }
 
-    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
+    private static final Map<String, Integer> descriptionToOrdinal = EnumUtils.createDescriptionToOrdinalMap(PresentationStatus.class);
 
-    static {
-        for (PresentationStatus description : PresentationStatus.values()) {
-            descriptionToOrdinal.put(description.description, description.ordinal());
-        }
-    }
 
     public static int getOrdinalByDescription(String description) {
-        Integer ordinalValue = descriptionToOrdinal.get(description);
-        if (ordinalValue != null) {
-            return ordinalValue;
-        }
-        throw new IllegalArgumentException("Invalid description: " + description);
+        return EnumUtils.getOrdinalByDescription(descriptionToOrdinal, description);
     }
 
 }

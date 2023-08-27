@@ -36,8 +36,10 @@ public class PriorApproval {
                 + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
         this.relationWithUser = visitorsDTO.getEtcRelation() != null ? RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType()
                 + visitorsDTO.getEtcRelation() : RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
-        this.visitPlace = visitorsDTO.getEtcPlace() != null ? VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType()
-                + visitorsDTO.getEtcPlace() : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
+        this.visitPlace =
+                visitorsDTO.getEtcPlace() != null ?
+                        VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType() + visitorsDTO.getEtcPlace()
+                        : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
         this.agreement = visitorsDTO.isAgreement();
     }
 
