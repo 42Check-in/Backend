@@ -54,8 +54,7 @@ public class VisitorsDTO {
             visitorsDTO.relationWithUser = 0;
         }
         try {
-            visitorsDTO.visitPlace = VisitPlace.valueOf(visitors.getPriorApproval()
-                    .getVisitPlace()).ordinal();
+            visitorsDTO.visitPlace = VisitPlace.valueOf(visitors.getPriorApproval().getVisitPlace()).ordinal();
         } catch (IllegalArgumentException e) {
             visitorsDTO.visitPlace = 0;
         }

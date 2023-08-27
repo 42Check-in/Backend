@@ -13,16 +13,16 @@ public enum PresentationTime {
     THREE("1시간"),
     FOUR("1시간 이상");
 
-    private final String time;
+    private final String description;
     private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
     static {
         for (PresentationTime time : PresentationTime.values()) {
-            descriptionToOrdinal.put(time.time, time.ordinal());
+            descriptionToOrdinal.put(time.description, time.ordinal());
         }
     }
-    PresentationTime(String time) {
-        this.time = time;
+    PresentationTime(String description) {
+        this.description = description;
     }
     public static int getOrdinalByDescription(String description) {
         Integer ordinalValue = descriptionToOrdinal.get(description);
