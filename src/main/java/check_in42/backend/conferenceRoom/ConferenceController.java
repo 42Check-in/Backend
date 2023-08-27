@@ -60,7 +60,7 @@ public class ConferenceController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("cancel")
+    @PostMapping("cancel")
     public ResponseEntity cancelForm(@UserId UserInfo userInfo,
                                      @RequestBody Long formId) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
