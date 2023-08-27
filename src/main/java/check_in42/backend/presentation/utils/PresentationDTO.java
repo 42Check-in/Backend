@@ -12,8 +12,8 @@ public class PresentationDTO {
     private Long formId;
     private String userName;
     private String date;
+    private String title;
     private String subject;
-    private String contents;
     private String detail;
     private int time;
     private int type;
@@ -28,8 +28,8 @@ public class PresentationDTO {
         presentationDTO.userName = presentation.getUserName();
         presentationDTO.date = presentation.getDate().toString();
         presentationDTO.detail = presentation.getDetail();
+        presentationDTO.title = presentation.getTitle();
         presentationDTO.subject = presentation.getSubject();
-        presentationDTO.contents = presentation.getContents();
         presentationDTO.time = PresentationTime.getOrdinalByDescription(presentation.getTime());
         presentationDTO.status = PresentationStatus.getOrdinalByDescription(presentation.getStatus());
         presentationDTO.type = PresentationType.valueOf(presentation.getType()).ordinal();

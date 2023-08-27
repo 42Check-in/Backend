@@ -28,9 +28,9 @@ public class Presentation {
 
     private LocalDate date;
 
-    private String subject; // 발표 제목
+    private String title; // 발표 제목
 
-    private String contents; // 발표 내용
+    private String subject; // 발표 내용
 
     private String detail; // 상세 내용
 
@@ -52,10 +52,10 @@ public class Presentation {
 
         this.intraId = user.getIntraId();
         this.userName = presentationDTO.getUserName();
-        this.subject = presentationDTO.getSubject();
+        this.title = presentationDTO.getTitle();
         this.screen = presentationDTO.getScreen();
         this.detail = presentationDTO.getDetail();
-        this.contents = presentationDTO.getContents();
+        this.subject = presentationDTO.getSubject();
         this.date = LocalDate.parse(presentationDTO.getDate());
         this.time = PresentationTime.values()[presentationDTO.getTime()].getTime();
         this.type = PresentationType.values()[presentationDTO.getType()].toString();
