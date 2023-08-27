@@ -11,7 +11,6 @@ import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
-import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
@@ -33,6 +32,7 @@ public class MyCheckInController {
     private final VisitorsService visitorsService;
     private final PresentationService presentationService;
     private final EquipmentService equipmentService;
+
     @GetMapping("/conference-rooms")
     public ResponseEntity myConferenceRooms(@UserId final UserInfo userInfo) {
         final List<ConferenceRoomDTO> conferenceRoomList = myCheckInService
