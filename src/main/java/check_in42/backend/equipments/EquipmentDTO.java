@@ -16,14 +16,18 @@ public class EquipmentDTO {
     private int period;
     private String returnDate;
     private Long formId;
-    private String etc;
+    private String etcPurpose;
+    private String etcEquipment;
 
     public static EquipmentDTO create(Equipment equipment) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
         equipmentDTO.userName = equipment.getUserName();
         equipmentDTO.phoneNumber = equipment.getPhoneNumber();
         equipmentDTO.date = equipment.getDate().toString();
-        equipmentDTO.purpose = equipment.getPurpose();
+        if ("42서울".equals(equipment.getEquipment()))
+            equipmentDTO.purpose = 1;
+        else
+            equipmentDTO.purpose = 0;
         equipmentDTO.detail = equipment.getDetail();
         equipmentDTO.period = equipment.getPeriod();
         equipmentDTO.benefit = equipment.getBenefit();
