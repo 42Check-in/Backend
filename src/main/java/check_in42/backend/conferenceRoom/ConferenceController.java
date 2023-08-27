@@ -64,11 +64,17 @@ public class ConferenceController {
     @PostMapping("cancel")
     public ResponseEntity cancelForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                      @UserId final UserInfo userInfo) {
+        System.out.println("id=>>>>>>>> " + conferenceRoomDTO.getId());
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
         ConferenceRoom conferenceRoom = conferenceRoomService.findOne(conferenceRoomDTO.getId());
 
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoom.getDate());
         conferenceRoomService.deleteById(user, conferenceRoomDTO.getId());
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello World!!");
     }
 }
