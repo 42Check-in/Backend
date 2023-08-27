@@ -24,6 +24,7 @@ public class EquipmentDTO {
         equipmentDTO.userName = equipment.getUserName();
         equipmentDTO.phoneNumber = equipment.getPhoneNumber();
         equipmentDTO.date = equipment.getDate().toString();
+        equipmentDTO.formId = equipment.getId();
         if ("42서울".equals(equipment.getEquipment()))
             equipmentDTO.purpose = 1;
         else
