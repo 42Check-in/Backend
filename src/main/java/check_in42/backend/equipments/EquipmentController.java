@@ -52,6 +52,7 @@ public class EquipmentController {
      *
      * user에 따로 update 해저
      * */
+
     @PostMapping("/equipments/form/extension")
     public ResponseEntity postExtensionForm(@UserId final UserInfo userInfo,
                                             @RequestBody final EquipmentDTO equipmentDTO) {
