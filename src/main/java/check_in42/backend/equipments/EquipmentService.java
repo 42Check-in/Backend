@@ -85,7 +85,7 @@ public class EquipmentService {
         List<EquipmentDTO> res = new ArrayList<>();
 
         for (Equipment equip : equipments) {
-            if (equip.getReturnDate().isAfter(now)) {
+            if (equip.getReturnDate().isAfter(now) || equip.getReturnDate().equals(now)) {
                 res.add(EquipmentDTO.create(equip));
             }
         }
