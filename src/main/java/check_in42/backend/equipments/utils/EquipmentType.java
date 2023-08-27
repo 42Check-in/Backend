@@ -32,6 +32,6 @@ public enum EquipmentType {
         if (ordinalValue != null) {
             return ordinalValue;
         }
-        throw new IllegalArgumentException("Invalid description: " + description);
+        return 0;
     }
 }
