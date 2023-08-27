@@ -2,6 +2,9 @@ package check_in42.backend.presentation.utils;
 
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 public enum PresentationTime {
     ZERO("15분"),
@@ -10,11 +13,22 @@ public enum PresentationTime {
     THREE("1시간"),
     FOUR("1시간 이상");
 
-    private String description;
+    private final String time;
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
-    PresentationTime(String description) {
-        this.description = description;
+    static {
+        for (PresentationTime time : PresentationTime.values()) {
+            descriptionToOrdinal.put(time.time, time.ordinal());
+        }
     }
-
-
+    PresentationTime(String time) {
+        this.time = time;
+    }
+    public static int getOrdinalByDescription(String description) {
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        throw new IllegalArgumentException("Invalid description: " + description);
+    }
 }

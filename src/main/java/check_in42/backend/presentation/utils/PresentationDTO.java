@@ -30,8 +30,8 @@ public class PresentationDTO {
         presentationDTO.detail = presentation.getDetail();
         presentationDTO.subject = presentation.getSubject();
         presentationDTO.contents = presentation.getContents();
-        presentationDTO.time = PresentationTime.valueOf(presentation.getTime()).ordinal();
-        presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus()).ordinal();
+        presentationDTO.time = PresentationTime.getOrdinalByDescription(presentation.getTime());
+        presentationDTO.status = PresentationStatus.getOrdinalByDescription(presentation.getStatus());
         presentationDTO.type = PresentationType.valueOf(presentation.getType()).ordinal();
         presentationDTO.screen = presentation.getScreen();
         presentationDTO.intraId = presentation.getIntraId();

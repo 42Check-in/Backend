@@ -28,7 +28,7 @@ public class EquipmentDTO {
         equipmentDTO.period = equipment.getPeriod();
         equipmentDTO.benefit = equipment.getBenefit();
         equipmentDTO.returnDate = equipment.getReturnDate().toString();
-        equipmentDTO.equipment = EquipmentType.valueOf(equipment.getEquipment()).ordinal();
+        equipmentDTO.equipment = EquipmentType.getOrdinalByDescription(equipment.getEquipment());
 
         return equipmentDTO;
     }
