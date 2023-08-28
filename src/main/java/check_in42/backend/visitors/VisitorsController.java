@@ -25,9 +25,9 @@ public class VisitorsController {
     }
 
     @PostMapping("visitors/cancel")
-    public ResponseEntity cancelVisitors(@RequestBody final VisitorsDTO visitorsDTO,
+    public ResponseEntity cancelVisitors(@RequestBody final Long formId,
                                          @UserId final UserInfo userInfo) {
-        visitorsService.delete(visitorsDTO, userInfo.getIntraId());
+        visitorsService.delete(formId, userInfo.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
