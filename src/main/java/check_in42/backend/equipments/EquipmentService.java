@@ -126,8 +126,8 @@ public class EquipmentService {
 
         User user = userRepository.findByName(intraId).get();
         Equipment equipment = create(user, equipmentDTO);
-        Long formId = join(equipment);
+        equipmentRepository.save(equipment);
         user.addEquipForm(equipment);
-        return formId;
+        return user.getId();
     }
 }
