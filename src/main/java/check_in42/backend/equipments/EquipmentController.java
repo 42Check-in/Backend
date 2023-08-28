@@ -64,8 +64,8 @@ public class EquipmentController {
      * 추가적으로 user의 equipList에서도 제거하기
      * */
     @PostMapping("/equipments/cancel")
-    public ResponseEntity cancel(@UserId final UserInfo userInfo, @RequestBody final Long formId) {
-        equipmentService.findAndDelete(userInfo.getIntraId(), formId);
+    public ResponseEntity cancel(@UserId final UserInfo userInfo, @RequestBody final EquipmentDTO equipmentDTO) {
+        equipmentService.findAndDelete(userInfo.getIntraId(), equipmentDTO.getFormId());
         return new ResponseEntity(HttpStatus.OK);
     }
 }

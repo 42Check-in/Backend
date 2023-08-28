@@ -54,10 +54,10 @@ public class ConferenceController {
     }
 
     @PostMapping("cancel")
-    public ResponseEntity cancelForm(@RequestBody final Long formId,
+    public ResponseEntity cancelForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                      @UserId final UserInfo userInfo) {
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(formId));
-        conferenceRoomService.cancelForm(formId, userInfo);
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getId()));
+        conferenceRoomService.cancelForm(conferenceRoomDTO, userInfo);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

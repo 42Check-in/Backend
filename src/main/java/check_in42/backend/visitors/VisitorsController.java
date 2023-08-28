@@ -1,5 +1,6 @@
 package check_in42.backend.visitors;
 
+import ch.qos.logback.classic.ViewStatusMessagesServlet;
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.user.User;
@@ -25,9 +26,9 @@ public class VisitorsController {
     }
 
     @PostMapping("visitors/cancel")
-    public ResponseEntity cancelVisitors(@RequestBody final Long formId,
+    public ResponseEntity cancelVisitors(@RequestBody final VisitorsDTO visitorsDTO,
                                          @UserId final UserInfo userInfo) {
-        visitorsService.delete(formId, userInfo.getIntraId());
+        visitorsService.delete(visitorsDTO.getFormId(), userInfo.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

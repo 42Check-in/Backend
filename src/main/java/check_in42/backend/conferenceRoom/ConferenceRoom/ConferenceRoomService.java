@@ -94,11 +94,11 @@ public class ConferenceRoomService {
     }
 
     @Transactional
-    public Long cancelForm(Long formId, UserInfo userInfo) {
+    public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, UserInfo userInfo) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
-        conferenceRoomRepository.deleteById(formId);
-        user.deleteConferenceRoomForm(formId);
-        return formId;
+        conferenceRoomRepository.deleteById(conferenceRoomDTO.getId());
+        user.deleteConferenceRoomForm(conferenceRoomDTO.getId());
+        return conferenceRoomDTO.getId();
     }
 
     public boolean isDayFull(LocalDate date) {

@@ -60,8 +60,8 @@ public class PresentationController {
     * */
     @PostMapping("/presentations/cancel")
     public ResponseEntity cancel(@UserId final UserInfo userInfo,
-                                 @RequestBody final Long formId) {
-        presentationService.findAndDelete(userInfo.getIntraId(), formId);
+                                 @RequestBody final PresentationDTO presentationDTO) {
+        presentationService.findAndDelete(userInfo.getIntraId(), presentationDTO.getFormId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
