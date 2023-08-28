@@ -88,7 +88,7 @@ public class PresentationService {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(presentation);
-        log.info(intraId, formId);
+        log.info(intraId, formId + "");
         deleteFormInUser(intraId, formId);
     }
 
