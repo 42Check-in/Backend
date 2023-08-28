@@ -37,6 +37,22 @@ public class EquipmentService {
         return null;
     }
 
+//    @Transactional
+//    public void deleteFormInUser(String intraId, Long formId) {
+//        User user = userRepository.findByName(intraId)
+//                .orElseThrow(UserRunTimeException.NoUserException::new);
+//        List<Equipment> allForm = user.getEquipments();
+//
+//        Equipment equipment = equipmentRepository.findOne(formId);
+//        allForm.remove(equipment);
+//        /*
+//         * user 부분에서 setter 역할하는 formList 갈아끼우는 로직 필요한데 일단 손 안댓어여
+//         * 만약 이부분 추가된다면 transacrional 피료함
+//         * */
+//        //user.updateFormList(allForm);
+//        //userRepository.save(user);
+//    }
+
     public Equipment findOne(Long id){
         return equipmentRepository.findOne(id);
     }

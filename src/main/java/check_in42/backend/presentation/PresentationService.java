@@ -81,6 +81,16 @@ public class PresentationService {
         return res;
     }
 
+    //    @Transactional
+//    public void deleteFormInUser(String intraId, Long formId) {
+//        User user = userRepository.findByName(intraId)
+//                .orElseThrow(UserRunTimeException.NoUserException::new);
+//        List<Presentation> allForm = user.getPresentations();
+//        Presentation presentation = presentationRepository.findOne(formId);
+//        allForm.remove(presentation);
+//        //cascade -> List 삭제 감지
+//    }
+
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         Presentation presentation = presentationRepository.findOne(formId);
