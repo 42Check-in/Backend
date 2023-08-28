@@ -88,21 +88,10 @@ public class PresentationService {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(formId);
-        log.info(intraId + " " + formId + " ????");
         User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         user.deletePresentationForm(formId);
     }
-
-//    @Transactional
-//    public void deleteFormInUser(String intraId, Long formId) {
-//        User user = userRepository.findByName(intraId)
-//                .orElseThrow(UserRunTimeException.NoUserException::new);
-//        List<Presentation> allForm = user.getPresentations();
-//        Presentation presentation = presentationRepository.findOne(formId);
-//        allForm.remove(presentation);
-//        //cascade -> List 삭제 감지
-//    }
 
     @Transactional
     public void setAgreeDatesAndStatus(List<Long> formId, int status) {
