@@ -35,7 +35,8 @@ public class PresentationDTO {
         presentationDTO.time = PresentationTime.getOrdinalByDescription(presentation.getTime());
         log.info("_________________" + presentation.getStatus() + "____________________");
         log.info(presentation.getStatus() + "???????????????????????????");
-        presentationDTO.status = PresentationStatus.getOrdinalByDescription(presentation.getStatus());
+        presentationDTO.status = PresentationStatus.valueOf(presentation.getStatus()).ordinal();
+//        presentationDTO.status = PresentationStatus.getOrdinalByDescription(presentation.getStatus());
         log.info("이새키 몇이노?" + presentationDTO.status);
         presentationDTO.type = PresentationType.valueOf(presentation.getType()).ordinal();
         presentationDTO.screen = presentation.getScreen();
