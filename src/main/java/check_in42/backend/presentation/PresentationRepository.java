@@ -17,7 +17,8 @@ public class PresentationRepository {
         em.persist(presentation);
     }
 
-    public void delete(Presentation presentation) {
+    public void delete(Long formId) {
+        Presentation presentation = findOne(formId);
         em.remove(presentation);
     }
 

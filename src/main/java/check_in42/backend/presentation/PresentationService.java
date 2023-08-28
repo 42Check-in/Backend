@@ -33,8 +33,8 @@ public class PresentationService {
         return presentation.getId();
     }
 
-    public void delete(Presentation presentation) {
-        presentationRepository.delete(presentation);
+    public void delete(Long formId) {
+        presentationRepository.delete(formId);
     }
 
     public Presentation findOne(Long id) {
@@ -83,12 +83,12 @@ public class PresentationService {
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        final Presentation presentation = presentationRepository.findOne(formId);
+        Presentation presentation = presentationRepository.findOne(formId);
         if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
-        presentationRepository.delete(presentation);
-        log.info(intraId, formId + "");
+        presentationRepository.delete(formId);
+        log.info(intraId + " " + formId + " ????");
         deleteFormInUser(intraId, formId);
     }
 
