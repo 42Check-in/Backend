@@ -33,6 +33,8 @@ public class VisitorsDTO {
 
     private boolean agreement;
 
+    private int status;
+
     public static VisitorsDTO create(Visitors visitors) {
         VisitorsDTO visitorsDTO = new VisitorsDTO();
         visitorsDTO.formId = visitors.getId();
@@ -62,7 +64,7 @@ public class VisitorsDTO {
         visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
         visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();
         visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
-
+        visitorsDTO.status = visitors.getPriorApproval() != null ? 1 : 0;
         return visitorsDTO;
     }
 }

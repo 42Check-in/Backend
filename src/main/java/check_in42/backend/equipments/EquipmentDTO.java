@@ -18,6 +18,7 @@ public class EquipmentDTO {
     private Long formId;
     private String etcPurpose;
     private String etcEquipment;
+    private int status;
 
     public static EquipmentDTO create(Equipment equipment) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
@@ -34,7 +35,7 @@ public class EquipmentDTO {
         equipmentDTO.benefit = equipment.getBenefit();
         equipmentDTO.returnDate = equipment.getReturnDate().toString();
         equipmentDTO.equipment = EquipmentType.getOrdinalByDescription(equipment.getEquipment());
-
+        equipmentDTO.status = equipment.getApproval() != null ? 1 : 0;
         return equipmentDTO;
     }
 }
