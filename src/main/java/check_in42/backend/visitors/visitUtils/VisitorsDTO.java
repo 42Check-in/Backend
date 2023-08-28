@@ -17,7 +17,7 @@ public class VisitorsDTO {
 
     private String visitorsName;
 
-    private LocalDate visitDate;
+    private LocalDate date;
 
     private String visitTime;
 
@@ -42,7 +42,7 @@ public class VisitorsDTO {
         visitorsDTO.formId = visitors.getId();
         visitorsDTO.intraId = visitors.getPriorApproval().getIntraId();
         visitorsDTO.visitorsName = visitors.getPriorApproval().getVisitorsName();
-        visitorsDTO.visitDate = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
+        visitorsDTO.date = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
                 DateTimeFormatter.ISO_LOCAL_DATE);
         visitorsDTO.visitTime = visitors.getPriorApproval().getVisitTime();
         try {
