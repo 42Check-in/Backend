@@ -7,6 +7,7 @@ import check_in42.backend.auth.oauth.dto.OauthToken;
 import check_in42.backend.auth.oauth.dto.User42Info;
 import check_in42.backend.auth.utils.UserContext;
 import check_in42.backend.user.User;
+import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,12 +37,13 @@ public class OauthService {
     private final ObjectMapper om = new ObjectMapper();
     private final RestTemplate template = new RestTemplate();
     private final UserService userService;
+    private final TokenProvider tokenProvider;
+    private final UserRepository userRepository;
     HttpHeaders headers;
     HttpEntity<MultiValueMap<String, String>> req;
     ResponseEntity<String> res;
     MultiValueMap<String, String> params;
 
-    private final TokenProvider tokenProvider;
 
     public OauthToken getOauthToken(String code) {
         req = req42TokenHeader(code);
@@ -142,6 +144,12 @@ public class OauthService {
         return new TokenPair(accessToken, refreshToken);
     }
 
+    @Transactional
+    public void logout(final String intraId) {
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        user.setRefreshToken(null);
+    }
     public boolean isStaff(final String accessToken) {
         final Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
         final String intraId = claims.get("intraId", String.class);
@@ -161,5 +169,4 @@ public class OauthService {
 
         return tokenProvider.createAccessToken(intraId);
     }
-
 }
