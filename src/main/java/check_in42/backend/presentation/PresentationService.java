@@ -130,9 +130,10 @@ public class PresentationService {
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
         log.info("내 앞의 몇개가 있노? " + count);
         final Presentation presentation = create(user, presentationDTO, count);
-        final Long formId = join(presentation);
+//        final Long formId = join(presentation);
+        presentationRepository.save(presentation);
         user.addPresentationForm(presentation);
 
-        return formId;
+        return user.getId();
     }
 }

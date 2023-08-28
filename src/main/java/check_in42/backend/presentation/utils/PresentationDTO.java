@@ -2,11 +2,13 @@ package check_in42.backend.presentation.utils;
 
 import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
+@Slf4j
 public class PresentationDTO {
 
     private Long formId;
@@ -32,6 +34,7 @@ public class PresentationDTO {
         presentationDTO.subject = presentation.getSubject();
         presentationDTO.time = PresentationTime.getOrdinalByDescription(presentation.getTime());
         presentationDTO.status = PresentationStatus.getOrdinalByDescription(presentation.getStatus());
+        log.info("이새키 몇이노?" + presentationDTO.status);
         presentationDTO.type = PresentationType.valueOf(presentation.getType()).ordinal();
         presentationDTO.screen = presentation.getScreen();
         presentationDTO.intraId = presentation.getIntraId();
