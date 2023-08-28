@@ -35,7 +35,7 @@ public class EquipmentDTO {
         equipmentDTO.benefit = equipment.getBenefit();
         equipmentDTO.returnDate = equipment.getReturnDate().toString();
         equipmentDTO.equipment = EquipmentType.getOrdinalByDescription(equipment.getEquipment());
-        equipmentDTO.status = equipment.getApproval() != null ? 1 : 0;
+        equipmentDTO.status = equipment.getApproval().equals(null) ? 1 : 0;
         return equipmentDTO;
     }
 }
