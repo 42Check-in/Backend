@@ -2,11 +2,13 @@ package check_in42.backend.visitors.visitUtils;
 
 import check_in42.backend.visitors.Visitors;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
+@Slf4j
 public class VisitorsDTO {
 
     private Long formId;
@@ -64,6 +66,7 @@ public class VisitorsDTO {
         visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
         visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();
         visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
+        log.info(visitors.getPriorApproval().toString());
         visitorsDTO.status = visitors.getPriorApproval() != null ? 1 : 0;
         return visitorsDTO;
     }
