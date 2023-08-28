@@ -6,6 +6,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PresentationService {
 
     private final PresentationRepository presentationRepository;
@@ -81,12 +83,12 @@ public class PresentationService {
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId);
         if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(presentation);
-
+        log.info(intraId, formId);
         deleteFormInUser(intraId, formId);
     }
 
