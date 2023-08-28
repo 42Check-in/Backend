@@ -66,7 +66,6 @@ public class VisitorsDTO {
         visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
         visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();
         visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
-        log.info(visitors.getApproval().toString());
         visitorsDTO.status = visitors.getApproval() != null ? 1 : 0;
         return visitorsDTO;
     }
