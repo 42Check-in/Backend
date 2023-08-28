@@ -128,6 +128,7 @@ public class PresentationService {
                               final PresentationDTO presentationDTO) {
         final User user = userRepository.findByName(intraId).get();
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
+        log.info("내 앞의 몇개가 있노? " + count);
         final Presentation presentation = create(user, presentationDTO, count);
         final Long formId = join(presentation);
         user.addPresentationForm(presentation);
