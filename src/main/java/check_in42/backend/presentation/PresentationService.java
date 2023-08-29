@@ -124,6 +124,17 @@ public class PresentationService {
         return presentationRepository.findByNoticeFalse();
     }
 
+    /*
+    * DTO, entity를 갖고가서
+    * dto의 field가 null이면 기존꺼를,
+    * 아니라면 바꿔서 다시 set...음음음음
+    * */
+    @Transactional
+    public void update(Long formId, PresentationDTO presentationDTO) {
+        final Presentation presentation = presentationRepository.findOne(formId);
+
+    }
+
     public List<Presentation> findByDate(String date) {
         return presentationRepository.findByDate(date);
     }

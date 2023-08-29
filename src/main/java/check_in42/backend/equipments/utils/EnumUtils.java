@@ -3,23 +3,20 @@ package check_in42.backend.equipments.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnumUtils {
+public class EnumUtils<T extends Enum<T>> {
+    private final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
-    public static <T extends Enum<T>>Map<String, Integer> createDescriptionToOrdinalMap(Class<T> enumClass) {
-        Map<String, Integer> descriptionToOrdinal = new HashMap<>();
-
-        for (T enumConstant : enumClass.getEnumConstants()) {
-            descriptionToOrdinal.put(enumConstant.name(), enumConstant.ordinal());
+    public EnumUtils(Class<T> enumClass) {
+        for (T value : enumClass.getEnumConstants()) {
+            descriptionToOrdinal.put(value.toString(), value.ordinal());
         }
-
-        return descriptionToOrdinal;
     }
 
-    public static int getOrdinalByDescription(Map<String, Integer> descriptionToOrdinal, String description) {
+    public int getOrdinalByDescription(String description) {
         Integer ordinalValue = descriptionToOrdinal.get(description);
-
-        if (ordinalValue != null)
+        if (ordinalValue != null) {
             return ordinalValue;
+        }
         return 0;
     }
 }
