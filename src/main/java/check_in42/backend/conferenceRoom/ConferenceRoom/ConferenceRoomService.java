@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,13 @@ public class ConferenceRoomService {
 
     public ConferenceRoom findOne(Long id) {
         return conferenceRoomRepository.findById(id).get();
+    }
+
+    public List<ConferenceRoomDTO> findByDateConferenceRooms(LocalDate date) {
+        List<ConferenceRoomDTO> result = new ArrayList<>();
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
+        conferenceRooms.forEach(conferenceRoom -> result.add(ConferenceRoomDTO.create(conferenceRoom)));
+        return result;
     }
 
     public Map<String, long[]> makeBase() {
