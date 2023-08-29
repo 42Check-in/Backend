@@ -30,7 +30,7 @@ public class PriorApproval {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.intraId = visitorsDTO.getIntraId();
         this.visitorsName = visitorsDTO.getVisitorsName();
-        this.visitDate = visitorsDTO.getVisitDate().format(dateTimeFormatter);
+        this.visitDate = visitorsDTO.getDate().format(dateTimeFormatter);
         this.visitTime = visitorsDTO.getVisitTime();
         this.visitPurpose = visitorsDTO.getEtcPurpose() != null ? VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType()
                 + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();

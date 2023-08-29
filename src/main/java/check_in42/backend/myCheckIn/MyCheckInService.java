@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class MyCheckInService {
     public EquipmentDTO findEquipFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Equipment equip = user.getEquipments().stream()
-                .filter(equipment -> equipment.getId().equals(noticeDTO.getFormId()))
+                .filter(equipment -> equipment.getId().equals(noticeDTO.getForm_id()))
                 .findFirst().orElse(null);
         if (equip != null)
             return EquipmentDTO.create(equip);
@@ -36,7 +35,7 @@ public class MyCheckInService {
     public PresentationDTO findPresentationFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Presentation presen = user.getPresentations().stream()
-                .filter(presentation -> presentation.getId().equals(noticeDTO.getFormId()))
+                .filter(presentation -> presentation.getId().equals(noticeDTO.getForm_id()))
                 .findFirst().orElse(null);
         if (presen != null)
             return PresentationDTO.create(presen);
@@ -47,7 +46,7 @@ public class MyCheckInService {
     public VisitorsDTO findVisitorFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Visitors visit = user.getVisitors().stream()
-                .filter(visitors -> visitors.getId().equals(noticeDTO.getFormId()))
+                .filter(visitors -> visitors.getId().equals(noticeDTO.getForm_id()))
                 .findFirst().orElse(null);
         if (visit != null)
             return VisitorsDTO.create(visit);

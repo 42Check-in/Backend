@@ -1,15 +1,14 @@
 package check_in42.backend.presentation.utils;
 
 import check_in42.backend.equipments.utils.EnumUtils;
-import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Getter
 public enum PresentationStatus {
-    NULL("취소"),
     PENDING("신청 중"),
     SCHEDULE_REGISTERED("스케줄 등록 완료"),
     AGENDA_REGISTERED("아젠다 등록 완료"),
@@ -21,12 +20,20 @@ public enum PresentationStatus {
     PresentationStatus(String description) {
         this.description = description;
     }
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
-    private static final Map<String, Integer> descriptionToOrdinal = EnumUtils.createDescriptionToOrdinalMap(PresentationStatus.class);
-
+    static {
+        for (PresentationStatus description : PresentationStatus.values()) {
+            descriptionToOrdinal.put(description.description, description.ordinal());
+        }
+    }
 
     public static int getOrdinalByDescription(String description) {
-        return EnumUtils.getOrdinalByDescription(descriptionToOrdinal, description);
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        return 0;
     }
 
 }

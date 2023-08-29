@@ -6,6 +6,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,12 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PresentationService {
 
     private final PresentationRepository presentationRepository;
@@ -31,8 +34,8 @@ public class PresentationService {
         return presentation.getId();
     }
 
-    public void delete(Presentation presentation) {
-        presentationRepository.delete(presentation);
+    public void delete(Long formId) {
+        presentationRepository.delete(formId);
     }
 
     public Presentation findOne(Long id) {
@@ -81,29 +84,20 @@ public class PresentationService {
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId);
         if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
-        presentationRepository.delete(presentation);
-
-        deleteFormInUser(intraId, formId);
-    }
-
-    @Transactional
-    public void deleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId)
+        presentationRepository.delete(formId);
+        final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
-        List<Presentation> allForm = user.getPresentations();
-        Presentation presentation = presentationRepository.findOne(formId);
-        allForm.remove(presentation);
-        //cascade -> List 삭제 감지
+        user.deletePresentationForm(formId);
     }
 
     @Transactional
     public void setAgreeDatesAndStatus(List<Long> formId, int status) {
         for (Long id : formId) {
-            Presentation presentation = presentationRepository.findOne(id);
+            final Presentation presentation = presentationRepository.findOne(id);
             presentation.setApproval();
             presentation.setStatus(status);
 //            presentationRepository.save(presentation); 안써도댐?
@@ -118,12 +112,27 @@ public class PresentationService {
         return presentationRepository.findAll();
     }
 
-    public List<Presentation> findAllDESC() {
-        return presentationRepository.findAllDESC();
+    public List<PresentationDTO> findAllDESC() {
+        final List<Presentation> presentationList = presentationRepository.findAllDESC();
+        final List<PresentationDTO> result = presentationList.stream()
+                .map(PresentationDTO::create)
+                .collect(Collectors.toList());
+        return result;
     }
 
     public List<Presentation> findByNoticeFalse() {
         return presentationRepository.findByNoticeFalse();
+    }
+
+    /*
+    * DTO, entity를 갖고가서
+    * dto의 field가 null이면 기존꺼를,
+    * 아니라면 바꿔서 다시 set...음음음음
+    * */
+    @Transactional
+    public void update(Long formId, PresentationDTO presentationDTO) {
+        final Presentation presentation = presentationRepository.findOne(formId);
+
     }
 
     public List<Presentation> findByDate(String date) {

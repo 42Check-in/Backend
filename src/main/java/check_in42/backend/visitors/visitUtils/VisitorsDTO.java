@@ -2,20 +2,22 @@ package check_in42.backend.visitors.visitUtils;
 
 import check_in42.backend.visitors.Visitors;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
+@Slf4j
 public class VisitorsDTO {
 
-    private Long visitorsId;
+    private Long formId;
 
     private String intraId;
 
     private String visitorsName;
 
-    private LocalDate visitDate;
+    private LocalDate date;
 
     private String visitTime;
 
@@ -33,12 +35,14 @@ public class VisitorsDTO {
 
     private boolean agreement;
 
+    private int status;
+
     public static VisitorsDTO create(Visitors visitors) {
         VisitorsDTO visitorsDTO = new VisitorsDTO();
-        visitorsDTO.visitorsId = visitors.getId();
+        visitorsDTO.formId = visitors.getId();
         visitorsDTO.intraId = visitors.getPriorApproval().getIntraId();
         visitorsDTO.visitorsName = visitors.getPriorApproval().getVisitorsName();
-        visitorsDTO.visitDate = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
+        visitorsDTO.date = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
                 DateTimeFormatter.ISO_LOCAL_DATE);
         visitorsDTO.visitTime = visitors.getPriorApproval().getVisitTime();
         try {
@@ -62,7 +66,7 @@ public class VisitorsDTO {
         visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
         visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();
         visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
-
+        visitorsDTO.status = visitors.getApproval() != null ? 1 : 0;
         return visitorsDTO;
     }
 }

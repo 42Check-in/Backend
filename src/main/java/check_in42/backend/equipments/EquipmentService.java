@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +28,9 @@ public class EquipmentService {
     }
 
     public Equipment getFormByIntraId(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId).get();
-        List<Equipment> allForm = user.getEquipments();
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final List<Equipment> allForm = user.getEquipments();
 
         for (Equipment equip : allForm) {
             if (equip.getId().equals(formId))
@@ -36,35 +38,18 @@ public class EquipmentService {
         }
         return null;
     }
-
-    @Transactional
-    public void deleteFormInUser(String intraId, Long formId) {
-        User user = userRepository.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        List<Equipment> allForm = user.getEquipments();
-
-        Equipment equipment = equipmentRepository.findOne(formId);
-        allForm.remove(equipment);
-        /*
-        * user 부분에서 setter 역할하는 formList 갈아끼우는 로직 필요한데 일단 손 안댓어여
-        * 만약 이부분 추가된다면 transacrional 피료함
-        * */
-        //user.updateFormList(allForm);
-        //userRepository.save(user);
-    }
-
     public Equipment findOne(Long id){
         return equipmentRepository.findOne(id);
     }
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        // db에서 제거
-        Equipment equipment = equipmentRepository.findOne(formId);
+        final Equipment equipment = equipmentRepository.findOne(formId);
         equipmentRepository.delete(equipment);
 
-        // userList에서 제거
-        deleteFormInUser(intraId, formId);
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        user.deleteEquipForm(formId);
     }
 
     public Equipment create(User user, EquipmentDTO equipmentDTO) {
@@ -77,12 +62,12 @@ public class EquipmentService {
      * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
      * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
-        User user = userRepository.findByName(intraId)
+        final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
 
-        List<Equipment> equipments = user.getEquipments();
+        final List<Equipment> equipments = user.getEquipments();
         LocalDate now = LocalDate.now();
-        List<EquipmentDTO> res = new ArrayList<>();
+        final List<EquipmentDTO> res = new ArrayList<>();
 
         for (Equipment equip : equipments) {
             if ((equip.getReturnDate().isAfter(now) || equip.getReturnDate().equals(now))
@@ -101,11 +86,11 @@ public class EquipmentService {
     @Transactional
     public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
-        Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
+        final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
 
         //userList의 업데이트
-        Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
+        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
         if (inUserForm != null)
             inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
 
@@ -129,8 +114,12 @@ public class EquipmentService {
         return equipmentRepository.findDataBeforeDay(day);
     }
 
-    public List<Equipment> findAllDESC() {
-        return equipmentRepository.findAllDESC();
+    public List<EquipmentDTO> findAllDESC() {
+        final List<Equipment> equipmentList = equipmentRepository.findAllDESC();
+        final List<EquipmentDTO> result = equipmentList.stream()
+                .map(EquipmentDTO::create)
+                .collect(Collectors.toList());
+        return result;
     }
 
     public List<Equipment> findByNoticeFalse() {
@@ -140,9 +129,10 @@ public class EquipmentService {
     @Transactional
     public Long createNewForm(String intraId, EquipmentDTO equipmentDTO) {
 
-        User user = userRepository.findByName(intraId).get();
-        Equipment equipment = create(user, equipmentDTO);
-        Long formId = join(equipment);
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final Equipment equipment = create(user, equipmentDTO);
+        final Long formId = join(equipment);
         user.addEquipForm(equipment);
         return formId;
     }

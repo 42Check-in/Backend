@@ -1,10 +1,13 @@
 package check_in42.backend.auth.oauth;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.oauth.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +32,12 @@ public class OauthController {
                 .staff(staff)
                 .build();
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(@UserId final UserInfo userInfo) {
+        oauthService.logout(userInfo.getIntraId());
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/reissue")

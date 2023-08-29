@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +45,8 @@ public class VisitorsService {
     }
 
     @Transactional
-    public void delete(VisitorsDTO visitorsDTO, String intraId) {
-        Optional<Visitors> visitors = visitorsRepository.findById(visitorsDTO.getVisitorsId());
+    public void delete(Long formId, String intraId) {
+        Optional<Visitors> visitors = visitorsRepository.findById(formId);
         if (visitors.isEmpty())
             return ;
         visitorsRepository.delete(visitors.get());
@@ -53,8 +54,12 @@ public class VisitorsService {
         user.deleteVisitorsForm(visitors.get().getId());
     }
 
-    public List<Visitors> findAll() {
-        return visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    public List<VisitorsDTO> findAll() {
+        final List<Visitors> visitorsList = visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        final List<VisitorsDTO> result = visitorsList.stream()
+                .map(VisitorsDTO::create)
+                .collect(Collectors.toList());
+        return result;
     }
 
     @Transactional
