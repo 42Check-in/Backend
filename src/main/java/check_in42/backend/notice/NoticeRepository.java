@@ -4,6 +4,7 @@ import check_in42.backend.notice.utils.NoticeDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeRepository {
     private final EntityManager em;
 //    @Query(value = "SELECT " +
@@ -61,12 +63,14 @@ public class NoticeRepository {
                 "ORDER BY approval DESC";
         Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
-
+        log.info("tlqkfdk 들어옴?????????????????/");
         List<Object []> list = query.getResultList();
         List<NoticeDTO> noticeDTOList = new ArrayList<>();
         for (Object[] row : list) {
             int category = (int) row[0];
+            log.info("cata");
             Long formId = (Long) row[1];
+            log.info("formId");
             LocalDateTime approval = ((Timestamp) row[2]).toLocalDateTime(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
             boolean notice = (boolean) row[3];
 
