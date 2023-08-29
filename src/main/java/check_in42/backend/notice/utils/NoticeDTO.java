@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class NoticeDTO {
 
-    private int category;
+    private Long category;
 
     private Long formId;
 
@@ -22,7 +22,7 @@ public class NoticeDTO {
 
 
     @Builder
-    protected NoticeDTO(int category, Long formId, LocalDate date, boolean notice) {
+    protected NoticeDTO(Long category, Long formId, LocalDate date, boolean notice) {
         this.category = category;
         this.formId = formId;
         this.date = date;

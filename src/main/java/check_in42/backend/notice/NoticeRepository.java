@@ -67,7 +67,7 @@ public class NoticeRepository {
         List<Object []> list = query.getResultList();
         List<NoticeDTO> noticeDTOList = new ArrayList<>();
         for (Object[] row : list) {
-            int category = (int) row[0];
+            Long category = (Long) row[0];
             log.info("cata");
             Long formId = (Long) row[1];
             log.info("formId");
