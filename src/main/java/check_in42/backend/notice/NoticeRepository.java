@@ -1,6 +1,11 @@
 package check_in42.backend.notice;
 
+import check_in42.backend.equipments.Equipment;
 import check_in42.backend.notice.utils.NoticeDTO;
+import check_in42.backend.presentation.Presentation;
+import check_in42.backend.user.User;
+import check_in42.backend.user.UserRepository;
+import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class NoticeRepository {
     private final EntityManager em;
+    private final UserRepository userRepository;
 //    @Query(value = "SELECT " +
 //            "   0 as category, id as formId, approval, notice " +
 //            "FROM visitor " +
@@ -83,5 +89,14 @@ public class NoticeRepository {
             noticeDTOList.add(noticeDTO);
         }
         return noticeDTOList;
-    };
+    }
+
+//    public List<NoticeDTO> test(Long userId) {
+//        List<NoticeDTO> res = new ArrayList<>();
+//        User user = userRepository.findOne(userId);
+//
+//        List<Presentation> presentations = user.getPresentations();
+//        List<Equipment> equipment = user.getEquipments();
+//        List<Visitors> visitorsList = user.getVisitors();
+//    }
 }
