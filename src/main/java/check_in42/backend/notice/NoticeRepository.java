@@ -17,7 +17,7 @@ public class NoticeRepository {
     public List<NoticeDTO> getNotice(Long userId) {
         Query query = entityManager.createNativeQuery(
                 "SELECT * FROM (" +
-                        "SELECT 'visitor' AS category, id AS form_id, approval, notice FROM visitor " +
+                        "SELECT 'visitors' AS category, id AS form_id, approval, notice FROM visitor " +
                         "WHERE user_id = :userId " +
                         "UNION " +
                         "SELECT 'equipment' AS category, id AS form_id, approval, notice FROM equipment " +

@@ -3,6 +3,9 @@ package check_in42.backend.presentation.utils;
 import check_in42.backend.equipments.utils.EnumUtils;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Getter
 public enum PresentationStatus {
@@ -17,11 +20,20 @@ public enum PresentationStatus {
     PresentationStatus(String description) {
         this.description = description;
     }
-    private static final EnumUtils<PresentationStatus> descriptionMapper =
-            new EnumUtils<>(PresentationStatus.class);
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
+
+    static {
+        for (PresentationStatus description : PresentationStatus.values()) {
+            descriptionToOrdinal.put(description.description, description.ordinal());
+        }
+    }
 
     public static int getOrdinalByDescription(String description) {
-        return descriptionMapper.getOrdinalByDescription(description);
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        return 0;
     }
 
 }

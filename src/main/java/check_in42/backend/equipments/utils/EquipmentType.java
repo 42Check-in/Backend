@@ -21,6 +21,7 @@ public enum EquipmentType {
 
     private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
+
     static {
         for (EquipmentType description : EquipmentType.values()) {
             descriptionToOrdinal.put(description.name, description.ordinal());

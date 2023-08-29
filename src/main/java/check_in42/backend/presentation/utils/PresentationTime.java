@@ -19,10 +19,19 @@ public enum PresentationTime {
     PresentationTime(String description) {
         this.description = description;
     }
-    private static final EnumUtils<PresentationTime> descriptionMapper =
-            new EnumUtils<>(PresentationTime.class);
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
+
+    static {
+        for (PresentationTime description : PresentationTime.values()) {
+            descriptionToOrdinal.put(description.description, description.ordinal());
+        }
+    }
 
     public static int getOrdinalByDescription(String description) {
-        return descriptionMapper.getOrdinalByDescription(description);
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        return 0;
     }
 }
