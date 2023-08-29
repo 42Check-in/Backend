@@ -12,17 +12,17 @@ public class NoticeDTO {
 
     private int category;
 
-    private Long formId;
+    private Long form_id;
 
-    private LocalDate agreeDate;
+    private LocalDate agree_date;
 
     private boolean notice;
 
     @Builder
-    protected NoticeDTO(int category, Long formId, LocalDate agreeDate, boolean notice) {
+    protected NoticeDTO(int category, Long form_id, LocalDate agree_date, boolean notice) {
         this.category = category;
-        this.formId = formId;
-        this.agreeDate = agreeDate;
+        this.form_id = form_id;
+        this.agree_date = agree_date;
         this.notice = notice;
     }
 }
