@@ -62,7 +62,7 @@ public class VocalController {
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
     public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList) {
-        visitorsService.vocalConfirm(formIdList.getFormList());
+        visitorsService.vocalConfirm(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -78,7 +78,7 @@ public class VocalController {
 
     @PostMapping("/equipments")
     public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
-        equipmentService.setAgreeDates(formIdList.getFormList());
+        equipmentService.setAgreeDates(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
