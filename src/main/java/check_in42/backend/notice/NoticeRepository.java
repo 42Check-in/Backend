@@ -92,13 +92,4 @@ public class NoticeRepository {
         }
         return noticeDTOList;
     }
-
-//    public List<NoticeDTO> test(Long userId) {
-//        List<NoticeDTO> res = new ArrayList<>();
-//        User user = userRepository.findOne(userId);
-//
-//        List<Presentation> presentations = user.getPresentations();
-//        List<Equipment> equipment = user.getEquipments();
-//        List<Visitors> visitorsList = user.getVisitors();
-//    }
 }
