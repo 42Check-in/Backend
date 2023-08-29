@@ -19,10 +19,19 @@ public enum EquipmentType {
         this.name = name;
     }
 
-    private static final Map<String, Integer> descriptionToOrdinal = EnumUtils.createDescriptionToOrdinalMap(EquipmentType.class);
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
+    static {
+        for (EquipmentType description : EquipmentType.values()) {
+            descriptionToOrdinal.put(description.name, description.ordinal());
+        }
+    }
 
     public static int getOrdinalByDescription(String description) {
-        return EnumUtils.getOrdinalByDescription(descriptionToOrdinal, description);
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        return 0;
     }
 }

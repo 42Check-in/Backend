@@ -20,12 +20,20 @@ public enum PresentationStatus {
     PresentationStatus(String description) {
         this.description = description;
     }
+    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
 
-    private static final Map<String, Integer> descriptionToOrdinal = EnumUtils.createDescriptionToOrdinalMap(PresentationStatus.class);
-
+    static {
+        for (PresentationStatus description : PresentationStatus.values()) {
+            descriptionToOrdinal.put(description.description, description.ordinal());
+        }
+    }
 
     public static int getOrdinalByDescription(String description) {
-        return EnumUtils.getOrdinalByDescription(descriptionToOrdinal, description);
+        Integer ordinalValue = descriptionToOrdinal.get(description);
+        if (ordinalValue != null) {
+            return ordinalValue;
+        }
+        return 0;
     }
 
 }
