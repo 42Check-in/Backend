@@ -6,5 +6,5 @@ import java.util.List;
 
 @Getter
 public class FormIdList {
-    private List<Long> formList;
+    private List<Long> formIds;
 }
