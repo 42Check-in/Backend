@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -12,17 +13,19 @@ public class NoticeDTO {
 
     private int category;
 
-    private Long form_id;
+    private Long formId;
 
-    private LocalDate agree_date;
+    private LocalDate date;
 
     private boolean notice;
 
+
+
     @Builder
-    protected NoticeDTO(int category, Long form_id, LocalDate agree_date, boolean notice) {
+    protected NoticeDTO(int category, Long formId, LocalDate date, boolean notice) {
         this.category = category;
-        this.form_id = form_id;
-        this.agree_date = agree_date;
+        this.formId = formId;
+        this.date = date;
         this.notice = notice;
     }
 }

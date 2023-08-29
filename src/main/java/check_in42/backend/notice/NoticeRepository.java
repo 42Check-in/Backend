@@ -2,35 +2,80 @@ package check_in42.backend.notice;
 
 import check_in42.backend.notice.utils.NoticeDTO;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.hibernate.query.Query;
-import org.hibernate.transform.AliasToBeanResultTransformer;
+import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class NoticeRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    public List<NoticeDTO> getNotice(Long userId) {
-        String nativeQuery = "SELECT 'visitors' AS category, id AS form_id, approval, notice FROM visitors " +
+    private final EntityManager em;
+//    @Query(value = "SELECT " +
+//            "   0 as category, id as formId, approval, notice " +
+//            "FROM visitor " +
+//            "WHERE user_id = :userId " +
+//            "AND approval IS NOT NULL " +
+//            "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
+//            "UNION " +
+//            "SELECT " +
+//            "   1 as category, id as formId, approval, notice " +
+//            "FROM equipment " +
+//            "WHERE user_id = :userId " +
+//            "AND approval IS NOT NULL " +
+//            "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
+//            "UNION " +
+//            "SELECT " +
+//            "   2 as category, id as formId, approval, notice " +
+//            "FROM presentation " +
+//            "WHERE user_id = :userId " +
+//            "AND approval IS NOT NULL " +
+//            "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
+//            "ORDER BY approval DESC", nativeQuery = true)
+    public List<NoticeDTO> getNotice(@Param("userId") Long userId) {
+        String jpql = "SELECT " +
+                "   0 as category, id as formId, approval, notice " +
+                "FROM visitor " +
                 "WHERE user_id = :userId " +
+                "AND approval IS NOT NULL " +
+                "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "UNION " +
-                "SELECT 'equipment' AS category, id AS form_id, approval, notice FROM equipment " +
+                "SELECT " +
+                "   1 as category, id as formId, approval, notice " +
+                "FROM equipment " +
                 "WHERE user_id = :userId " +
+                "AND approval IS NOT NULL " +
+                "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "UNION " +
-                "SELECT 'presentation' AS category, id AS form_id, approval, notice FROM presentation " +
-                "WHERE user_id = :userId";
+                "SELECT " +
+                "   2 as category, id as formId, approval, notice " +
+                "FROM presentation " +
+                "WHERE user_id = :userId " +
+                "AND approval IS NOT NULL " +
+                "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
+                "ORDER BY approval DESC";
+        Query query = em.createNativeQuery(jpql);
+        List<Object []> list = query.getResultList();
+        List<NoticeDTO> noticeDTOList = new ArrayList<>();
+        for (Object[] row : list) {
+            int category = (int) row[0];
+            Long formId = (Long) row[1];
+            LocalDateTime approval = ((Timestamp) row[2]).toLocalDateTime(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
+            boolean notice = (boolean) row[3];
 
-        Query query = entityManager.createNativeQuery(nativeQuery)
-                .setParameter("userId", userId)
-                .unwrap(org.hibernate.query.NativeQuery.class)
-                .setResultTransformer(new AliasToBeanResultTransformer(NoticeDTO.class));
-
-        List<NoticeDTO> results = query.getResultList();
-        return results;
-    }
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .category(category)
+                    .formId(formId)
+                    .date(approval.toLocalDate())
+                    .notice(notice)
+                    .build();
+            noticeDTOList.add(noticeDTO);
+        }
+        return noticeDTOList;
+    };
 }
