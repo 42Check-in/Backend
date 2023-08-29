@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -111,8 +112,12 @@ public class PresentationService {
         return presentationRepository.findAll();
     }
 
-    public List<Presentation> findAllDESC() {
-        return presentationRepository.findAllDESC();
+    public List<PresentationDTO> findAllDESC() {
+        final List<Presentation> presentationList = presentationRepository.findAllDESC();
+        final List<PresentationDTO> result = presentationList.stream()
+                .map(PresentationDTO::create)
+                .collect(Collectors.toList());
+        return result;
     }
 
     public List<Presentation> findByNoticeFalse() {

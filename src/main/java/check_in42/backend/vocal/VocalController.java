@@ -1,6 +1,7 @@
 package check_in42.backend.vocal;
 
 import check_in42.backend.equipments.Equipment;
+import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
@@ -46,14 +47,14 @@ public class VocalController {
     * */
     @GetMapping("/presentations")
     public ResponseEntity allPresentation() {
-        List<Presentation> presentationList = presentationService.findAllDESC();
+        List<PresentationDTO> presentationList = presentationService.findAllDESC();
         return ResponseEntity.ok(presentationList);
     }
 
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments")
     public ResponseEntity allEquipment() {
-        List<Equipment> equipmentList = equipmentService.findAllDESC();
+        List<EquipmentDTO> equipmentList = equipmentService.findAllDESC();
         return ResponseEntity.ok(equipmentList);
     }
 

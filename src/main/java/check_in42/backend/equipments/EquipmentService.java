@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -113,8 +114,12 @@ public class EquipmentService {
         return equipmentRepository.findDataBeforeDay(day);
     }
 
-    public List<Equipment> findAllDESC() {
-        return equipmentRepository.findAllDESC();
+    public List<EquipmentDTO> findAllDESC() {
+        final List<Equipment> equipmentList = equipmentRepository.findAllDESC();
+        final List<EquipmentDTO> result = equipmentList.stream()
+                .map(EquipmentDTO::create)
+                .collect(Collectors.toList());
+        return result;
     }
 
     public List<Equipment> findByNoticeFalse() {
