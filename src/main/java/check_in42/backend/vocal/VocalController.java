@@ -10,6 +10,7 @@ import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
+import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,15 +61,15 @@ public class VocalController {
 
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
-    public ResponseEntity confirmVisitorsApply(@RequestParam final List<Long> formId) {
-        visitorsService.vocalConfirm(formId);
+    public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList) {
+        visitorsService.vocalConfirm(formIdList.getFormList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     // 수요지식회의 신청 상태를 운영진이 설정하는 api
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
-    @PostMapping("/presentations/status")
+    @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final PresentationDTO presentationDTO) {
         presentationService.setAgreeDatesAndStatus(presentationDTO.getFormIds(), presentationDTO.getStatus());
 
@@ -76,8 +77,8 @@ public class VocalController {
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply(@RequestParam final List<Long> formId) {
-        equipmentService.setAgreeDates(formId);
+    public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
+        equipmentService.setAgreeDates(formIdList.getFormList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
