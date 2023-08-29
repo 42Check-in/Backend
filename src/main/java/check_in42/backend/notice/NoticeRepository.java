@@ -40,7 +40,7 @@ public class NoticeRepository {
     public List<NoticeDTO> getNotice(@Param("userId") Long userId) {
         String jpql = "SELECT " +
                 "   0 as category, id as formId, approval, notice " +
-                "FROM visitor " +
+                "FROM visitors " +
                 "WHERE user_id = :userId " +
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
