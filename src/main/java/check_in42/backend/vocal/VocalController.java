@@ -29,7 +29,7 @@ public class VocalController {
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
     @GetMapping("/visitors")
     public ResponseEntity allVisitorsApply() {
-            List<Visitors> visitorsList = visitorsService.findAll();
+        final List<VisitorsDTO> visitorsList = visitorsService.findAll();
         return ResponseEntity.ok().body(visitorsList);
     }
 
