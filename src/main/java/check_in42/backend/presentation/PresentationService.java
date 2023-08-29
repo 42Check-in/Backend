@@ -81,24 +81,14 @@ public class PresentationService {
         return res;
     }
 
-    //    @Transactional
-//    public void deleteFormInUser(String intraId, Long formId) {
-//        User user = userRepository.findByName(intraId)
-//                .orElseThrow(UserRunTimeException.NoUserException::new);
-//        List<Presentation> allForm = user.getPresentations();
-//        Presentation presentation = presentationRepository.findOne(formId);
-//        allForm.remove(presentation);
-//        //cascade -> List 삭제 감지
-//    }
-
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId);
         if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(formId);
-        User user = userRepository.findByName(intraId)
+        final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         user.deletePresentationForm(formId);
     }
@@ -106,7 +96,7 @@ public class PresentationService {
     @Transactional
     public void setAgreeDatesAndStatus(List<Long> formId, int status) {
         for (Long id : formId) {
-            Presentation presentation = presentationRepository.findOne(id);
+            final Presentation presentation = presentationRepository.findOne(id);
             presentation.setApproval();
             presentation.setStatus(status);
 //            presentationRepository.save(presentation); 안써도댐?
@@ -140,7 +130,6 @@ public class PresentationService {
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
         final Presentation presentation = create(user, presentationDTO, count);
         final Long formId = join(presentation);
-//        presentationRepository.save(presentation);
         user.addPresentationForm(presentation);
 
         return formId;
