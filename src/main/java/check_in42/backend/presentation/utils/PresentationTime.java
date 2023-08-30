@@ -15,23 +15,11 @@ public enum PresentationTime {
     THREE("1시간"),
     FOUR("1시간 이상");
 
-    private final String description;
+    private final String name;
     PresentationTime(String description) {
-        this.description = description;
+        this.name = description;
     }
-    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
-
-    static {
-        for (PresentationTime description : PresentationTime.values()) {
-            descriptionToOrdinal.put(description.description, description.ordinal());
-        }
-    }
-
     public static int getOrdinalByDescription(String description) {
-        Integer ordinalValue = descriptionToOrdinal.get(description);
-        if (ordinalValue != null) {
-            return ordinalValue;
-        }
-        return 0;
+        return EnumUtils.getOrdinalByDescription(PresentationTime.class, description);
     }
 }
