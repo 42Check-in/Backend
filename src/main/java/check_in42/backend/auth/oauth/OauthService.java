@@ -166,7 +166,7 @@ public class OauthService {
         log.info("---------------- " + refreshToken +" -------------------------");
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);
         userService.findByRefreshToken(refreshToken)
-                .orElseThrow(TokenException.ExpiredAccessTokenException::new);
+                .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
         final String intraId = claims.get("intraId", String.class);
 
         return tokenProvider.createAccessToken(intraId);
