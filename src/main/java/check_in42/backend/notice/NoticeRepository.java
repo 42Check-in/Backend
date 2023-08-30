@@ -78,7 +78,7 @@ public class NoticeRepository {
             Long formId = (Long) row[1];
             LocalDate approval = ((java.sql.Date) row[2]).toLocalDate(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
             boolean notice = (boolean) row[3];
-
+            log.info("------------------------- "+ notice + " ---------------------------");
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .category(category)
                     .formId(formId)
