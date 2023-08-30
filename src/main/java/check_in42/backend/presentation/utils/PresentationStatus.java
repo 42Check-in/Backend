@@ -1,12 +1,7 @@
 package check_in42.backend.presentation.utils;
 
 import check_in42.backend.equipments.utils.EnumUtils;
-import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Getter
 public enum PresentationStatus {

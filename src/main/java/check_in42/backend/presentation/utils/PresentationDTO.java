@@ -4,7 +4,6 @@ import check_in42.backend.presentation.Presentation;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter

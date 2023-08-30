@@ -1,8 +1,6 @@
 package check_in42.backend.user;
 
 import check_in42.backend.allException.CustomException;
-import check_in42.backend.auth.exception.AuthorizationException;
-import check_in42.backend.user.exception.UserRunTimeException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

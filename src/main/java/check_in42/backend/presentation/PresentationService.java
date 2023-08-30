@@ -7,7 +7,6 @@ import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class PresentationService {
 
     private final PresentationRepository presentationRepository;
@@ -114,11 +112,6 @@ public class PresentationService {
 
     public List<PresentationDTO> findAllDESC() {
         final List<Presentation> presentationList = presentationRepository.findAllDESC();
-        for (Presentation pre : presentationList) {
-            if (!pre.isNotice()) {
-                System.out.println("얘 false인데요");
-            }
-        }
         final List<PresentationDTO> result = presentationList.stream()
                 .map(PresentationDTO::create)
                 .collect(Collectors.toList());

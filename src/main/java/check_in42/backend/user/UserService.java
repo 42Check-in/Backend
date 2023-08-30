@@ -5,7 +5,6 @@ import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.presentation.Presentation;
-import check_in42.backend.presentation.PresentationRepository;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.Visitors;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

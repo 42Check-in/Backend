@@ -3,9 +3,7 @@ package check_in42.backend.presentation;
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.presentation.utils.PresentationDTO;
-import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class PresentationController {
 
     private final PresentationService presentationService;
