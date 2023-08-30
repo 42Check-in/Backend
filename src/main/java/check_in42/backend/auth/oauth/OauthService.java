@@ -1,6 +1,7 @@
 package check_in42.backend.auth.oauth;
 
 import check_in42.backend.auth.exception.AuthorizationException;
+import check_in42.backend.auth.exception.TokenException;
 import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.auth.oauth.dto.OauthToken;
@@ -165,7 +166,7 @@ public class OauthService {
         log.info("---------------- " + refreshToken +" -------------------------");
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);
         userService.findByRefreshToken(refreshToken)
-                .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
+                .orElseThrow(TokenException.ExpiredAccessTokenException::new);
         final String intraId = claims.get("intraId", String.class);
 
         return tokenProvider.createAccessToken(intraId);
