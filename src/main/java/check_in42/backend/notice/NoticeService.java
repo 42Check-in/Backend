@@ -9,12 +9,14 @@ import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
@@ -33,7 +35,11 @@ public class NoticeService {
         List<Presentation> presentationList = presentationService.findByNoticeFalse();
         List<Equipment> equipmentList = equipmentService.findByNoticeFalse();
 
+        log.info("in updateNotice??!!??!?!?");
+
         for (Visitors visitors: visitorsList) {
+            log.info("id is " + visitors.getId());
+            log.info("notice is " + visitors.isNotice());
             visitors.setNotice(true);
         }
         for (Presentation presentation: presentationList) {

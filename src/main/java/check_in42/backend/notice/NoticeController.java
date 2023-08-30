@@ -7,6 +7,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeController {
 
     private final NoticeService noticeService;
@@ -33,6 +35,7 @@ public class NoticeController {
         User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
 
+        log.info("post 요청하지 마라");
         noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
