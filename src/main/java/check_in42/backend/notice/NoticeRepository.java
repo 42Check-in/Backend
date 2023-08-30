@@ -71,17 +71,13 @@ public class NoticeRepository {
                 "ORDER BY approval DESC";
         Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
-        log.info("tlqkfdk 들어옴?????????????????/");
         List<Object []> list = query.getResultList();
         List<NoticeDTO> noticeDTOList = new ArrayList<>();
         for (Object[] row : list) {
             Long category = (Long) row[0];
-            log.info("cata");
             Long formId = (Long) row[1];
-            log.info("formId");
             LocalDate approval = ((java.sql.Date) row[2]).toLocalDate(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
             boolean notice = (boolean) row[3];
-            log.info("notice is... " + notice);
 
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .category(category)

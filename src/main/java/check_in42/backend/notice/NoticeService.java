@@ -35,11 +35,7 @@ public class NoticeService {
         List<Presentation> presentationList = presentationService.findByNoticeFalse();
         List<Equipment> equipmentList = equipmentService.findByNoticeFalse();
 
-        log.info("in updateNotice??!!??!?!?");
-
         for (Visitors visitors: visitorsList) {
-            log.info("id is " + visitors.getId());
-            log.info("notice is " + visitors.isNotice());
             visitors.setNotice(true);
         }
         for (Presentation presentation: presentationList) {

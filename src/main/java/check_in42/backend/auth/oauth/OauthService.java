@@ -164,10 +164,8 @@ public class OauthService {
     public String reissueToken(final String refreshToken) {
         log.info("---------------- " + refreshToken +" -------------------------");
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);
-        log.info("여기서?");
         userService.findByRefreshToken(refreshToken)
                 .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
-        log.info("혹시?");
         final String intraId = claims.get("intraId", String.class);
 
         return tokenProvider.createAccessToken(intraId);
