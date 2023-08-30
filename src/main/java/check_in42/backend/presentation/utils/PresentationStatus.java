@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public enum PresentationStatus {
-    YONGMIN("개땡깡"),
     PENDING("신청 중"),
     SCHEDULE_REGISTERED("스케줄 등록 완료"),
     AGENDA_REGISTERED("아젠다 등록 완료"),
