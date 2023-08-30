@@ -28,8 +28,10 @@ public class Equipment {
 
     private String purpose; // 1 -> 42과제, 0 -> 그 외
 
+    @Column(length = 1500)
     private String detail;
 
+    @Column(length = 1500)
     private String benefit;
 
     private int period; // 빌릴 기간

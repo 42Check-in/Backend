@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 
 @Entity
@@ -32,6 +34,7 @@ public class Presentation {
 
     private String subject; // 발표 내용
 
+    @Column(length = 1500)
     private String detail; // 상세 내용
 
     private String time; // (enum) 15, 30, 45, 1시간
