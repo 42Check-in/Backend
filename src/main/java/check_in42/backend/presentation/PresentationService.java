@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class PresentationService {
 
@@ -143,6 +144,7 @@ public class PresentationService {
         final User user = userRepository.findByName(intraId).get();
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
         final Presentation presentation = create(user, presentationDTO, count);
+        log.info("-----------status?" + presentation.getStatus());
         final Long formId = join(presentation);
         user.addPresentationForm(presentation);
 
