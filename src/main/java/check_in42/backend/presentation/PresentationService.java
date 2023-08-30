@@ -114,6 +114,11 @@ public class PresentationService {
 
     public List<PresentationDTO> findAllDESC() {
         final List<Presentation> presentationList = presentationRepository.findAllDESC();
+        for (Presentation pre : presentationList) {
+            if (!pre.isNotice()) {
+                System.out.println("얘 false인데요");
+            }
+        }
         final List<PresentationDTO> result = presentationList.stream()
                 .map(PresentationDTO::create)
                 .collect(Collectors.toList());
