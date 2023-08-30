@@ -85,7 +85,7 @@ public class PresentationService {
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         final Presentation presentation = presentationRepository.findOne(formId);
-        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getName())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(formId);

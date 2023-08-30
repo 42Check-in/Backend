@@ -60,12 +60,12 @@ public class Presentation {
         this.detail = presentationDTO.getDetail();
         this.subject = presentationDTO.getSubject();
         this.date = LocalDate.parse(presentationDTO.getDate());
-        this.time = PresentationTime.values()[presentationDTO.getTime()].getDescription();
+        this.time = PresentationTime.values()[presentationDTO.getTime()].getName();
         this.type = PresentationType.values()[presentationDTO.getType()].toString();
         if (count == 0) {
-            this.status = PresentationStatus.PENDING.getDescription();
+            this.status = PresentationStatus.PENDING.getName();
         } else
-            this.status = PresentationStatus.WAITING.getDescription();
+            this.status = PresentationStatus.WAITING.getName();
         this.user = user;
         this.approval = null;
         this.notice = false;
@@ -80,7 +80,7 @@ public class Presentation {
     }
 
     public void setStatus(int status) {
-        this.status = PresentationStatus.values()[status].getDescription();
+        this.status = PresentationStatus.values()[status].getName();
     }
 
 }

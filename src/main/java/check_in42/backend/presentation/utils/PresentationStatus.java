@@ -1,6 +1,7 @@
 package check_in42.backend.presentation.utils;
 
 import check_in42.backend.equipments.utils.EnumUtils;
+import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -15,25 +16,13 @@ public enum PresentationStatus {
     LECTURE_COMPLETED("강의 완료"),
     WAITING("대기 중");
 
-    private String description;
+    private String name;
 
-    PresentationStatus(String description) {
-        this.description = description;
+    PresentationStatus(String name) {
+        this.name = name;
     }
-    private static final Map<String, Integer> descriptionToOrdinal = new HashMap<>();
-
-    static {
-        for (PresentationStatus description : PresentationStatus.values()) {
-            descriptionToOrdinal.put(description.description, description.ordinal());
-        }
-    }
-
     public static int getOrdinalByDescription(String description) {
-        Integer ordinalValue = descriptionToOrdinal.get(description);
-        if (ordinalValue != null) {
-            return ordinalValue;
-        }
-        return 0;
+        return EnumUtils.getOrdinalByDescription(PresentationStatus.class, description);
     }
 
 }
