@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,12 +95,17 @@ public class PresentationService {
     }
 
     @Transactional
-    public void setAgreeDatesAndStatus(List<Long> formId, int status) {
-        for (Long id : formId) {
-            final Presentation presentation = presentationRepository.findOne(id);
-            presentation.setApproval();
-            presentation.setStatus(status);
+    public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
+//        for (Long id : formId) {
+//            final Presentation presentation = presentationRepository.findOne(id);
+//            presentation.setApproval();
+//            presentation.setStatus(status);
 //            presentationRepository.save(presentation); 안써도댐?
+//        }
+        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
+            final Presentation one = presentationRepository.findOne(entry.getKey());
+            one.setApproval();
+            one.setStatus(entry.getValue());
         }
     }
 
