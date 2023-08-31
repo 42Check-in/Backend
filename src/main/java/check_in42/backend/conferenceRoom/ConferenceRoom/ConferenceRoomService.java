@@ -1,10 +1,12 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
+import check_in42.backend.allException.FormException;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
+import check_in42.backend.conferenceRoom.exception.ConferenceException;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
@@ -14,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +48,8 @@ public class ConferenceRoomService {
     }
 
     public ConferenceRoom findOne(Long id) {
-        return conferenceRoomRepository.findById(id).get();
+        return conferenceRoomRepository.findById(id)
+                .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
     public List<ConferenceRoomDTO> findByDateConferenceRooms(LocalDate date) {
@@ -69,7 +69,7 @@ public class ConferenceRoomService {
         return result;
     }
 
-    public boolean setReservedInfo(Map<String, long[]> result, LocalDate date) {
+    public void setReservedInfo(Map<String, long[]> result, LocalDate date) {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
 
@@ -81,12 +81,11 @@ public class ConferenceRoomService {
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             if (rooms == null) {
                 log.info("reservationInfo 이상함");
-                return false;
+                throw new ConferenceException.reservationRunTimeException();
             }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
         log.info("정상 종료");
-        return true;
     }
 
     public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {

@@ -18,7 +18,13 @@ public enum ErrorCode {
 
     //userRunTimeException
     NO_USER(1005, "유저가 없습니다"),
-    BAD_DATE(1006, "날짜가 양식에 맞지 않습니다");
+    BAD_DATE(1006, "날짜가 양식에 맞지 않습니다"),
+
+    //conferenceException
+    INVALIDED_FORMID(1007, "클러스터 정보가 유효하지 않습니다"),
+
+    //formException
+    INVALIDED_ROOM(1008, "Form Id가 유효하지 않습니다");
 
     private final int code;
     private final String message;

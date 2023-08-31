@@ -38,10 +38,7 @@ public class ConferenceController {
         log.info("요청 들어오니?");
         Map<String, long[]> result = conferenceRoomService.makeBase();
 
-        if (!conferenceRoomService.setReservedInfo(result, date)) {
-            log.info("에러임?");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        conferenceRoomService.setReservedInfo(result, date);
         log.info("혹시 이전에 끝나니?");
         return ResponseEntity.ok().body(result);
     }

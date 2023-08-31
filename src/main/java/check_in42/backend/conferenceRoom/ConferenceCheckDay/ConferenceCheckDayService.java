@@ -1,5 +1,6 @@
 package check_in42.backend.conferenceRoom.ConferenceCheckDay;
 
+import check_in42.backend.allException.FormException;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class ConferenceCheckDayService {
     }
 
     public ConferenceCheckDay findOne(Long id) {
-        return conferenceCheckDayRepository.findById(id).get();
+        return conferenceCheckDayRepository.findById(id)
+                .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
     public ConferenceCheckDay findByYearMonth(Long year, Long month) {
