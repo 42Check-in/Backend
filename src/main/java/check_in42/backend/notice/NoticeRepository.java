@@ -27,7 +27,7 @@ public class NoticeRepository {
                 "   0 as category, id as formId, approval, notice " +
                 "FROM visitors " +
                 "WHERE user_id = :userId " +
-                "AND notice IS FALSE " +
+//                "AND notice IS FALSE " +
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "UNION " +
@@ -35,7 +35,7 @@ public class NoticeRepository {
                 "   1 as category, id as formId, approval, notice " +
                 "FROM equipment " +
                 "WHERE user_id = :userId " +
-                "AND notice IS FALSE " +
+//                "AND notice IS FALSE " +
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "UNION " +
@@ -43,7 +43,7 @@ public class NoticeRepository {
                 "   2 as category, id as formId, approval, notice " +
                 "FROM presentation " +
                 "WHERE user_id = :userId " +
-                "AND notice IS FALSE " +
+//                "AND notice IS FALSE " +
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "ORDER BY approval DESC";
