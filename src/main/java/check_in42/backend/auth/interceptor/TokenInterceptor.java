@@ -29,8 +29,6 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
-
-        //exception 추가해야함
         final String token = TokenHeaderValidate.extractToken(request)
                 .orElseThrow(AuthorizationException.AccessTokenNotFoundException::new);
         final Claims claims = tokenProvider.parseAccessTokenClaim(token);
@@ -39,7 +37,6 @@ public class TokenInterceptor implements HandlerInterceptor {
         userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
         userContext.setIntraId(intraId);
         log.info("In tokenInterceptor! intra id is...." + intraId);
-        //유저가 맴버인지 확인하는 거 추가해야함
 
         return true;
     }

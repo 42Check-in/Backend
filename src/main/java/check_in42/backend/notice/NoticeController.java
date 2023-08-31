@@ -35,7 +35,6 @@ public class NoticeController {
         User user = userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new);
 
-        log.info("post 요청하지 마라");
         noticeService.updateNotice(user.getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }

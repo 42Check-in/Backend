@@ -1,5 +1,6 @@
 package check_in42.backend;
 
+import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import check_in42.backend.presentation.utils.PresentationTime;
 import check_in42.backend.presentation.utils.PresentationType;
@@ -17,8 +18,6 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 
 		System.out.println(PresentationStatus.getOrdinalByDescription("대기 중"));
-		System.out.println(PresentationTime.getOrdinalByDescription("30분"));
-
 
 	}
 

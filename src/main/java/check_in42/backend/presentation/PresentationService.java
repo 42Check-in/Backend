@@ -7,7 +7,6 @@ import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
+@Transactional(readOnly = true)
 public class PresentationService {
 
     private final PresentationRepository presentationRepository;
@@ -85,7 +84,7 @@ public class PresentationService {
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
         final Presentation presentation = presentationRepository.findOne(formId);
-        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getName())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(formId);
@@ -114,11 +113,6 @@ public class PresentationService {
 
     public List<PresentationDTO> findAllDESC() {
         final List<Presentation> presentationList = presentationRepository.findAllDESC();
-        for (Presentation pre : presentationList) {
-            if (!pre.isNotice()) {
-                System.out.println("얘 false인데요");
-            }
-        }
         final List<PresentationDTO> result = presentationList.stream()
                 .map(PresentationDTO::create)
                 .collect(Collectors.toList());
@@ -150,6 +144,7 @@ public class PresentationService {
         final User user = userRepository.findByName(intraId).get();
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
         final Presentation presentation = create(user, presentationDTO, count);
+        log.info("-----------status?" + presentation.getStatus());
         final Long formId = join(presentation);
         user.addPresentationForm(presentation);
 

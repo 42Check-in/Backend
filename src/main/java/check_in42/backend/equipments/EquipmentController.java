@@ -2,9 +2,7 @@ package check_in42.backend.equipments;
 
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
-import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +23,6 @@ public class EquipmentController {
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final EquipmentDTO equipmentDTO) {
-//        User user = userService.findByName(userInfo.getIntraId())
-//                .orElseThrow(UserRunTimeException.NoUserException::new);;
-//        Equipment equipment = equipmentService.create(user, equipmentDTO);
-//        Long equipmentFormId = equipmentService.join(equipment);
-//        user.addEquipForm(equipment);
         final Long equipmentFormId = equipmentService.createNewForm(userInfo.getIntraId(), equipmentDTO);
         return ResponseEntity.ok().body(equipmentFormId);
     }

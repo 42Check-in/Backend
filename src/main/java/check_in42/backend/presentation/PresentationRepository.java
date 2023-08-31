@@ -3,12 +3,14 @@ package check_in42.backend.presentation;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class PresentationRepository {
 
     private final EntityManager em;
@@ -71,10 +73,11 @@ public class PresentationRepository {
 
     public void setNextPresentation(LocalDate date) {
         List<Presentation> dateForms = findByDate(date.toString());
+        log.info("--------dateForms size" + dateForms.size());
         if (dateForms.size() == 1) {
             return;
         }
-        Presentation nextForm = dateForms.get(2);
+        Presentation nextForm = dateForms.get(1);
         nextForm.setStatus(PresentationStatus.PENDING.ordinal());
     }
 }

@@ -5,7 +5,6 @@ import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
-import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import java.util.List;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final UserService userService;
     private final VisitorsService visitorsService;
     private final EquipmentService equipmentService;
     private final PresentationService presentationService;
@@ -31,15 +29,11 @@ public class NoticeService {
 
     @Transactional
     public Long updateNotice(Long id) {
-        List<Visitors> visitorsList = visitorsService.findByNoticeFalse();
-        List<Presentation> presentationList = presentationService.findByNoticeFalse();
-        List<Equipment> equipmentList = equipmentService.findByNoticeFalse();
-
-        log.info("in updateNotice??!!??!?!?");
+        final List<Visitors> visitorsList = visitorsService.findByNoticeFalse();
+        final List<Presentation> presentationList = presentationService.findByNoticeFalse();
+        final List<Equipment> equipmentList = equipmentService.findByNoticeFalse();
 
         for (Visitors visitors: visitorsList) {
-            log.info("id is " + visitors.getId());
-            log.info("notice is " + visitors.isNotice());
             visitors.setNotice(true);
         }
         for (Presentation presentation: presentationList) {
@@ -48,6 +42,7 @@ public class NoticeService {
         for (Equipment equipment: equipmentList) {
             equipment.setNotice(true);
         }
+
         return id;
     }
 }
