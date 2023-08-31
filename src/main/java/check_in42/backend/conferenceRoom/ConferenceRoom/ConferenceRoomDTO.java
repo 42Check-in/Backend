@@ -15,7 +15,7 @@ public class ConferenceRoomDTO {
 
     public static ConferenceRoomDTO create(ConferenceRoom conferenceRoom) {
         ConferenceRoomDTO conferenceRoomDTO = new ConferenceRoomDTO();
-        conferenceRoomDTO.id = conferenceRoom.getId();
+        conferenceRoomDTO.formId = conferenceRoom.getId();
         conferenceRoomDTO.intraId = conferenceRoom.getUser().getIntraId();
         conferenceRoomDTO.date = conferenceRoom.getDate();
         conferenceRoomDTO.reservationCount = conferenceRoom.getReservationCount();

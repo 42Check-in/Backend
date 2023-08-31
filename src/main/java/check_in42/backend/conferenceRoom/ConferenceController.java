@@ -63,7 +63,7 @@ public class ConferenceController {
     @PostMapping("cancel")
     public ResponseEntity cancelForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                      @UserId final UserInfo userInfo) {
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getId()));
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
         conferenceRoomService.cancelForm(conferenceRoomDTO, userInfo);
         return ResponseEntity.ok(HttpStatus.OK);
     }
