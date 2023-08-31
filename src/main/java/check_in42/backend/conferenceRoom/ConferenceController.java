@@ -7,6 +7,7 @@ import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDaySe
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/conference-rooms/")
+@Slf4j
 public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
@@ -33,10 +35,14 @@ public class ConferenceController {
 
     @GetMapping("place-time/{date}")
     public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") final LocalDate date) {
+        log.info("요청 들어오니?");
         Map<String, long[]> result = conferenceRoomService.makeBase();
 
-        if (!conferenceRoomService.setReservedInfo(result, date))
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        if (!conferenceRoomService.setReservedInfo(result, date)) {
+            log.info("에러임?");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        log.info("혹시 이전에 끝나니?");
         return ResponseEntity.ok().body(result);
     }
 
