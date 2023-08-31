@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,10 +47,23 @@ public class NoticeRepository {
                 "ORDER BY approval DESC";
         final Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
-        final List<Object []> queryResult = query.getResultList();
-        final List<NoticeDTO> noticeDTOList = queryResult.stream()
-                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], ((Timestamp)row[2]).toLocalDateTime(), (boolean) row[3]))
-                .collect(Collectors.toList());
+        List<Object []> list = query.getResultList();
+        List<NoticeDTO> noticeDTOList = new ArrayList<>();
+        for (Object[] row : list) {
+            Long category = (Long) row[0];
+            log.info("cata");
+            Long formId = (Long) row[1];
+            log.info("formId");
+            LocalDateTime approval = ((Timestamp) row[2]).toLocalDateTime(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
+            boolean notice = (boolean) row[3];
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .category(category)
+                    .formId(formId)
+                    .date(approval.toLocalDate())
+                    .notice(notice)
+                    .build();
+            noticeDTOList.add(noticeDTO);
+        }
         return noticeDTOList;
     }
 }
