@@ -47,7 +47,7 @@ public class NoticeRepository {
                 .setParameter("userId", userId);
         final List<Object []> queryResult = query.getResultList();
         final List<NoticeDTO> noticeDTOList = queryResult.stream()
-                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], (Timestamp) row[2], (boolean) row[3]))
+                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], ((Timestamp)row[2]).toLocalDateTime(), (boolean) row[3]))
                 .collect(Collectors.toList());
         return noticeDTOList;
     }
