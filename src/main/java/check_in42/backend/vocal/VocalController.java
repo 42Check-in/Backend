@@ -70,6 +70,7 @@ public class VocalController {
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
+        log.info("presentation status change!");
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
 
         return ResponseEntity.ok(HttpStatus.OK);

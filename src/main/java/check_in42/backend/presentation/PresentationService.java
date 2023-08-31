@@ -104,8 +104,10 @@ public class PresentationService {
 //        }
         for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
             final Presentation one = presentationRepository.findOne(entry.getKey());
+            System.out.println(one.getId());
             one.setApproval();
             one.setStatus(entry.getValue());
+            System.out.println(one.getStatus());
         }
     }
 
