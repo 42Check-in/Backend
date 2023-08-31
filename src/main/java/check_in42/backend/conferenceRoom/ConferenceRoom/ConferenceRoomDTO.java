@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter @Setter
 public class ConferenceRoomDTO {
-    private Long id;
+    private Long formId;
     private String intraId;
     private LocalDate date;
     private Long reservationCount;
