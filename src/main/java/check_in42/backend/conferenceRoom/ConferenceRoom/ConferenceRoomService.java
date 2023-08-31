@@ -98,7 +98,7 @@ public class ConferenceRoomService {
             emptyTime |= reservationTimeBit;
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        if ((emptyTime & reqFormReservationTimeBit) == 0)
+        if ((emptyTime & reqFormReservationTimeBit) != 0)
             throw new ConferenceException.DuplicateTimeException();
     }
 
