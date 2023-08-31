@@ -8,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,9 +44,12 @@ public class NoticeRepository {
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "ORDER BY approval DESC";
-        Query query = em.createNativeQuery(jpql, NoticeDTO.class)
+        final Query query = em.createNativeQuery(jpql, NoticeDTO.class)
                 .setParameter("userId", userId);
-        List<NoticeDTO> noticeDTOList = query.getResultList();
+        final List<Object []> queryResult = query.getResultList();
+        final List<NoticeDTO> noticeDTOList = queryResult.stream()
+                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], (LocalDate) row[2], (boolean) row[3]))
+                .collect(Collectors.toList());
         return noticeDTOList;
     }
 }
