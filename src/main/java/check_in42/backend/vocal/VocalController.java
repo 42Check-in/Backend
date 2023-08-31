@@ -71,6 +71,8 @@ public class VocalController {
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
         log.info("presentation status change!");
+        if (formIdList.getPresenList().size() == 0)
+            System.out.println("size is zero");
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
 
         return ResponseEntity.ok(HttpStatus.OK);
