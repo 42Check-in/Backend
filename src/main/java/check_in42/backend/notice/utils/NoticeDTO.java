@@ -18,14 +18,6 @@ public class NoticeDTO {
 
     private boolean notice;
 
-//    @Builder
-//    protected NoticeDTO(Long category, Long formId, LocalDate date, boolean notice) {
-//        this.category = category;
-//        this.formId = formId;
-//        this.date = date;
-//        this.notice = notice;
-//    }
-
     public static NoticeDTO create(Long category, Long formId, LocalDate date, boolean notice) {
         NoticeDTO noticeDTO = new NoticeDTO();
         noticeDTO.category = category;
