@@ -63,9 +63,9 @@ public class VisitorsService {
     }
 
     @Transactional
-    public void vocalConfirm(List<Long> formId) {
-        formId.stream().map(visitorsRepository::findById)
-                .forEach(visitors -> visitors.get().vocalConfirm());
+    public void vocalConfirm(List<Long> formIds) {
+        formIds.stream().map(formId -> visitorsRepository.findById(formId)
+                .orElseThrow(UserRunTimeException.NoUserException::new)).forEach(Visitors::vocalConfirm);
     }
 
     public List<Visitors> findByApproval() {
