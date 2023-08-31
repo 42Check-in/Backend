@@ -9,6 +9,7 @@ import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final UserService userService;
@@ -71,13 +73,18 @@ public class ConferenceRoomService {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
 
+        log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {
+            log.info("데이터 넣어");
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
-            if (rooms == null)
+            if (rooms == null) {
+                log.info("reservationInfo 이상함");
                 return false;
+            }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
+        log.info("정상 종료");
         return true;
     }
 
