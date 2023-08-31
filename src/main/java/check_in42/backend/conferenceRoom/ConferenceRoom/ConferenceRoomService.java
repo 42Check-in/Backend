@@ -81,7 +81,7 @@ public class ConferenceRoomService {
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             if (rooms == null) {
                 log.info("reservationInfo 이상함");
-                throw new ConferenceException.ReservationRunTimeException();
+                throw new ConferenceException.reservationRunTimeException();
             }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
@@ -89,13 +89,23 @@ public class ConferenceRoomService {
     }
 
     public void isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
-        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDate(conferenceRoomDTO.getDate());
-        long emptyTime, reservationTimeBit, reqFormReservationTimeBit;
+        long reqFormReservationPlaceBit = conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue();
+        long reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() * PlaceInfoBit.TIME.getValue();
+        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlaceOrMySameTime(
+                conferenceRoomDTO.getUserId(),
+                conferenceRoomDTO.getDate(),
+                reqFormReservationPlaceBit,
+                reqFormReservationTimeBit);
+        long emptyTime, reservationTimeBit;
 
         emptyTime = 0;
+
         for (ConferenceRoom rcr: reservationList) {
             reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-            emptyTime |= reservationTimeBit;
+            if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
+                if (reqFormReservationPlaceBit & )
+            }
+
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
         if ((emptyTime & reqFormReservationTimeBit) != 0)
