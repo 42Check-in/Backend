@@ -19,4 +19,13 @@ public class NoticeDTO {
 
     private boolean notice;
 
+    public static NoticeDTO create(Long category, Long formId, LocalDate date, boolean notice) {
+        NoticeDTO noticeDTO = new NoticeDTO();
+        noticeDTO.category = category;
+        noticeDTO.formId = formId;
+        noticeDTO.date = date;
+        noticeDTO.notice = notice;
+        return noticeDTO;
+    }
+
 }
