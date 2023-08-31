@@ -3,6 +3,7 @@ package check_in42.backend.notice;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.notice.utils.NoticeDTO;
+import check_in42.backend.notice.utils.NoticeResponse;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.visitors.Visitors;
@@ -23,7 +24,7 @@ public class NoticeService {
     private final EquipmentService equipmentService;
     private final PresentationService presentationService;
 
-    public List<NoticeDTO> showNotice(Long id) {
+    public NoticeResponse showNotice(Long id) {
         return noticeRepository.getNotice(id);
     }
 
