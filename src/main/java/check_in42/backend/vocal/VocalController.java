@@ -5,6 +5,7 @@ import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
@@ -70,11 +71,7 @@ public class VocalController {
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
-        log.info("presentation status change!");
-        if (formIdList.getPresenList().size() == 0)
-            System.out.println("size is zero");
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
-
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

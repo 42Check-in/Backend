@@ -1,5 +1,7 @@
 package check_in42.backend.presentation;
 
+import check_in42.backend.allException.ErrorCode;
+import check_in42.backend.allException.FormException;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import check_in42.backend.user.User;
@@ -39,7 +41,7 @@ public class PresentationService {
     }
 
     public Presentation findOne(Long id) {
-        return presentationRepository.findOne(id);
+        return presentationRepository.findOne(id).get();
     }
 
     public Presentation create(User user, PresentationDTO presentationDTO, int count) {
@@ -84,7 +86,7 @@ public class PresentationService {
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        final Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId).get();
         if (presentation.getStatus().equals(PresentationStatus.PENDING.getName())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
@@ -96,19 +98,19 @@ public class PresentationService {
 
     @Transactional
     public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
-//        for (Long id : formId) {
-//            final Presentation presentation = presentationRepository.findOne(id);
-//            presentation.setApproval();
-//            presentation.setStatus(status);
-//            presentationRepository.save(presentation); 안써도댐?
+
+//        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
+//            final Presentation one = presentationRepository.findOne(entry.getKey())
+//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+//            one.setApproval();
+//            one.setStatus(entry.getValue());
 //        }
-        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
-            final Presentation one = presentationRepository.findOne(entry.getKey());
-            System.out.println(one.getId());
+        presentation.forEach((key, value) -> {
+            Presentation one = presentationRepository.findOne(key)
+                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
             one.setApproval();
-            one.setStatus(entry.getValue());
-            System.out.println(one.getStatus());
-        }
+            one.setStatus(value);
+        });
     }
 
     public List<Presentation> findDataBeforeDay(int day) {
@@ -138,7 +140,7 @@ public class PresentationService {
     * */
     @Transactional
     public void update(Long formId, PresentationDTO presentationDTO) {
-        final Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId).get();
 
     }
 

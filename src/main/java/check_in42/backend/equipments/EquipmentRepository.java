@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,8 +19,14 @@ public class EquipmentRepository {
         em.persist(equipment);
     }
 
-    public Equipment findOne(Long id) {
-        return em.find(Equipment.class, id);
+    public Optional<Equipment> findOne(Long id) {
+
+        try {
+            final Equipment equipment = em.find(Equipment.class, id);
+            return Optional.of(equipment);
+        } catch (RuntimeException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Equipment> findAll() {
