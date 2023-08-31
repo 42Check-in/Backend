@@ -50,22 +50,26 @@ public class NoticeRepository {
         final Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
         List<Object []> list = query.getResultList();
-        List<NoticeDTO> noticeDTOList = new ArrayList<>();
-        for (Object[] row : list) {
-            Long category = (Long) row[0];
-            log.info("cata");
-            Long formId = (Long) row[1];
-            log.info("formId");
-            LocalDate approval = ((java.sql.Date) row[2]).toLocalDate(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
-            boolean notice = (boolean) row[3];
-            NoticeDTO noticeDTO = NoticeDTO.builder()
-                    .category(category)
-                    .formId(formId)
-                    .date(approval)
-                    .notice(notice)
-                    .build();
-            noticeDTOList.add(noticeDTO);
-        }
+        final List<NoticeDTO> noticeDTOList = list.stream()
+                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1],
+                        ((java.sql.Date) row[2]).toLocalDate(), (boolean) row[3]))
+                .collect(Collectors.toList());
+//        List<NoticeDTO> noticeDTOList = new ArrayList<>();
+//        for (Object[] row : list) {
+//            Long category = (Long) row[0];
+//            log.info("cata");
+//            Long formId = (Long) row[1];
+//            log.info("formId");
+//            LocalDate approval = ((java.sql.Date) row[2]).toLocalDate(); // 적절한 변환을 사용하여 LocalDateTime으로 변환
+//            boolean notice = (boolean) row[3];
+//            NoticeDTO noticeDTO = NoticeDTO.builder()
+//                    .category(category)
+//                    .formId(formId)
+//                    .date(approval)
+//                    .notice(notice)
+//                    .build();
+//            noticeDTOList.add(noticeDTO);
+//        }
         return noticeDTOList;
     }
 }
