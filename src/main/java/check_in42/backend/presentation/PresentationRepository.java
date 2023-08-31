@@ -33,7 +33,6 @@ public class PresentationRepository {
 
     public Optional<Presentation> findOne(Long id) throws CustomException {
         try {
-
             Presentation presentation = em.find(Presentation.class, id);
             return Optional.of(presentation);
         }
