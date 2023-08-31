@@ -1,8 +1,5 @@
 package check_in42.backend.allException;
 
-import check_in42.backend.allException.CustomException;
-import check_in42.backend.allException.ErrorCode;
-
 public class FormException extends CustomException {
 
     public FormException(final ErrorCode errorCode) {
