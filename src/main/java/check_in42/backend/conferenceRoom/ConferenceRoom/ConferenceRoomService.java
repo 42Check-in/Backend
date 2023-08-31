@@ -76,6 +76,7 @@ public class ConferenceRoomService {
         log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {
             log.info("데이터 넣어");
+            log.info("reservationInfo: " + cr.getReservationInfo());
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             if (rooms == null) {
