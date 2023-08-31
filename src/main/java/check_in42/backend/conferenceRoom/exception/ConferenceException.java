@@ -9,12 +9,16 @@ public class ConferenceException extends CustomException {
         super(errorCode);
     }
 
-    public static class reservationRunTimeException extends ConferenceException {
+    public static class ReservationRunTimeException extends ConferenceException {
 
-        public reservationRunTimeException() {
-            super(ErrorCode.INVALIDED_ROOM);
+        public ReservationRunTimeException() {
+            super(ErrorCode.INVALIDED_RESERVATION);
         }
     }
 
-
+    public static class DuplicateTimeException extends ConferenceException {
+        public DuplicateTimeException() {
+            super(ErrorCode.DUPLICATE_TIME);
+        }
+    }
 }

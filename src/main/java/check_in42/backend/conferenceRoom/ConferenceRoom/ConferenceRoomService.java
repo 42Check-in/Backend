@@ -81,14 +81,14 @@ public class ConferenceRoomService {
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             if (rooms == null) {
                 log.info("reservationInfo 이상함");
-                throw new ConferenceException.reservationRunTimeException();
+                throw new ConferenceException.ReservationRunTimeException();
             }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
         log.info("정상 종료");
     }
 
-    public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
+    public void isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
         List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDate(conferenceRoomDTO.getDate());
         long emptyTime, reservationTimeBit, reqFormReservationTimeBit;
 
@@ -98,7 +98,8 @@ public class ConferenceRoomService {
             emptyTime |= reservationTimeBit;
         }
         reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        return (emptyTime & reqFormReservationTimeBit) == 0;
+        if ((emptyTime & reqFormReservationTimeBit) == 0)
+            throw new ConferenceException.DuplicateTimeException();
     }
 
     @Transactional

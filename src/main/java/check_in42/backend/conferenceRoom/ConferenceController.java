@@ -46,8 +46,7 @@ public class ConferenceController {
     @PostMapping("form")
     public ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                     @UserId final UserInfo userInfo) {
-        if (!conferenceRoomService.isInputForm(conferenceRoomDTO))
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        conferenceRoomService.isInputForm(conferenceRoomDTO);
 
         conferenceRoomService.inputForm(conferenceRoomDTO, userInfo);
 

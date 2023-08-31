@@ -21,11 +21,12 @@ public enum ErrorCode {
     BAD_DATE(1006, "날짜가 양식에 맞지 않습니다"),
 
     //conferenceException
-    INVALIDED_FORMID(1007, "클러스터 정보가 유효하지 않습니다"),
+    INVALIDED_RESERVATION(1007, "클러스터 정보가 유효하지 않습니다"),
+    DUPLICATE_TIME(1008, "동일한 시간에 예약된 회의실이 있습니다"),
 
     //formException
-    INVALIDED_ROOM(1008, "Form Id가 유효하지 않습니다"),
-    INVALIDED_ID(1009, "Id에 해당하는 Entity가 존재하지 않습니다");
+    INVALIDED_FORMID(1009, "Form Id가 유효하지 않습니다"),
+    INVALIDED_ID(1010, "Id에 해당하는 Entity가 존재하지 않습니다");
 
     private final int code;
     private final String message;
