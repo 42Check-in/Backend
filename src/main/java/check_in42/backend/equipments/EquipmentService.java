@@ -103,12 +103,15 @@ public class EquipmentService {
 
     // 수락 떨어지면 현재로 setDate
     @Transactional
-    public void setAgreeDates(List<Long> formId) {
-        for (Long id : formId) {
-            Equipment equipment = equipmentRepository.findOne(id)
-                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-            equipment.setApproval();
-        }
+    public void setAgreeDates(List<Long> formIds) {
+//        for (Long id : formId) {
+//            Equipment equipment = equipmentRepository.findOne(id)
+//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+//            equipment.setApproval();
+//        }
+        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
+                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
+                .forEach(Equipment::setApproval);
     }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
