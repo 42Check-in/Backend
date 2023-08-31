@@ -36,7 +36,7 @@ public class ConferenceController {
         Map<String, long[]> result = conferenceRoomService.makeBase();
 
         if (!conferenceRoomService.setReservedInfo(result, date))
-            return new ResponseEntity((HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok().body(result);
     }
 
