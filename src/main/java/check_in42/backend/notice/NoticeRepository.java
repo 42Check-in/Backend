@@ -8,8 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +47,7 @@ public class NoticeRepository {
                 .setParameter("userId", userId);
         final List<Object []> queryResult = query.getResultList();
         final List<NoticeDTO> noticeDTOList = queryResult.stream()
-                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], (LocalDate) row[2], (boolean) row[3]))
+                .map(row -> NoticeDTO.create((Long) row[0], (Long) row[1], (Timestamp) row[2], (boolean) row[3]))
                 .collect(Collectors.toList());
         return noticeDTOList;
     }
