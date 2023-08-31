@@ -44,7 +44,7 @@ public class NoticeRepository {
                 "AND approval IS NOT NULL " +
                 "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
                 "ORDER BY approval DESC";
-        final Query query = em.createNativeQuery(jpql, NoticeDTO.class)
+        final Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
         final List<Object []> queryResult = query.getResultList();
         final List<NoticeDTO> noticeDTOList = queryResult.stream()
