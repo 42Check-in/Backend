@@ -30,10 +30,9 @@ public class ConferenceUtil {
     public static long[] getRooms(Map<String, long[]> clusters, Integer clusterNum) {
         if (clusterNum == PlaceInfo.GAEPO.ordinal())
             return clusters.get(PlaceInfo.GAEPO.getValue());
-//        if (clusterNum == PlaceInfo.SEOCHO.ordinal())
-//            return clusters.get(PlaceInfo.SEOCHO.getValue());
-//        return null;
-        return clusters.get((PlaceInfo.SEOCHO.getValue()));
+        if (clusterNum == PlaceInfo.SEOCHO.ordinal())
+            return clusters.get(PlaceInfo.SEOCHO.getValue());
+        return null;
     }
 
     public static Long[] setReservationInfo(Long reservationInfoBit) {

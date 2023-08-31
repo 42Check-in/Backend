@@ -35,7 +35,8 @@ public class ConferenceController {
     public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") final LocalDate date) {
         Map<String, long[]> result = conferenceRoomService.makeBase();
 
-        conferenceRoomService.setReservedInfo(result, date);
+        if (!conferenceRoomService.setReservedInfo(result, date))
+            return new ResponseEntity((HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok().body(result);
     }
 

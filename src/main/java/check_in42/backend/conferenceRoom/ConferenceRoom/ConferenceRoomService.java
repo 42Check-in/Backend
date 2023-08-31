@@ -67,15 +67,18 @@ public class ConferenceRoomService {
         return result;
     }
 
-    public void setReservedInfo(Map<String, long[]> result, LocalDate date) {
+    public boolean setReservedInfo(Map<String, long[]> result, LocalDate date) {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
 
         for (ConferenceRoom cr: conferenceRooms) {
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
+            if (rooms == null)
+                return false;
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
+        return true;
     }
 
     public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
