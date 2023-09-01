@@ -60,13 +60,10 @@ public class VisitorsService {
 
     public List<VisitorsDTO> findAll() {
         final List<Visitors> visitorsList = visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-//        visitorsList.stream()
-//                .sorted(Comparator.comparing(Visitors::getApproval, Comparator.nullsFirst(Comparator.reverseOrder())));
         final List<VisitorsDTO> result = visitorsList.stream()
                 .sorted(Comparator.comparing(Visitors::getApproval, Comparator.nullsFirst(Comparator.reverseOrder())))
                 .map(VisitorsDTO::create)
                 .collect(Collectors.toList());
-        log.info("" + result.get(0).getStatus());
         return result;
     }
 
