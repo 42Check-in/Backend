@@ -76,8 +76,8 @@ public class VocalController {
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
-        equipmentService.setAgreeDates(formIdList.getFormIds());
+    public ResponseEntity confirmEquipmentApply(@RequestBody final List<EquipmentDTO> equipmentDTOS) {
+        equipmentService.setAgreeDates(equipmentDTOS);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

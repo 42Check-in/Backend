@@ -84,15 +84,16 @@ public class EquipmentService {
         3. Long formId
     * */
     @Transactional
-    public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
-        //DB의 dirty checking 이용
-        final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId()).get();
-//        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+    public Long extendDate(Equipment equipment, EquipmentDTO equipmentDTO) {
 
         //userList의 업데이트
 //        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
 //        if (inUserForm != null)
 //            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+
+        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+        equipment.setExtension(1);
+        equipment.setPeriod(equipmentDTO.getPeriod());
         equipment.setDate(LocalDate.parse(equipmentDTO.getDate())); // 면담일 재설정
         equipment.setApprovalNull(); // approval null 세팅
         return equipment.getId();
@@ -104,15 +105,17 @@ public class EquipmentService {
 
     // 수락 떨어지면 현재로 setDate
     @Transactional
-    public void setAgreeDates(List<Long> formIds) {
-//        for (Long id : formId) {
-//            Equipment equipment = equipmentRepository.findOne(id)
-//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-//            equipment.setApproval();
-//        }
-        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
-                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
-                .forEach(Equipment::setApproval);
+    public void setAgreeDates(List<EquipmentDTO> equipmentDTOS) {
+
+        for (EquipmentDTO equipment : equipmentDTOS) {
+            Equipment form = equipmentRepository.findOne(equipment.getFormId()).get();
+            if (form.getExtension() == 1) {
+                extendDate(form, equipment);
+                form.setApproval();
+            } else {
+                form.setApproval();
+            }
+        }
     }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
