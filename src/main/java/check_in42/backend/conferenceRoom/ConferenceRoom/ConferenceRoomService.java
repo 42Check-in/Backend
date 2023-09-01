@@ -106,9 +106,9 @@ public class ConferenceRoomService {
             long reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
             if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
                 if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0)
-                    throw new ConferenceException.DuplicateTimeException();
-                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
                     throw new ConferenceException.AlreadyReserved();
+                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
+                    throw new ConferenceException.DuplicateTimeException();
             }
         });
     }
