@@ -24,6 +24,8 @@ public class ConferenceRoom {
 
     private Long reservationInfo; // 클러스터 2Bit, 방 6Bit, 시간 24Bit
 
+    private boolean checkInstate;
+
     @Builder
     protected ConferenceRoom(Long id, User user, LocalDate date, Long reservationCount, Long reservationInfo) {
         this.id = id;
@@ -31,5 +33,10 @@ public class ConferenceRoom {
         this.date = date;
         this.reservationCount = reservationCount;
         this.reservationInfo = reservationInfo;
+        this.checkInstate = false;
+    }
+
+    public void setCheckInstate(boolean checkInstate) {
+        this.checkInstate = checkInstate;
     }
 }
