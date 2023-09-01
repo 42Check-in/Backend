@@ -1,5 +1,7 @@
 package check_in42.backend.vocal;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.presentation.PresentationService;
@@ -30,7 +32,8 @@ public class VocalController {
 
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
     @GetMapping("/visitors")
-    public ResponseEntity allVisitorsApply() {
+    public ResponseEntity allVisitorsApply(@UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         final List<VisitorsDTO> visitorsList = visitorsService.findAll();
         return ResponseEntity.ok().body(visitorsList);
     }
@@ -47,21 +50,25 @@ public class VocalController {
         * 추가 작업이 필요할듯...
     * */
     @GetMapping("/presentations")
-    public ResponseEntity allPresentation() {
+    public ResponseEntity allPresentation(@UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         List<PresentationDTO> presentationList = presentationService.findAllDESC();
         return ResponseEntity.ok(presentationList);
     }
 
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments")
-    public ResponseEntity allEquipment() {
+    public ResponseEntity allEquipment(@UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         List<EquipmentDTO> equipmentList = equipmentService.findAllDESC();
         return ResponseEntity.ok(equipmentList);
     }
 
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
-    public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList) {
+    public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList,
+                                               @UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         visitorsService.vocalConfirm(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -70,19 +77,25 @@ public class VocalController {
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
-    public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
+    public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList,
+                                                   @UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply(@RequestBody final List<EquipmentDTO> equipmentDTOS) {
+    public ResponseEntity confirmEquipmentApply(@RequestBody final List<EquipmentDTO> equipmentDTOS,
+                                                @UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         equipmentService.setAgreeDates(equipmentDTOS);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("visitors/{intraId}")
-    public ResponseEntity searchByIntraId(@PathVariable String intraId) {
+    public ResponseEntity searchByIntraId(@PathVariable String intraId,
+                                          @UserId UserInfo userInfo) {
+        userService.validateAuthentication(userInfo.getIntraId());
         final List<VisitorsDTO> visitorsDTOS = userService.findVisitorList(intraId);
         return ResponseEntity.ok(visitorsDTOS);
     }

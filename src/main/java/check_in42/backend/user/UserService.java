@@ -6,6 +6,7 @@ import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.user.exception.IllegalRoleException;
 import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
@@ -103,5 +104,14 @@ public class UserService {
                 .map(EquipmentDTO::create)
                 .collect(Collectors.toList());
         return result;
+    }
+
+    public void validateAuthentication(final String intraId) {
+        final User user = userRepository.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final boolean staff = user.isStaff();
+        if (!staff) {
+            throw new IllegalRoleException.NotStaffException();
+        }
     }
 }
