@@ -105,13 +105,4 @@ public class UserService {
                 .collect(Collectors.toList());
         return result;
     }
-
-    public void validateAuthentication(final String intraId) {
-        final User user = userRepository.findByName(intraId)
-                .orElseThrow(UserRunTimeException.NoUserException::new);
-        final boolean staff = user.isStaff();
-        if (!staff) {
-            throw new IllegalRoleException.NotStaffException();
-        }
-    }
 }

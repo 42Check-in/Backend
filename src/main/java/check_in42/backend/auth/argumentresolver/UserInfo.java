@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserInfo {
     private String intraId;
-    protected UserInfo(String intraId) {
+    private boolean staff;
+    protected UserInfo(String intraId, boolean staff) {
         this.intraId = intraId;
+        this.staff = staff;
     }
 }

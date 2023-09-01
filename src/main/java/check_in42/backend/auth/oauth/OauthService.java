@@ -43,7 +43,7 @@ public class OauthService {
     MultiValueMap<String, String> params;
 
 
-    public OauthToken getOauthToken(String code) {
+    public OauthToken getOauthToken(final String code) {
         req = req42TokenHeader(code);
         log.info(code);
         res = resPostApi(req, req42TokenUri());
@@ -51,13 +51,13 @@ public class OauthService {
         return readOauthToken(res.getBody());
     }
 
-    public User42Info get42SeoulInfo(String token) {
+    public User42Info get42SeoulInfo(final String token) {
         req = req42ApiHeader(token);
         res = resGetApi(req, req42UserUri());
         return readUser42Info(res.getBody());
     }
 
-    private User42Info readUser42Info(String body) {
+    private User42Info readUser42Info(final String body) {
         User42Info user42Info = null;
         try {
             user42Info = om.readValue(body, User42Info.class);
@@ -67,7 +67,8 @@ public class OauthService {
         return user42Info;
     }
 
-    private ResponseEntity<String> resGetApi(HttpEntity<MultiValueMap<String, String>> req, URI uri) {
+    private ResponseEntity<String> resGetApi(final HttpEntity<MultiValueMap<String, String>> req,
+                                             final URI uri) {
         return template.exchange(uri.toString(),
                 HttpMethod.GET,
                 req,
@@ -80,7 +81,7 @@ public class OauthService {
                 .toUri();
     }
 
-    private HttpEntity<MultiValueMap<String, String>> req42ApiHeader(String token) {
+    private HttpEntity<MultiValueMap<String, String>> req42ApiHeader(final String token) {
         headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         headers.add("Accept", "application/json;charset=utf-8");
@@ -88,7 +89,7 @@ public class OauthService {
         return new HttpEntity<>(params, headers);
     }
 
-    private OauthToken readOauthToken(String body) {
+    private OauthToken readOauthToken(final String body) {
         OauthToken oauthToken = null;
         try {
             oauthToken = om.readValue(body, OauthToken.class);
@@ -99,7 +100,8 @@ public class OauthService {
 
     }
 
-    private ResponseEntity<String> resPostApi(HttpEntity<MultiValueMap<String, String>> req, URI uri) {
+    private ResponseEntity<String> resPostApi(final HttpEntity<MultiValueMap<String, String>> req,
+                                              final URI uri) {
         return template.exchange(uri.toString(),
                 HttpMethod.POST,
                 req,
@@ -134,8 +136,8 @@ public class OauthService {
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
         log.info(user42Info.getCursus_users().get(0).getGrade() + "-----------------------------------");
-        final String accessToken = tokenProvider.createAccessToken(intraId);
-        final String refreshToken = tokenProvider.createRefreshToken(intraId);
+        final String accessToken = tokenProvider.createAccessToken(intraId, staff);
+        final String refreshToken = tokenProvider.createRefreshToken(intraId, staff);
         userService.findByName(intraId)
                 .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
                         () -> userService.create(intraId, staff, refreshToken));
@@ -165,7 +167,7 @@ public class OauthService {
         userService.findByRefreshToken(refreshToken)
                 .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
         final String intraId = claims.get("intraId", String.class);
-
-        return tokenProvider.createAccessToken(intraId);
+        final boolean staff = claims.get("staff", boolean.class);
+        return tokenProvider.createAccessToken(intraId, staff);
     }
 }

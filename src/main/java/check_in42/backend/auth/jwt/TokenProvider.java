@@ -33,17 +33,18 @@ public class TokenProvider {
         return Keys.hmacShaKeyFor(encodedSecretCode.getBytes());
     }
 
-    public String createAccessToken(final String intraId) {
-            return createToken(intraId, accessTokenValidateTime);
+    public String createAccessToken(final String intraId, final boolean staff) {
+            return createToken(intraId, staff, accessTokenValidateTime);
     }
 
-    public String createRefreshToken(final String intraId) {
-        return createToken(intraId, refreshTokenValidateTime);
+    public String createRefreshToken(final String intraId, final boolean staff) {
+        return createToken(intraId, staff, refreshTokenValidateTime);
     }
 
-    private String createToken(String intraId, final long validateTime) {
+    private String createToken(final String intraId, final boolean staff, final long validateTime) {
         final Claims claims = Jwts.claims().setSubject("user");
         claims.put("intraId", intraId);
+        claims.put("staff", staff);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)

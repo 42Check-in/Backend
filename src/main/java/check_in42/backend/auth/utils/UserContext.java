@@ -17,7 +17,7 @@ public class UserContext {
         this.intraId = intraId;
     }
 
-    public void setStaff(final Boolean staff) {
+    public void setStaff(final boolean staff) {
         this.staff = staff;
     }
 
