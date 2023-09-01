@@ -3,12 +3,14 @@ package check_in42.backend.equipments;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
+import check_in42.backend.visitors.Visitors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,6 +125,7 @@ public class EquipmentService {
     public List<EquipmentDTO> findAllDESC() {
         final List<Equipment> equipmentList = equipmentRepository.findAllDESC();
         final List<EquipmentDTO> result = equipmentList.stream()
+                .sorted(Comparator.comparing(Equipment::getApproval, Comparator.nullsFirst(Comparator.reverseOrder())))
                 .map(EquipmentDTO::create)
                 .collect(Collectors.toList());
         return result;
