@@ -3,6 +3,7 @@ package check_in42.backend.allException;
 import check_in42.backend.auth.exception.AuthorizationException;
 import check_in42.backend.auth.exception.TokenException;
 import check_in42.backend.conferenceRoom.exception.ConferenceException;
+import check_in42.backend.user.exception.IllegalRoleException;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,11 @@ public class AllExceptionHandler {
     public ResponseEntity handleFormException(final CustomException e) {
         log.info(e.toString());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(e.getCode());
+    }
+
+    @ExceptionHandler(IllegalRoleException.class)
+    public ResponseEntity handelRoleException(final CustomException e) {
+        log.info(e.toString());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getCode());
     }
 }
