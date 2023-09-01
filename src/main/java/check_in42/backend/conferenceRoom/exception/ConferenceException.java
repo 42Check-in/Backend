@@ -10,7 +10,6 @@ public class ConferenceException extends CustomException {
     }
 
     public static class ReservationRunTimeException extends ConferenceException {
-
         public ReservationRunTimeException() {
             super(ErrorCode.INVALIDED_RESERVATION);
         }
