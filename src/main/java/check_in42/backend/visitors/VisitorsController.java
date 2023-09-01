@@ -1,11 +1,7 @@
 package check_in42.backend.visitors;
 
-import ch.qos.logback.classic.ViewStatusMessagesServlet;
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
-import check_in42.backend.user.User;
-import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

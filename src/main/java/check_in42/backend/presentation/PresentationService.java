@@ -1,5 +1,7 @@
 package check_in42.backend.presentation;
 
+import check_in42.backend.allException.ErrorCode;
+import check_in42.backend.allException.FormException;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import check_in42.backend.user.User;
@@ -7,7 +9,6 @@ import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +17,13 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
+@Transactional(readOnly = true)
 public class PresentationService {
 
     private final PresentationRepository presentationRepository;
@@ -39,7 +41,7 @@ public class PresentationService {
     }
 
     public Presentation findOne(Long id) {
-        return presentationRepository.findOne(id);
+        return presentationRepository.findOne(id).get();
     }
 
     public Presentation create(User user, PresentationDTO presentationDTO, int count) {
@@ -84,8 +86,8 @@ public class PresentationService {
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        final Presentation presentation = presentationRepository.findOne(formId);
-        if (presentation.getStatus().equals(PresentationStatus.PENDING.getDescription())) {
+        final Presentation presentation = presentationRepository.findOne(formId).get();
+        if (presentation.getStatus().equals(PresentationStatus.PENDING.getName())) {
             presentationRepository.setNextPresentation(presentation.getDate());
         }
         presentationRepository.delete(formId);
@@ -95,13 +97,20 @@ public class PresentationService {
     }
 
     @Transactional
-    public void setAgreeDatesAndStatus(List<Long> formId, int status) {
-        for (Long id : formId) {
-            final Presentation presentation = presentationRepository.findOne(id);
-            presentation.setApproval();
-            presentation.setStatus(status);
-//            presentationRepository.save(presentation); 안써도댐?
-        }
+    public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
+
+//        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
+//            final Presentation one = presentationRepository.findOne(entry.getKey())
+//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+//            one.setApproval();
+//            one.setStatus(entry.getValue());
+//        }
+        presentation.forEach((key, value) -> {
+            Presentation one = presentationRepository.findOne(key)
+                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+            one.setApproval();
+            one.setStatus(value);
+        });
     }
 
     public List<Presentation> findDataBeforeDay(int day) {
@@ -131,7 +140,7 @@ public class PresentationService {
     * */
     @Transactional
     public void update(Long formId, PresentationDTO presentationDTO) {
-        final Presentation presentation = presentationRepository.findOne(formId);
+        final Presentation presentation = presentationRepository.findOne(formId).get();
 
     }
 
@@ -145,6 +154,7 @@ public class PresentationService {
         final User user = userRepository.findByName(intraId).get();
         final int count = presentationRepository.findByDate(presentationDTO.getDate()).size();
         final Presentation presentation = create(user, presentationDTO, count);
+        log.info("-----------status?" + presentation.getStatus());
         final Long formId = join(presentation);
         user.addPresentationForm(presentation);
 

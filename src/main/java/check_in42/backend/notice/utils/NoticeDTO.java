@@ -3,26 +3,28 @@ package check_in42.backend.notice.utils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 public class NoticeDTO {
 
-    private int category;
+    private Long category;
 
-    private Long form_id;
+    private Long formId;
 
-    private LocalDate agree_date;
+    private LocalDate date;
 
     private boolean notice;
 
-    @Builder
-    protected NoticeDTO(int category, Long form_id, LocalDate agree_date, boolean notice) {
-        this.category = category;
-        this.form_id = form_id;
-        this.agree_date = agree_date;
-        this.notice = notice;
+    public static NoticeDTO create(Long category, Long formId, LocalDate date, boolean notice) {
+        NoticeDTO noticeDTO = new NoticeDTO();
+        noticeDTO.category = category;
+        noticeDTO.formId = formId;
+        noticeDTO.date = date;
+        noticeDTO.notice = notice;
+
+        return noticeDTO;
     }
 }

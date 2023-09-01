@@ -1,26 +1,27 @@
 package check_in42.backend.conferenceRoom.ConferenceRoom;
 
+import check_in42.backend.allException.FormException;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
+import check_in42.backend.conferenceRoom.exception.ConferenceException;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final UserService userService;
@@ -47,7 +48,8 @@ public class ConferenceRoomService {
     }
 
     public ConferenceRoom findOne(Long id) {
-        return conferenceRoomRepository.findById(id).get();
+        return conferenceRoomRepository.findById(id)
+                .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
     public List<ConferenceRoomDTO> findByDateConferenceRooms(LocalDate date) {
@@ -71,25 +73,39 @@ public class ConferenceRoomService {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
 
+        log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {
+            log.info("데이터 넣어");
+            log.info("reservationInfo: " + cr.getReservationInfo() + " => " + Long.toBinaryString(cr.getReservationInfo()));
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
+            if (rooms == null) {
+                log.info("reservationInfo 이상함");
+                throw new ConferenceException.ReservationRunTimeException();
+            }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
+        log.info("정상 종료");
     }
 
-    public boolean isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
-        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlace(conferenceRoomDTO.getDate(),
-                conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue());
-        long emptyTime, reservationTimeBit, reqFormReservationTimeBit;
+    public void isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
+        long reqFormReservationPlaceBit = conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue();
+        long reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+        List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlaceOrMySameTime(
+                conferenceRoomDTO.getUserId(),
+                conferenceRoomDTO.getDate(),
+                reqFormReservationPlaceBit,
+                reqFormReservationTimeBit);
 
-        emptyTime = 0;
-        for (ConferenceRoom rcr: reservationList) {
-            reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-            emptyTime |= reservationTimeBit;
-        }
-        reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        return (emptyTime & reqFormReservationTimeBit) == 0;
+        reservationList.forEach(rcr -> {
+            long reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+            if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
+                if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0)
+                    throw new ConferenceException.DuplicateTimeException();
+                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
+                    throw new ConferenceException.AlreadyReserved();
+            }
+        });
     }
 
     @Transactional
@@ -104,9 +120,9 @@ public class ConferenceRoomService {
     @Transactional
     public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, UserInfo userInfo) {
         User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
-        conferenceRoomRepository.deleteById(conferenceRoomDTO.getId());
-        user.deleteConferenceRoomForm(conferenceRoomDTO.getId());
-        return conferenceRoomDTO.getId();
+        conferenceRoomRepository.deleteById(conferenceRoomDTO.getFormId());
+        user.deleteConferenceRoomForm(conferenceRoomDTO.getFormId());
+        return conferenceRoomDTO.getFormId();
     }
 
     public boolean isDayFull(LocalDate date) {

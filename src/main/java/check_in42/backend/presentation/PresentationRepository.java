@@ -1,14 +1,18 @@
 package check_in42.backend.presentation;
 
+import check_in42.backend.allException.CustomException;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class PresentationRepository {
 
     private final EntityManager em;
@@ -18,7 +22,7 @@ public class PresentationRepository {
     }
 
     public void delete(Long formId) {
-        Presentation presentation = findOne(formId);
+        Presentation presentation = findOne(formId).get();
         em.remove(presentation);
     }
 
@@ -27,8 +31,14 @@ public class PresentationRepository {
                 .getResultList();
     }
 
-    public Presentation findOne(Long id) {
-        return em.find(Presentation.class, id);
+    public Optional<Presentation> findOne(Long id) throws CustomException {
+        try {
+            Presentation presentation = em.find(Presentation.class, id);
+            return Optional.of(presentation);
+        }
+        catch (RuntimeException e) {
+            return Optional.empty();
+        }
     }
 
     public List<Presentation> findOneMonth(String month) {
@@ -71,10 +81,11 @@ public class PresentationRepository {
 
     public void setNextPresentation(LocalDate date) {
         List<Presentation> dateForms = findByDate(date.toString());
+        log.info("--------dateForms size" + dateForms.size());
         if (dateForms.size() == 1) {
             return;
         }
-        Presentation nextForm = dateForms.get(2);
+        Presentation nextForm = dateForms.get(1);
         nextForm.setStatus(PresentationStatus.PENDING.ordinal());
     }
 }

@@ -24,7 +24,7 @@ public class MyCheckInService {
     public EquipmentDTO findEquipFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Equipment equip = user.getEquipments().stream()
-                .filter(equipment -> equipment.getId().equals(noticeDTO.getForm_id()))
+                .filter(equipment -> equipment.getId().equals(noticeDTO.getFormId()))
                 .findFirst().orElse(null);
         if (equip != null)
             return EquipmentDTO.create(equip);
@@ -35,7 +35,7 @@ public class MyCheckInService {
     public PresentationDTO findPresentationFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Presentation presen = user.getPresentations().stream()
-                .filter(presentation -> presentation.getId().equals(noticeDTO.getForm_id()))
+                .filter(presentation -> presentation.getId().equals(noticeDTO.getFormId()))
                 .findFirst().orElse(null);
         if (presen != null)
             return PresentationDTO.create(presen);
@@ -46,7 +46,7 @@ public class MyCheckInService {
     public VisitorsDTO findVisitorFormFromUser(User user, NoticeDTO noticeDTO) {
 
         Visitors visit = user.getVisitors().stream()
-                .filter(visitors -> visitors.getId().equals(noticeDTO.getForm_id()))
+                .filter(visitors -> visitors.getId().equals(noticeDTO.getFormId()))
                 .findFirst().orElse(null);
         if (visit != null)
             return VisitorsDTO.create(visit);

@@ -39,12 +39,12 @@ public class EquipmentService {
         return null;
     }
     public Equipment findOne(Long id){
-        return equipmentRepository.findOne(id);
+        return equipmentRepository.findOne(id).get();
     }
 
     @Transactional
     public void findAndDelete(String intraId, Long formId) {
-        final Equipment equipment = equipmentRepository.findOne(formId);
+        final Equipment equipment = equipmentRepository.findOne(formId).get();
         equipmentRepository.delete(equipment);
 
         final User user = userRepository.findByName(intraId)
@@ -86,7 +86,7 @@ public class EquipmentService {
     @Transactional
     public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
-        final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId());
+        final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId()).get();
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
 
         //userList의 업데이트
@@ -103,10 +103,15 @@ public class EquipmentService {
 
     // 수락 떨어지면 현재로 setDate
     @Transactional
-    public void setAgreeDates(List<Long> formId) {
-        for (Long id : formId) {
-            equipmentRepository.findOne(id).setApproval();
-        }
+    public void setAgreeDates(List<Long> formIds) {
+//        for (Long id : formId) {
+//            Equipment equipment = equipmentRepository.findOne(id)
+//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+//            equipment.setApproval();
+//        }
+        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
+                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
+                .forEach(Equipment::setApproval);
     }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤

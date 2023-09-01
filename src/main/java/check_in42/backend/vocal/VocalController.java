@@ -1,17 +1,16 @@
 package check_in42.backend.vocal;
 
-import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
-import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.UserService;
-import check_in42.backend.visitors.Visitors;
+import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/vocal/subscriptions")
 public class VocalController {
 
@@ -70,9 +70,8 @@ public class VocalController {
     // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
-    public ResponseEntity confirmPresentationApply(@RequestBody final PresentationDTO presentationDTO) {
-        presentationService.setAgreeDatesAndStatus(presentationDTO.getFormIds(), presentationDTO.getStatus());
-
+    public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
+        presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

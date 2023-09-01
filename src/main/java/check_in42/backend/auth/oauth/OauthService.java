@@ -5,7 +5,6 @@ import check_in42.backend.auth.jwt.TokenPair;
 import check_in42.backend.auth.jwt.TokenProvider;
 import check_in42.backend.auth.oauth.dto.OauthToken;
 import check_in42.backend.auth.oauth.dto.User42Info;
-import check_in42.backend.auth.utils.UserContext;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.UserService;
@@ -27,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -150,6 +148,7 @@ public class OauthService {
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         user.setRefreshToken(null);
     }
+
     public boolean isStaff(final String accessToken) {
         final Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
         final String intraId = claims.get("intraId", String.class);
@@ -162,12 +161,9 @@ public class OauthService {
     }
 
     public String reissueToken(final String refreshToken) {
-        log.info("---------------- " + refreshToken +" -------------------------");
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);
-        log.info("여기서?");
         userService.findByRefreshToken(refreshToken)
                 .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
-        log.info("혹시?");
         final String intraId = claims.get("intraId", String.class);
 
         return tokenProvider.createAccessToken(intraId);

@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
-
 PROJECT_ROOT="/home/ec2-user/github_action"
 JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
-
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
-
 TIME_NOW=$(date +%c)
 
 # build 파일 복사
@@ -19,3 +16,5 @@ nohup java -jar -Dspring.profiles.active=deploy $JAR_FILE > $APP_LOG 2> $ERROR_L
 #프로파일 명시
 CURRENT_PID=$(pgrep -f $JAR_FILE)
 echo "$TIME_NOW > 실행된 프로세스 아이디 $CURRENT_PID 입니다." >> $DEPLOY_LOG
+
+# 자동실행 테스트
