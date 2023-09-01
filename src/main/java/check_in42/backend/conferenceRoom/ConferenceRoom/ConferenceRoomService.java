@@ -105,7 +105,8 @@ public class ConferenceRoomService {
         reservationList.forEach(rcr -> {
             long reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
             if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
-                if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0)
+                if ((rcr.getReservationInfo() & PlaceInfoBit.CLUSTER.getValue()) > 0 &&
+                    (rcr.getReservationInfo() & PlaceInfoBit.ROOM.getValue()) > 0)
                     throw new ConferenceException.AlreadyReserved();
                 if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
                     throw new ConferenceException.DuplicateTimeException();
