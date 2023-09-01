@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,6 +58,8 @@ public class VisitorsService {
 
     public List<VisitorsDTO> findAll() {
         final List<Visitors> visitorsList = visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        visitorsList.stream()
+                .sorted(Comparator.comparing(Visitors::getApproval, Comparator.nullsFirst(Collections.reverseOrder())));
         final List<VisitorsDTO> result = visitorsList.stream()
                 .map(VisitorsDTO::create)
                 .collect(Collectors.toList());
