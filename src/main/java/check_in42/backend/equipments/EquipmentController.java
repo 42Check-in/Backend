@@ -4,6 +4,7 @@ import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentService equipmentService;
@@ -18,6 +20,7 @@ public class EquipmentController {
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final EquipmentDTO equipmentDTO) {
+        log.info("-----------period?" + equipmentDTO.getPhoneNumber());
         final Long equipmentFormId = equipmentService.createNewForm(userInfo.getIntraId(), equipmentDTO);
         return ResponseEntity.ok().body(equipmentFormId);
     }
