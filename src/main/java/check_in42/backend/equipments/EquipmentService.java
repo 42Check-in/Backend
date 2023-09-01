@@ -59,12 +59,6 @@ public class EquipmentService {
     public Equipment create(User user, EquipmentDTO equipmentDTO) {
         return new Equipment(user, equipmentDTO);
     }
-
-
-    /*
-     * intraid -> user 특정 가능
-     * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
-     * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
@@ -81,12 +75,6 @@ public class EquipmentService {
         }
         return res;
     }
-
-    /*
-    *   1. String period
-        2. Sting returnDate
-        3. Long formId
-    * */
     @Transactional
     public Long extendDate(EquipmentDTO equipmentDTO) {
 

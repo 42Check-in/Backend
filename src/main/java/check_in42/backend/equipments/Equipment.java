@@ -100,15 +100,3 @@ public class Equipment {
         this.notice = notice;
     }
 }
-
-/*
-* 1. String userName // 본명
-2. String phoneNumber
-3. String date
-3. Long equipments // (enum)
-4. boolean purpose
-5. String detail // 상세 사유
-6. String benefit // 기대효과
-7. String period
-8. String returnDate
-* */
