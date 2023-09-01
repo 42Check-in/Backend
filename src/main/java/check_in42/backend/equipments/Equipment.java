@@ -81,9 +81,6 @@ public class Equipment {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-    public void setExtension(int extension) {
-        this.extension = extension;
-    }
 
     public void updateForExtension(EquipmentDTO equipmentDTO) {
         this.extension = 1;
@@ -99,13 +96,6 @@ public class Equipment {
         this.approval = null;
     }
 
-    public void setPeriod(int period) {
-        this.period = period;
-    }
-
-    public void setDate(LocalDate extendDate) {
-        this.date = extendDate;
-    }
     public void setNotice(boolean notice) {
         this.notice = notice;
     }
