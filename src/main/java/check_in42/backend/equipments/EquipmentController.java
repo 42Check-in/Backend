@@ -15,10 +15,6 @@ import java.util.List;
 public class EquipmentController {
     private final EquipmentService equipmentService;
 
-    /*
-    * DTO를 가공해서 db에 올라갈 형식으로 만든 후 저장
-    * intraId를 갖고 user를 찾아서 list에도 equipform 추가
-    * */
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final EquipmentDTO equipmentDTO) {
@@ -26,38 +22,18 @@ public class EquipmentController {
         return ResponseEntity.ok().body(equipmentFormId);
     }
 
-
-    /*
-     * 해당 user의 기존에 작성했던 모든 equipments form 보여주기
-     * returnDate와 localDate 비교 후 기한이 남은 form만 DTO에 담아서 반환..
-     * */
     @GetMapping("/equipments/form/extension")
     public ResponseEntity<List<EquipmentDTO>> showExtensionForm(@UserId final UserInfo userInfo) {
         List<EquipmentDTO> res =  equipmentService.showAllFormByName(userInfo.getIntraId());
         return ResponseEntity.ok(res);
     }
 
-    /*
-     * intraId -> user 객체 찾아
-     * user 객체에서 작성한 equipForm 찾아
-     * returnDate를 period만큼 더해서 set 해줘 -> db는 dirtychecking으로 올라감
-     *
-     * 연장 신청 시,
-     * 기간, 면담 신청 일, 반납일
-     *
-     * formId,
-     * */
-
     @PostMapping("/equipments/form/extension")
-    public ResponseEntity postExtensionForm(@UserId final UserInfo userInfo,
-                                            @RequestBody final EquipmentDTO equipmentDTO) {
-        equipmentService.extendDate(userInfo.getIntraId(), equipmentDTO);
+    public ResponseEntity postExtensionForm(@RequestBody final EquipmentDTO equipmentDTO) {
+        equipmentService.extendDate(equipmentDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /*
-     * 추가적으로 user의 equipList에서도 제거하기
-     * */
     @PostMapping("/equipments/cancel")
     public ResponseEntity cancel(@UserId final UserInfo userInfo, @RequestBody final EquipmentDTO equipmentDTO) {
         equipmentService.findAndDelete(userInfo.getIntraId(), equipmentDTO.getFormId());
