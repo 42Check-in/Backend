@@ -35,17 +35,6 @@ public class VocalController {
         return ResponseEntity.ok().body(visitorsList);
     }
 
-    // 전체 수요지식회 목록을 보여주는 기능 월별로 sort?
-    /*
-    *
-    *   보컬의 수요 지식회 신청 목록 status 변경
-        대기열 바로 업데이트 원함..
-
-        최상위 → 신청 중
-        같은 날에 또 신청 → 대기중
-        보컬은 최상위의 1, 2, 3 상태값만 관리
-        * 추가 작업이 필요할듯...
-    * */
     @GetMapping("/presentations")
     public ResponseEntity allPresentation() {
         List<PresentationDTO> presentationList = presentationService.findAllDESC();
@@ -66,9 +55,6 @@ public class VocalController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    // 수요지식회의 신청 상태를 운영진이 설정하는 api
-    // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
-    // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());

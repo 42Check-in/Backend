@@ -78,20 +78,9 @@ public class EquipmentService {
     @Transactional
     public Long extendDate(EquipmentDTO equipmentDTO) {
 
-//        final Equipment equipment = getFormByIntraId(intraId, equipmentDTO.getFormId());
         final Equipment equipment = findOne(equipmentDTO.getFormId());
-        log.info("-----------before id?" + equipment.getId());
         equipment.updateForExtension(equipmentDTO);
-        Long res = join(equipment);
-        log.info("-----------after id?" + res);
-
-//        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-
-        //userList의 업데이트
-//        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
-//        if (inUserForm != null)
-//            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-
+        join(equipment);
         return equipment.getId();
     }
 
