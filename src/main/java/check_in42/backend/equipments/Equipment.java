@@ -66,7 +66,7 @@ public class Equipment {
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
         this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
-        this.period = equipmentDTO.getPeriod();
+        this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         if (equipmentDTO.getEquipment() == 0)
             this.equipment = equipmentDTO.getEtcEquipment();
         else
@@ -84,7 +84,7 @@ public class Equipment {
 
     public void updateForExtension(EquipmentDTO equipmentDTO) {
         this.extension = 1;
-        this.period = equipmentDTO.getPeriod();
+        this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         this.date = LocalDate.parse(equipmentDTO.getDate());
         setApprovalNull();
     }
