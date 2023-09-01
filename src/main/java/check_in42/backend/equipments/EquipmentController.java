@@ -20,7 +20,7 @@ public class EquipmentController {
     @PostMapping("/equipments/form/new")
     public ResponseEntity createNewForm(@UserId final UserInfo userInfo,
                                         @RequestBody final EquipmentDTO equipmentDTO) {
-        log.info("-----------period?" + equipmentDTO.getPhoneNumber());
+        log.info("-----------period?" + equipmentDTO.getPeriod());
         final Long equipmentFormId = equipmentService.createNewForm(userInfo.getIntraId(), equipmentDTO);
         return ResponseEntity.ok().body(equipmentFormId);
     }
