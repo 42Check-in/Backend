@@ -43,6 +43,7 @@ public class Equipment {
     private boolean notice;
 
     private String equipment;
+    private int extension;
 
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     @JoinColumn(name = "user_id")
@@ -73,10 +74,22 @@ public class Equipment {
         this.user = user;
         this.approval = null;
         this.notice = false;
+        this.extension = 0;
     }
 
     public void extendReturnDateByPeriod(int period) {
         this.returnDate = this.returnDate.plusMonths(period);
+    }
+
+    public void setExtension(int extension) {
+        this.extension = extension;
+    }
+
+    public void updateForExtension(EquipmentDTO equipmentDTO) {
+        this.extension = 1;
+        this.period = equipmentDTO.getPeriod();
+        this.date = LocalDate.parse(equipmentDTO.getDate());
+        setApprovalNull();
     }
 
     public void setApproval() {
@@ -84,6 +97,10 @@ public class Equipment {
     }
     public void setApprovalNull() {
         this.approval = null;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
     }
 
     public void setDate(LocalDate extendDate) {
