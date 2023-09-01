@@ -21,4 +21,10 @@ public class ConferenceException extends CustomException {
             super(ErrorCode.DUPLICATE_TIME);
         }
     }
+
+    public static class AlreadyReserved extends ConferenceException {
+        public AlreadyReserved() {
+            super(ErrorCode.ALREADY_RESERVED);
+        }
+    }
 }

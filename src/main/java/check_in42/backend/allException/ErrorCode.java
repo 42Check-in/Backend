@@ -24,6 +24,7 @@ public enum ErrorCode {
     //conferenceException
     INVALIDED_RESERVATION(1007, "클러스터 정보가 유효하지 않습니다"),
     DUPLICATE_TIME(1008, "동일한 시간에 예약된 회의실이 있습니다"),
+    ALREADY_RESERVED(1009, "이미 예약된 시간 입니다."),
 
     //formException
     INVALIDED_ID(1010, "Id에 해당하는 Entity가 존재하지 않습니다");
