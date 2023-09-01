@@ -6,6 +6,8 @@ import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDay;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ import java.util.*;
 public class ConferenceController {
     private final ConferenceRoomService conferenceRoomService;
     private final ConferenceCheckDayService conferenceCheckDayService;
+
+    private final UserService userService;
 
     @GetMapping("calendar/{year}/{month}")
     public ResponseEntity<Long> calender(@PathVariable(name = "year") final Long year,
@@ -46,6 +50,8 @@ public class ConferenceController {
     @PostMapping("form")
     public ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                     @UserId final UserInfo userInfo) {
+        conferenceRoomDTO.setUserId(userService.findByName(userInfo.getIntraId())
+                .orElseThrow(UserRunTimeException.NoUserException::new).getId());
         conferenceRoomService.isInputForm(conferenceRoomDTO);
 
         conferenceRoomService.inputForm(conferenceRoomDTO, userInfo);
