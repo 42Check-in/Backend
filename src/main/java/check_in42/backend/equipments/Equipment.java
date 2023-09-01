@@ -82,6 +82,13 @@ public class Equipment {
     public void setApproval() {
         this.approval = LocalDate.now();
     }
+    public void setApprovalNull() {
+        this.approval = null;
+    }
+
+    public void setDate(LocalDate extendDate) {
+        this.date = extendDate;
+    }
     public void setNotice(boolean notice) {
         this.notice = notice;
     }
