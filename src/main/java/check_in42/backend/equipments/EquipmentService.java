@@ -93,7 +93,8 @@ public class EquipmentService {
         final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
         if (inUserForm != null)
             inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-
+        inUserForm.setDate(LocalDate.parse(equipmentDTO.getDate()));
+        inUserForm.setApprovalNull();
         return equipment.getId();
     }
 
