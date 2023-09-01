@@ -38,7 +38,7 @@ public class ConferenceRoomService {
         return ConferenceRoom.builder()
                 .user(user)
                 .date(conferenceRoomDTO.getDate())
-                .reservationCount(ConferenceUtil.BitN(conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue()))
+                .reservationCount(ConferenceUtil.bitN(conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue()))
                 .reservationInfo(conferenceRoomDTO.getReservationInfo())
                 .build();
     }
@@ -78,12 +78,13 @@ public class ConferenceRoomService {
             log.info("데이터 넣어");
             log.info("reservationInfo: " + cr.getReservationInfo() + " => " + Long.toBinaryString(cr.getReservationInfo()));
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
-            long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
-            if (rooms == null) {
+            long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.bitIdx(reservationInfo[0]));
+            int roomIdx = ConferenceUtil.bitIdx(reservationInfo[1]);
+            if (rooms == null || roomIdx == -1) {
                 log.info("reservationInfo 이상함");
                 throw new ConferenceException.ReservationRunTimeException();
             }
-            rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
+            rooms[roomIdx] |= reservationInfo[2];
         }
         log.info("정상 종료");
     }
