@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EquipmentController {
     private final EquipmentService equipmentService;
-    private final UserService userService;
 
     /*
     * DTO를 가공해서 db에 올라갈 형식으로 만든 후 저장
@@ -43,7 +42,10 @@ public class EquipmentController {
      * user 객체에서 작성한 equipForm 찾아
      * returnDate를 period만큼 더해서 set 해줘 -> db는 dirtychecking으로 올라감
      *
-     * user에 따로 update 해저
+     * 연장 신청 시,
+     * 기간, 면담 신청 일, 반납일
+     *
+     * formId,
      * */
 
     @PostMapping("/equipments/form/extension")

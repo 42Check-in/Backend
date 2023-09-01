@@ -87,14 +87,14 @@ public class EquipmentService {
     public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
         //DB의 dirty checking 이용
         final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId()).get();
-        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+//        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
 
         //userList의 업데이트
-        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
-        if (inUserForm != null)
-            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-        inUserForm.setDate(LocalDate.parse(equipmentDTO.getDate()));
-        inUserForm.setApprovalNull();
+//        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
+//        if (inUserForm != null)
+//            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+        equipment.setDate(LocalDate.parse(equipmentDTO.getDate())); // 면담일 재설정
+        equipment.setApprovalNull(); // approval null 세팅
         return equipment.getId();
     }
 
