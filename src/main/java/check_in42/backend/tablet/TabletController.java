@@ -15,10 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/tablet/")
 public class TabletController {
+
     private final ConferenceRoomService conferenceRoomService;
 
     @GetMapping("reservations")
     public ResponseEntity<List<ConferenceRoomDTO>> reservations() {
-        return ResponseEntity.ok(conferenceRoomService.findByDateConferenceRooms(LocalDate.now()));
+        return ResponseEntity.ok(conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
     }
 }
