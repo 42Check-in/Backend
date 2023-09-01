@@ -85,7 +85,7 @@ public class Equipment {
         this.extension = extension;
     }
 
-    public Equipment(EquipmentDTO equipmentDTO) {
+    public void updateForExtension(EquipmentDTO equipmentDTO) {
         this.extension = 1;
         this.period = equipmentDTO.getPeriod();
         this.date = LocalDate.parse(equipmentDTO.getDate());

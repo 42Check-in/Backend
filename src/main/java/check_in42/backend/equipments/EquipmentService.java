@@ -91,11 +91,9 @@ public class EquipmentService {
 //        if (inUserForm != null)
 //            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
 
+        equipment.updateForExtension(equipmentDTO);
         equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-        equipment.setExtension(1);
-        equipment.setPeriod(equipmentDTO.getPeriod());
-        equipment.setDate(LocalDate.parse(equipmentDTO.getDate())); // 면담일 재설정
-        equipment.setApprovalNull(); // approval null 세팅
+
         return equipment.getId();
     }
 
