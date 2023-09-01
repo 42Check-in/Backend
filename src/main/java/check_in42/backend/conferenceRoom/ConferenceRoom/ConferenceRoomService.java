@@ -81,7 +81,7 @@ public class ConferenceRoomService {
             long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.BitIdx(reservationInfo[0]));
             if (rooms == null) {
                 log.info("reservationInfo 이상함");
-                throw new ConferenceException.reservationRunTimeException();
+                throw new ConferenceException.ReservationRunTimeException();
             }
             rooms[ConferenceUtil.BitIdx(reservationInfo[1])] |= reservationInfo[2];
         }
@@ -90,26 +90,22 @@ public class ConferenceRoomService {
 
     public void isInputForm(ConferenceRoomDTO conferenceRoomDTO) {
         long reqFormReservationPlaceBit = conferenceRoomDTO.getReservationInfo() & ~PlaceInfoBit.TIME.getValue();
-        long reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() * PlaceInfoBit.TIME.getValue();
+        long reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
         List<ConferenceRoom> reservationList = conferenceRoomRepository.findByDateAndSamePlaceOrMySameTime(
                 conferenceRoomDTO.getUserId(),
                 conferenceRoomDTO.getDate(),
                 reqFormReservationPlaceBit,
                 reqFormReservationTimeBit);
-        long emptyTime, reservationTimeBit;
 
-        emptyTime = 0;
-
-        for (ConferenceRoom rcr: reservationList) {
-            reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+        reservationList.forEach(rcr -> {
+            long reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
             if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
-                if (reqFormReservationPlaceBit & )
+                if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0)
+                    throw new ConferenceException.DuplicateTimeException();
+                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
+                    throw new ConferenceException.AlreadyReserved();
             }
-
-        }
-        reqFormReservationTimeBit = conferenceRoomDTO.getReservationInfo() & PlaceInfoBit.TIME.getValue();
-        if ((emptyTime & reqFormReservationTimeBit) != 0)
-            throw new ConferenceException.DuplicateTimeException();
+        });
     }
 
     @Transactional
