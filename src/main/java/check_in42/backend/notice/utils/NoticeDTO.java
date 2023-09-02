@@ -14,11 +14,11 @@ public class NoticeDTO {
 
     private Long formId;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private boolean notice;
 
-    public static NoticeDTO create(Long category, Long formId, LocalDate date, boolean notice) {
+    public static NoticeDTO create(Long category, Long formId, LocalDateTime date, boolean notice) {
         NoticeDTO noticeDTO = new NoticeDTO();
         noticeDTO.category = category;
         noticeDTO.formId = formId;

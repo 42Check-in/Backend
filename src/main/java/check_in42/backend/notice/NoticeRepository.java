@@ -54,7 +54,7 @@ public class NoticeRepository {
         int num = 0;
         for (Object[] row : list) {
             NoticeDTO noticeDTO = NoticeDTO.create((Long) row[0], (Long) row[1],
-                    ((Date) row[2]).toLocalDate(), (boolean) row[3]);
+                    ((java.sql.Timestamp) row[2]).toLocalDateTime(), (boolean) row[3]);
             noticeDTOList.add(noticeDTO);
             if ((boolean) row[3] == false) {
                 num += 1;
