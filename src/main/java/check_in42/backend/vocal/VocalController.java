@@ -2,6 +2,7 @@ package check_in42.backend.vocal;
 
 import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.notice.NoticeService;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.UserService;
@@ -27,6 +28,7 @@ public class VocalController {
     private final PresentationService presentationService;
     private final EquipmentService equipmentService;
     private final UserService userService;
+    private final NoticeService noticeService;
 
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
     @GetMapping("/visitors")
@@ -62,7 +64,8 @@ public class VocalController {
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
     public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList) {
-        visitorsService.vocalConfirm(formIdList.getFormIds());
+//        visitorsService.vocalConfirm(formIdList.getFormIds());
+        noticeService.inputNoticeVisitors(formIdList);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -71,13 +74,15 @@ public class VocalController {
     // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
-        presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
+//        presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
+        noticeService.inputNoticePresentations(formIdList);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/equipments")
     public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
-        equipmentService.setAgreeDates(formIdList.getFormIds());
+//        equipmentService.setAgreeDates(formIdList.getFormIds());
+        noticeService.inputNoticeEquipments(formIdList);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

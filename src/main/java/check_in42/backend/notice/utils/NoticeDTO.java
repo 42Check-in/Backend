@@ -1,30 +1,28 @@
 package check_in42.backend.notice.utils;
 
-import lombok.Builder;
+import check_in42.backend.notice.Notice;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 public class NoticeDTO {
 
-    private Long category;
-
     private Long formId;
 
-    private LocalDateTime date;
+    private Integer category;
 
-    private boolean notice;
+    private LocalDateTime approval;
 
-    public static NoticeDTO create(Long category, Long formId, LocalDateTime date, boolean notice) {
-        NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.category = category;
-        noticeDTO.formId = formId;
-        noticeDTO.date = date;
-        noticeDTO.notice = notice;
+    private Boolean notice;
 
-        return noticeDTO;
+    public NoticeDTO(Notice notice) {
+        this.formId = notice.getFormId();
+        this.category = notice.getCategory();
+        this.approval = notice.getApproval();
+        this.notice = notice.getNotice();
     }
 }

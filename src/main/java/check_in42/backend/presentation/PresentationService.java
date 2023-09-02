@@ -96,22 +96,22 @@ public class PresentationService {
         user.deletePresentationForm(formId);
     }
 
-    @Transactional
-    public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
-
-//        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
-//            final Presentation one = presentationRepository.findOne(entry.getKey())
+//    @Transactional
+//    public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
+//
+////        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
+////            final Presentation one = presentationRepository.findOne(entry.getKey())
+////                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+////            one.setApproval();
+////            one.setStatus(entry.getValue());
+////        }
+//        presentation.forEach((key, value) -> {
+//            Presentation one = presentationRepository.findOne(key)
 //                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
 //            one.setApproval();
-//            one.setStatus(entry.getValue());
-//        }
-        presentation.forEach((key, value) -> {
-            Presentation one = presentationRepository.findOne(key)
-                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-            one.setApproval();
-            one.setStatus(value);
-        });
-    }
+//            one.setStatus(value);
+//        });
+//    }
 
     public List<Presentation> findDataBeforeDay(int day) {
         return presentationRepository.findDataBeforeDay(day);

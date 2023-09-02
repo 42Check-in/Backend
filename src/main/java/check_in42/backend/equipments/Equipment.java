@@ -16,7 +16,8 @@ import java.time.format.DateTimeFormatter;
 @Getter
 public class Equipment {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String userName;
@@ -38,10 +39,6 @@ public class Equipment {
     private int period; // 빌릴 기간
 
     private LocalDate returnDate; // 반납 일자
-
-    private LocalDateTime approval;
-
-    private boolean notice;
 
     private String equipment;
 
@@ -72,26 +69,14 @@ public class Equipment {
         else
             this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()].getName();
         this.user = user;
-        this.approval = null;
-        this.notice = false;
     }
 
     public void extendReturnDateByPeriod(int period) {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-    public void setApproval() {
-        this.approval = LocalDateTime.now();
-    }
-    public void setApprovalNull() {
-        this.approval = null;
-    }
-
     public void setDate(LocalDate extendDate) {
         this.date = extendDate;
-    }
-    public void setNotice(boolean notice) {
-        this.notice = notice;
     }
 }
 

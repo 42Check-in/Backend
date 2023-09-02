@@ -69,12 +69,12 @@ public class EquipmentService {
         LocalDate now = LocalDate.now();
         final List<EquipmentDTO> res = new ArrayList<>();
 
-        for (Equipment equip : equipments) {
-            if ((equip.getReturnDate().isAfter(now) || equip.getReturnDate().equals(now))
-                    && equip.getApproval() != null){
-                res.add(EquipmentDTO.create(equip));
-            }
-        }
+//        for (Equipment equip : equipments) {
+//            if ((equip.getReturnDate().isAfter(now) || equip.getReturnDate().equals(now))
+//                    && equip.getApproval() != null){
+//                res.add(EquipmentDTO.create(equip));
+//            }
+//        }
         return res;
     }
 
@@ -93,8 +93,8 @@ public class EquipmentService {
 //        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
 //        if (inUserForm != null)
 //            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-        equipment.setDate(LocalDate.parse(equipmentDTO.getDate())); // 면담일 재설정
-        equipment.setApprovalNull(); // approval null 세팅
+//        equipment.setDate(LocalDate.parse(equipmentDTO.getDate())); // 면담일 재설정
+//        equipment.setApprovalNull(); // approval null 세팅
         return equipment.getId();
     }
 
@@ -103,17 +103,17 @@ public class EquipmentService {
     }
 
     // 수락 떨어지면 현재로 setDate
-    @Transactional
-    public void setAgreeDates(List<Long> formIds) {
-//        for (Long id : formId) {
-//            Equipment equipment = equipmentRepository.findOne(id)
-//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-//            equipment.setApproval();
-//        }
-        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
-                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
-                .forEach(Equipment::setApproval);
-    }
+//    @Transactional
+//    public void setAgreeDates(List<Long> formIds) {
+////        for (Long id : formId) {
+////            Equipment equipment = equipmentRepository.findOne(id)
+////                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
+////            equipment.setApproval();
+////        }
+//        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
+//                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
+//                .forEach(Equipment::setApproval);
+//    }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
     public List<Equipment> findDataBeforeDay(int day) {

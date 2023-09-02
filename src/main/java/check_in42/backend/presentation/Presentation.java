@@ -45,10 +45,6 @@ public class Presentation {
 
     private String status;
 
-    private LocalDateTime approval;
-
-    private boolean notice;
-
     @Builder
     protected Presentation(User user, PresentationDTO presentationDTO, int count) {
 
@@ -66,16 +62,6 @@ public class Presentation {
         } else
             this.status = PresentationStatus.WAITING.getName();
         this.user = user;
-        this.approval = null;
-        this.notice = false;
-    }
-
-    public void setApproval() {
-        this.approval = LocalDateTime.now();
-    }
-
-    public void setNotice(boolean notice) {
-        this.notice = notice;
     }
 
     public void setStatus(int status) {

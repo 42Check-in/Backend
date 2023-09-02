@@ -25,8 +25,7 @@ public class ConferenceRoom {
     private Long reservationInfo; // 클러스터 2Bit, 방 6Bit, 시간 24Bit
 
     @Builder
-    protected ConferenceRoom(Long id, User user, LocalDate date, Long reservationCount, Long reservationInfo) {
-        this.id = id;
+    protected ConferenceRoom(User user, LocalDate date, Long reservationCount, Long reservationInfo) {
         this.user = user;
         this.date = date;
         this.reservationCount = reservationCount;
