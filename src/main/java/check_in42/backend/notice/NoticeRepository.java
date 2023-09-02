@@ -60,7 +60,10 @@ public class NoticeRepository {
                 num += 1;
             }
         }
-        final NoticeResponse noticeResponse = NoticeResponse.create(noticeDTOList, num);
+        List<NoticeDTO> sorted = noticeDTOList.stream()
+                .sorted(Comparator.comparing(NoticeDTO::getDate, Comparator.nullsFirst(Comparator.reverseOrder())))
+                .toList();
+        final NoticeResponse noticeResponse = NoticeResponse.create(sorted, num);
         return noticeResponse;
     }
 }

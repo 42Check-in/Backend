@@ -17,12 +17,7 @@ public class NoticeResponse {
 
     public static NoticeResponse create(List<NoticeDTO> noticeDTOList, int noticeCount) {
         NoticeResponse noticeResponse = new NoticeResponse();
-
-        final List<NoticeDTO> sortedNoticeDTOList = noticeDTOList
-                .stream()
-                .sorted(Comparator.comparing(NoticeDTO::getDate, Comparator.nullsFirst(Comparator.reverseOrder())))
-                .toList();
-        noticeResponse.noticeDTOList = sortedNoticeDTOList;
+        noticeResponse.noticeDTOList = noticeDTOList;
         noticeResponse.noticeCount = noticeCount;
 
         return noticeResponse;
