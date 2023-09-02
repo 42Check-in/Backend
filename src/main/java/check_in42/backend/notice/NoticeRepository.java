@@ -63,6 +63,7 @@ public class NoticeRepository {
 //        List<NoticeDTO> sorted = noticeDTOList.stream()
 //                .sorted(Comparator.comparing(NoticeDTO::getDate, Comparator.nullsFirst(Comparator.reverseOrder())))
 //                .toList();
+        log.info("" + noticeDTOList.size());
         final NoticeResponse noticeResponse = NoticeResponse.create(noticeDTOList, num);
         return noticeResponse;
     }
