@@ -2,7 +2,6 @@ package check_in42.backend.notice;
 
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.notice.utils.NoticeResponse;
-import check_in42.backend.visitors.Visitors;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
