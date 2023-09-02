@@ -43,6 +43,7 @@ public class NoticeRepository {
         final Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
         final List<Object []> list = query.getResultList();
+        log.info("native size : " + list.size());
         final List<NoticeDTO> noticeDTOList = new ArrayList<>();
         int num = 0;
         for (Object[] row : list) {
