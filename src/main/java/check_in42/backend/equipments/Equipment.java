@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -38,7 +39,7 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private LocalDate approval;
+    private LocalDateTime approval;
 
     private boolean notice;
 
@@ -90,7 +91,7 @@ public class Equipment {
     }
 
     public void setApproval() {
-        this.approval = LocalDate.now();
+        this.approval = LocalDateTime.now();
     }
     public void setApprovalNull() {
         this.approval = null;
