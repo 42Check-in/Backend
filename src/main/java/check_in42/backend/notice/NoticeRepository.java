@@ -31,21 +31,21 @@ public class NoticeRepository {
                 "FROM visitors " +
                 "WHERE user_id = :userId " +
                 "AND approval IS NOT NULL " +
-                "AND approval BETWEEN CURRENT_DATE AND CURRENT_DATE + 3 " +
+                "AND approval BETWEEN CURRENT_TIMESTAMP AND CURRENT_TIMESTAMP + INTERVAL 3 " +
                 "UNION " +
                 "SELECT " +
                 "   1 as category, id as formId, approval, notice " +
                 "FROM equipment " +
                 "WHERE user_id = :userId " +
                 "AND approval IS NOT NULL " +
-                "AND approval BETWEEN CURRENT_TIME AND CURRENT_TIMESTAMP + 3 " +
+                "AND approval BETWEEN CURRENT_TIME AND CURRENT_TIMESTAMP + INTERVAL 3 " +
                 "UNION " +
                 "SELECT " +
                 "   2 as category, id as formId, approval, notice " +
                 "FROM presentation " +
                 "WHERE user_id = :userId " +
                 "AND approval IS NOT NULL " +
-                "AND approval BETWEEN CURRENT_TIMESTAMP AND CURRENT_TIMESTAMP + 3 " +
+                "AND approval BETWEEN CURRENT_TIMESTAMP AND CURRENT_TIMESTAMP + INTERVAL 3 " +
                 "ORDER BY approval DESC";
         final Query query = em.createNativeQuery(jpql)
                 .setParameter("userId", userId);
