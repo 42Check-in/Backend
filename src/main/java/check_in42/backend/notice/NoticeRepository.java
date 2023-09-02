@@ -38,7 +38,7 @@ public class NoticeRepository {
                 "FROM equipment " +
                 "WHERE user_id = :userId " +
                 "AND approval IS NOT NULL " +
-                "AND approval BETWEEN CURRENT_TIME AND CURRENT_TIMESTAMP + INTERVAL 3 " +
+                "AND approval BETWEEN CURRENT_TIMESTAMP AND CURRENT_TIMESTAMP + INTERVAL 3 " +
                 "UNION " +
                 "SELECT " +
                 "   2 as category, id as formId, approval, notice " +
