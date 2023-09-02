@@ -10,8 +10,11 @@ import check_in42.backend.visitors.Visitors;
 import check_in42.backend.visitors.VisitorsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,8 +27,17 @@ public class NoticeService {
     private final EquipmentService equipmentService;
     private final PresentationService presentationService;
 
-    public NoticeResponse showNotice(Long id) {
-        return noticeRepository.getNotice(id);
+//    public NoticeResponse showNotice(Long id) {
+//        return noticeRepository.getNotice(id);
+//    }
+
+    public List<NoticeDTO> showNotice(Long id) {
+        List<Notice> notice = noticeRepository.getNotice(id);
+        List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        notice.forEach(n -> {
+            noticeDTOS.add(NoticeDTO.create(n.getCategory(), n.getFormId(), n.getApproval(), n.isNotice()));
+        });
+        return noticeDTOS;
     }
 
     @Transactional

@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -44,10 +45,9 @@ public class Presentation {
 
     private String status;
 
-    private LocalDate approval;
+    private LocalDateTime approval;
 
     private boolean notice;
-
 
     @Builder
     protected Presentation(User user, PresentationDTO presentationDTO, int count) {
@@ -71,7 +71,7 @@ public class Presentation {
     }
 
     public void setApproval() {
-        this.approval = LocalDate.now();
+        this.approval = LocalDateTime.now();
     }
 
     public void setNotice(boolean notice) {

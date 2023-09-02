@@ -9,6 +9,7 @@ import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +25,10 @@ public class NoticeController {
     private final UserService userService;
 
     @GetMapping("/notice")
-    public ResponseEntity<NoticeResponse> showNotice(@UserId final UserInfo userInfo) {
-        final User user = userService.findByName(userInfo.getIntraId())
+    public ResponseEntity<List<NoticeDTO>> showNotice() {
+        final User user = userService.findByName("suhwpark")
                 .orElseThrow(UserRunTimeException.NoUserException::new);
-        final NoticeResponse noticeResponse = noticeService.showNotice(user.getId());
-        return ResponseEntity.ok().body(noticeResponse);
+        return ResponseEntity.ok().body(noticeService.showNotice(user.getId()));
     }
 
     @PostMapping("/notice")

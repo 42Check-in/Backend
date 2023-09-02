@@ -19,6 +19,6 @@ public class TabletController {
 
     @GetMapping("reservations")
     public ResponseEntity<List<ConferenceRoomDTO>> reservations() {
-        return ResponseEntity.ok(conferenceRoomService.findByDateConferenceRooms(LocalDate.now()));
+        return ResponseEntity.ok(conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
     }
 }
