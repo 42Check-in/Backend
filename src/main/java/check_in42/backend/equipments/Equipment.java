@@ -66,7 +66,8 @@ public class Equipment {
         this.detail = equipmentDTO.getDetail();
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
-        this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
+        this.returnDate = equipmentDTO.getReturnDate() != null
+                ? LocalDate.parse(equipmentDTO.getReturnDate(), formatter) : null;
         this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         if (equipmentDTO.getEquipment() == 0)
             this.equipment = equipmentDTO.getEtcEquipment();
