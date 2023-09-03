@@ -1,11 +1,14 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentDTO;
+import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
-import check_in42.backend.visitors.Visitors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
     private final UserRepository userRepository;
+    private final EquipmentRepo equipmentRepo;
 
     @Transactional
     public Long join(Equipment equipment) {
@@ -136,5 +140,27 @@ public class EquipmentService {
         final Long formId = join(equipment);
         user.addEquipForm(equipment);
         return formId;
+    }
+
+    public ResponseEquipment findAllApproval(Pageable pageable) {
+        final Page<Equipment> equipment = equipmentRepo.findByApprovalIsNotNull(pageable);
+
+        final List<EquipmentDTO> equipmentDTOS = equipment.getContent().stream().map(EquipmentDTO::create).toList();
+        final int count = equipment.getTotalPages();
+
+        ResponseEquipment res = ResponseEquipment.create(equipmentDTOS, count);
+
+        return res;
+    }
+
+    public ResponseEquipment findAllNotApproval(Pageable pageable) {
+        final Page<Equipment> equipment = equipmentRepo.findByApprovalIsNull(pageable);
+
+        final List<EquipmentDTO> equipmentDTOS = equipment.getContent().stream().map(EquipmentDTO::create).toList();
+        final int count = equipment.getTotalPages();
+
+        ResponseEquipment res = ResponseEquipment.create(equipmentDTOS, count);
+
+        return res;
     }
 }

@@ -1,5 +1,6 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import jakarta.persistence.*;
