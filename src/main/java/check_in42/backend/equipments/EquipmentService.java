@@ -84,9 +84,6 @@ public class EquipmentService {
         return equipment.getId();
     }
 
-    public List<Equipment> findAll() {
-        return equipmentRepository.findAll();
-    }
 
     // 수락 떨어지면 현재로 setDate
     @Transactional
@@ -116,6 +113,15 @@ public class EquipmentService {
                 .collect(Collectors.toList());
         return result;
     }
+
+    public List<EquipmentDTO> findAll() {
+        final List<Equipment> equipmentList = equipmentRepository.findAll();
+        final List<EquipmentDTO> result = equipmentList.stream()
+                .map(EquipmentDTO::create)
+                .collect(Collectors.toList());
+        return result;
+    }
+
 
     public List<Equipment> findByNoticeFalse() {
         return equipmentRepository.findByNoticeFalse();
