@@ -21,6 +21,7 @@ public class EquipmentDTO {
     private int status;
     private int extension;
     private String intraId;
+    private String time;
 
     public static EquipmentDTO create(Equipment equipment) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
@@ -40,6 +41,7 @@ public class EquipmentDTO {
         equipmentDTO.status = equipment.getApproval() != null ? 1 : 0;
         equipmentDTO.extension = equipment.getExtension();
         equipmentDTO.intraId = equipment.getIntraId();
+        equipmentDTO.time = equipment.getTime();
         return equipmentDTO;
     }
 }
