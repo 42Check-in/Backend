@@ -20,8 +20,8 @@ public class TabletController {
     private final ConferenceRoomService conferenceRoomService;
 
     @GetMapping("reservations")
-    public ResponseEntity<JSONPObject> reservations() {
-        JSONPObject jsonpObject = new JSONPObject("reservationInfo", conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
-        return ResponseEntity.ok(jsonpObject);
+    public ResponseEntity<TabletDTO> reservations() {
+        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
+        return ResponseEntity.ok(tabletDTO);
     }
 }
