@@ -1,8 +1,10 @@
 package check_in42.backend.presentation;
 
 import check_in42.backend.allException.CustomException;
+import check_in42.backend.equipments.Equipment;
 import check_in42.backend.presentation.utils.PresentationStatus;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -24,6 +26,19 @@ public class PresentationRepository {
     public void delete(Long formId) {
         Presentation presentation = findOne(formId).get();
         em.remove(presentation);
+    }
+
+    public List<Presentation> findAllNotApprovalFirst(Integer categoryType) {
+        Query query = em.createQuery(
+                "SELECT v FROM Visitors v " +
+                        "LEFT JOIN Notice n ON v.id = n.formId AND n.category = :categoryType " +
+                        "ORDER BY " +
+                        "CASE WHEN n.formId IS NULL THEN 1 ELSE 0 END DESC, " +
+                        "CASE WHEN n.formId IS NULL THEN v.id END DESC, " +
+                        "CASE WHEN n.formId IS NOT NULL THEN v.id END DESC"
+        );
+        query.setParameter("categoryType", categoryType);
+        return query.getResultList();
     }
 
     public List<Presentation> findAll() {
