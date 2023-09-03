@@ -44,7 +44,7 @@ public class VocalController {
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments")
     public ResponseEntity allEquipment() {
-        List<EquipmentDTO> equipmentList = equipmentService.findAllDESC();
+        List<EquipmentDTO> equipmentList = equipmentService.findAll();
         return ResponseEntity.ok(equipmentList);
     }
 
