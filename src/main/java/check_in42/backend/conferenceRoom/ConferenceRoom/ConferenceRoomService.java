@@ -137,4 +137,8 @@ public class ConferenceRoomService {
     public boolean isDayFull(LocalDate date) {
         return conferenceRoomRepository.getSumReservationCountByDate(date) >= reservationAllTimeNum;
     }
+
+    public void deleteAllByDateBeforeOneWeek() {
+        conferenceRoomRepository.deleteAllByDateBeforeOneWeek(LocalDate.now().minusWeeks(1));
+    }
 }
