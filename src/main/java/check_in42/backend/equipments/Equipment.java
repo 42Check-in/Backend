@@ -91,6 +91,9 @@ public class Equipment {
         setApprovalNull();
     }
 
+    public void updateForNew(EquipmentDTO equipmentDTO) {
+    }
+
     public void setApproval() {
         this.approval = LocalDateTime.now();
     }
