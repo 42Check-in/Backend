@@ -2,6 +2,7 @@ package check_in42.backend.vocal;
 
 import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
@@ -54,15 +55,14 @@ public class VocalController {
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments/approval")
     public ResponseEntity allApprovalEquipment(Pageable pageable) {
-        final List<EquipmentDTO> equipmentList =
-                equipmentService.findAllApproval(Pageable pageable);
+        final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
         return ResponseEntity.ok(equipmentList);
     }
 
     @GetMapping("/equipments/not-approval")
     public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
-        final List<EquipmentDTO> equipmentList =
-                equipmentService.findAllNotApproval(Pageable pageable);
+        final ResponseEquipment equipmentList =
+                equipmentService.findAllNotApproval(pageable);
         return ResponseEntity.ok(equipmentList);
     }
 
