@@ -99,12 +99,6 @@ public class PresentationService {
     @Transactional
     public void setAgreeDatesAndStatus(Map<Long, Integer> presentation) {
 
-//        for (Map.Entry<Long, Integer> entry : presentation.entrySet()) {
-//            final Presentation one = presentationRepository.findOne(entry.getKey())
-//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-//            one.setApproval();
-//            one.setStatus(entry.getValue());
-//        }
         presentation.forEach((key, value) -> {
             Presentation one = presentationRepository.findOne(key)
                     .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
@@ -133,11 +127,6 @@ public class PresentationService {
         return presentationRepository.findByNoticeFalse();
     }
 
-    /*
-    * DTO, entity를 갖고가서
-    * dto의 field가 null이면 기존꺼를,
-    * 아니라면 바꿔서 다시 set...음음음음
-    * */
     @Transactional
     public void update(Long formId, PresentationDTO presentationDTO) {
         final Presentation presentation = presentationRepository.findOne(formId).get();

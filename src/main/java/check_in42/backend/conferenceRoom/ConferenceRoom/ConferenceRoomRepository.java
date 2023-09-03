@@ -17,6 +17,8 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
     @Query("select c from ConferenceRoom c where c.date = :date")
     List<ConferenceRoom> findByDate(@Param("date") LocalDate date);
 
+//    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
+//    내가 신청한 폼과 같은 위치의 애들
     @Query(value = "select * from conference_room " +
             "where date = :date " +
             "and ((reservation_info & :reqPlaceInfoBit) = :reqPlaceInfoBit " +
@@ -26,6 +28,6 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
                                                 @Param("reqPlaceInfoBit") Long reqPlaceInfoBit,
                                                 @Param("reqTimeBit") Long reqTimeBit);
 
-//    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
-//    내가 신청한 폼과 같은 위치의 애들
+    @Query("DELETE FROM ConferenceRoom c WHERE c.date < :oneWeek")
+    void deleteAllByDateBeforeOneWeek(@Param("oneWeek") LocalDate oneWeek);
 }

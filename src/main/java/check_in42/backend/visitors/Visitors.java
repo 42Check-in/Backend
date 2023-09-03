@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ public class Visitors {
     @Embedded
     private PriorApproval priorApproval;
 
-    private LocalDate approval;
+    private LocalDateTime approval;
 
     private boolean notice;
 
@@ -36,7 +37,7 @@ public class Visitors {
     }
 
     public void vocalConfirm() {
-        this.approval = LocalDate.now();
+        this.approval = LocalDateTime.now();
     }
 
     public void setNotice(boolean notice) {

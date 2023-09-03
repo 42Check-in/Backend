@@ -105,10 +105,14 @@ public class ConferenceRoomService {
         reservationList.forEach(rcr -> {
             long reservationTimeBit = rcr.getReservationInfo() & PlaceInfoBit.TIME.getValue();
             if ((reservationTimeBit & reqFormReservationTimeBit) > 0) {
-                if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0)
+                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId())) {
+                    log.info("error_cod==> 1008");
                     throw new ConferenceException.DuplicateTimeException();
-                if (rcr.getUser().getId().equals(conferenceRoomDTO.getUserId()))
+                }
+                if ((rcr.getReservationInfo() & reqFormReservationPlaceBit) > 0) {
+                    log.info("error_cod==> 1009");
                     throw new ConferenceException.AlreadyReserved();
+                }
             }
         });
     }
@@ -132,5 +136,9 @@ public class ConferenceRoomService {
 
     public boolean isDayFull(LocalDate date) {
         return conferenceRoomRepository.getSumReservationCountByDate(date) >= reservationAllTimeNum;
+    }
+
+    public void deleteAllByDateBeforeOneWeek() {
+        conferenceRoomRepository.deleteAllByDateBeforeOneWeek(LocalDate.now().minusWeeks(1));
     }
 }

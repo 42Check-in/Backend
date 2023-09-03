@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -38,7 +39,7 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private LocalDate approval;
+    private LocalDateTime approval;
 
     private boolean notice;
 
@@ -65,7 +66,8 @@ public class Equipment {
         this.detail = equipmentDTO.getDetail();
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
-        this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
+        this.returnDate = equipmentDTO.getReturnDate() != null
+                ? LocalDate.parse(equipmentDTO.getReturnDate(), formatter) : null;
         this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         if (equipmentDTO.getEquipment() == 0)
             this.equipment = equipmentDTO.getEtcEquipment();
@@ -90,7 +92,7 @@ public class Equipment {
     }
 
     public void setApproval() {
-        this.approval = LocalDate.now();
+        this.approval = LocalDateTime.now();
     }
     public void setApprovalNull() {
         this.approval = null;
@@ -100,15 +102,3 @@ public class Equipment {
         this.notice = notice;
     }
 }
-
-/*
-* 1. String userName // 본명
-2. String phoneNumber
-3. String date
-3. Long equipments // (enum)
-4. boolean purpose
-5. String detail // 상세 사유
-6. String benefit // 기대효과
-7. String period
-8. String returnDate
-* */
