@@ -2,6 +2,7 @@ package check_in42.backend.tablet;
 
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,8 @@ public class TabletController {
     private final ConferenceRoomService conferenceRoomService;
 
     @GetMapping("reservations")
-    public ResponseEntity<List<ConferenceRoomDTO>> reservations() {
-        return ResponseEntity.ok(conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
+    public ResponseEntity<JSONPObject> reservations() {
+        JSONPObject jsonpObject = new JSONPObject("reservationInfo", conferenceRoomService.findByDateConferenceRooms(LocalDate.parse("2023-09-01")));
+        return ResponseEntity.ok(jsonpObject);
     }
 }
