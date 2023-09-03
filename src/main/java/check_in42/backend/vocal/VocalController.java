@@ -7,10 +7,12 @@ import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
+import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,4 +75,15 @@ public class VocalController {
         return ResponseEntity.ok(visitorsDTOS);
     }
 
+    @GetMapping("visitors/form/approval")
+    public ResponseEntity<VisitorVocalResponse> approvalForm(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
+
+    @GetMapping("visitors/form/not-approval")
+    public ResponseEntity<VisitorVocalResponse> notApprovalForm(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
 }

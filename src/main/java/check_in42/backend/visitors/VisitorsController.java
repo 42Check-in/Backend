@@ -30,16 +30,4 @@ public class VisitorsController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("visitors/form/approval")
-    public ResponseEntity<VisitorVocalResponse> approvalForm(Pageable pageable) {
-        final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
-        return ResponseEntity.ok(visitorVocalResponse);
-    }
-
-    @GetMapping("visitors/form/not-approval")
-    public ResponseEntity<VisitorVocalResponse> notApprovalForm(Pageable pageable) {
-        final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
-        return ResponseEntity.ok(visitorVocalResponse);
-    }
-
 }
