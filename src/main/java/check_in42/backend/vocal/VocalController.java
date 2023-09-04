@@ -39,8 +39,7 @@ public class VocalController {
     }
 
     @GetMapping("/presentations/form/approval")
-    public ResponseEntity allApprovalPresentation(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                      Pageable pageable) {
+    public ResponseEntity allApprovalPresentation(Pageable pageable) {
         log.info(pageable.toString() + "=======================================");
         final ResponsePresentation presentationList =
                 presentationService.findAllApprovalPresentation(pageable);
@@ -48,8 +47,7 @@ public class VocalController {
     }
 
     @GetMapping("/presentations/form/not-approval")
-    public ResponseEntity allNotApprovalPresentation(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                         Pageable pageable) {
+    public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
         log.info(pageable.toString() + "=======================================");
 
         final ResponsePresentation presentation =
