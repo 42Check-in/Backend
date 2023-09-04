@@ -53,7 +53,6 @@ public class OauthService {
     public User42Info get42SeoulInfo(String token) {
         req = req42ApiHeader(token);
         res = resGetApi(req, req42UserUri());
-        log.info(res.getBody());
         return readUser42Info(res.getBody());
     }
 
@@ -133,9 +132,7 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        log.info(user42Info.getCursus().get(0) + "-----------------------------------");
-        log.info(user42Info.getCursus().get(1) + "-----------------------------------");
-        log.info(user42Info.getCursus().get(2) + "-----------------------------------");
+        log.info(user42Info.getCursus() + "-----------------------------------");
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         userService.findByName(intraId)

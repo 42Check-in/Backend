@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Cursus {
     private String grade;
-    private String curses_id;
 }
