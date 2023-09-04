@@ -19,7 +19,7 @@ public interface VisitorsRepository extends JpaRepository<Visitors, Long> {
     @Query("select v from Visitors v where not v.notice")
     List<Visitors> findByNoticeFalse();
 
-    Page<Visitors> findByApprovalIsEmpty(Pageable pageable);
+    Page<Visitors> findAllByApprovalIsNull(Pageable pageable);
 
-    Page<Visitors> findByApprovalIsNotEmpty(Pageable pageable);
+    Page<Visitors> findAllByApprovalIsNotNull(Pageable pageable);
 }

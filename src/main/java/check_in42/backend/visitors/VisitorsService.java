@@ -86,8 +86,8 @@ public class VisitorsService {
 
     public VisitorVocalResponse findNotApprovalVisitorsList(Pageable pageable) {
         final Page<Visitors> visitorsPage =
-                visitorsRepository.findByApprovalIsEmpty(pageable);
-        final List<VisitorsDTO> list = visitorsPage.stream().map(VisitorsDTO::create).toList();
+                visitorsRepository.findAllByApprovalIsNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
         final int offSet = visitorsPage.getTotalPages();
         final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
 
@@ -96,8 +96,8 @@ public class VisitorsService {
 
     public VisitorVocalResponse findApprovalVisitorsList(Pageable pageable) {
         final Page<Visitors> visitorsPage =
-                visitorsRepository.findByApprovalIsNotEmpty(pageable);
-        final List<VisitorsDTO> list = visitorsPage.stream().map(VisitorsDTO::create).toList();
+                visitorsRepository.findAllByApprovalIsNotNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
         final int offSet = visitorsPage.getTotalPages();
         final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
 
