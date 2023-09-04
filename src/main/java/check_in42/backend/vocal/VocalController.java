@@ -1,10 +1,17 @@
 package check_in42.backend.vocal;
 
+
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
+import check_in42.backend.equipments.EquipmentDTO;
+
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
+import check_in42.backend.user.exception.IllegalRoleException;
+import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
@@ -33,10 +40,14 @@ public class VocalController {
 
     //모든 외부인 신청에 대한 조회 이지만, 갯수를 정할지 수락하지 않은 리스트만 보여줄지 정해야할듯
     @GetMapping("/visitors")
-    public ResponseEntity allVisitorsApply() {
+    public ResponseEntity allVisitorsApply(@UserId final UserInfo userInfo) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final List<VisitorsDTO> visitorsList = visitorsService.findAll();
         return ResponseEntity.ok().body(visitorsList);
     }
+
 
     @GetMapping("/presentations/form/approval")
     public ResponseEntity allApprovalPresentation(Pageable pageable) {
@@ -57,7 +68,7 @@ public class VocalController {
     }
 
 
-    // 전체 기자재 신청 목록을 보여주는 기능
+
     @GetMapping("/equipments/form/approval")
     public ResponseEntity allApprovalEquipment(Pageable pageable) {
         final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
@@ -68,18 +79,27 @@ public class VocalController {
     public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
         final ResponseEquipment equipmentList =
                 equipmentService.findAllNotApproval(pageable);
+
         return ResponseEntity.ok(equipmentList);
     }
 
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
-    public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList) {
+    public ResponseEntity confirmVisitorsApply(@RequestBody final FormIdList formIdList,
+                                               @UserId UserInfo userInfo) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         visitorsService.vocalConfirm(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/presentations")
-    public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
+    public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList,
+                                                   @UserId final UserInfo userInfo) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -91,7 +111,11 @@ public class VocalController {
     }
 
     @GetMapping("visitors/{intraId}")
-    public ResponseEntity searchByIntraId(@PathVariable String intraId) {
+    public ResponseEntity searchByIntraId(@PathVariable String intraId,
+                                          @UserId UserInfo userInfo) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final List<VisitorsDTO> visitorsDTOS = userService.findVisitorList(intraId);
         return ResponseEntity.ok(visitorsDTOS);
     }
