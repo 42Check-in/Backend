@@ -7,6 +7,7 @@ import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.VisitorsService;
+import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
@@ -91,4 +92,15 @@ public class VocalController {
         return ResponseEntity.ok(visitorsDTOS);
     }
 
+    @GetMapping("visitors/form/approval")
+    public ResponseEntity<VisitorVocalResponse> approvalForm(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
+
+    @GetMapping("visitors/form/not-approval")
+    public ResponseEntity<VisitorVocalResponse> notApprovalForm(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
 }

@@ -6,11 +6,12 @@ import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.visitUtils.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -83,4 +84,23 @@ public class VisitorsService {
         return visitorsRepository.findByNoticeFalse();
     }
 
+    public VisitorVocalResponse findNotApprovalVisitorsList(Pageable pageable) {
+        final Page<Visitors> visitorsPage =
+                visitorsRepository.findAllByApprovalIsNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
+        final int offSet = visitorsPage.getTotalPages();
+        final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
+
+        return visitorVocalResponse;
+    }
+
+    public VisitorVocalResponse findApprovalVisitorsList(Pageable pageable) {
+        final Page<Visitors> visitorsPage =
+                visitorsRepository.findAllByApprovalIsNotNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
+        final int offSet = visitorsPage.getTotalPages();
+        final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
+
+        return visitorVocalResponse;
+    }
 }
