@@ -12,6 +12,8 @@ import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +39,8 @@ public class VocalController {
     }
 
     @GetMapping("/presentations/form/approval")
-    public ResponseEntity allApprovalPresentation(Pageable pageable) {
+    public ResponseEntity allApprovalPresentation(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                      Pageable pageable) {
         log.info(pageable.toString() + "=======================================");
         final ResponsePresentation presentationList =
                 presentationService.findAllApprovalPresentation(pageable);
@@ -45,8 +48,10 @@ public class VocalController {
     }
 
     @GetMapping("/presentations/form/not-approval")
-    public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
+    public ResponseEntity allNotApprovalPresentation(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                         Pageable pageable) {
         log.info(pageable.toString() + "=======================================");
+
         final ResponsePresentation presentation =
                 presentationService.findAllNotApprovalPresentation(pageable);
         return ResponseEntity.ok(presentation);
