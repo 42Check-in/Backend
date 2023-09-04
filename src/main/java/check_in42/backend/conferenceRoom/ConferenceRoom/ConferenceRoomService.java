@@ -52,9 +52,9 @@ public class ConferenceRoomService {
                 .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
-    public List<ConferenceRoomDTO> findAllByNowAndPlace(LocalDate date, Long placeInfo) {
+    public List<ConferenceRoomDTO> findAllByPlaceAndNowOver(LocalDate date, Long placeInfo, Long timeBit) {
         List<ConferenceRoomDTO> result = new ArrayList<>();
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByNowAndPlace(date, placeInfo);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByPlaceAndNowOver(date, placeInfo, timeBit);
         conferenceRooms.forEach(conferenceRoom -> result.add(ConferenceRoomDTO.create(conferenceRoom)));
         return result;
     }

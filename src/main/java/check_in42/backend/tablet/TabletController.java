@@ -1,6 +1,8 @@
 package check_in42.backend.tablet;
 
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.conferenceRoom.ConferenceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,16 @@ public class TabletController {
 
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
-        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService.findAllByNowAndPlace(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit()));
+        int nowTimeIdx = TabletUtil.getTimeIdx();
+
+        long timeBit = 0;
+        for (int i = 0; i < nowTimeIdx; i++) {
+            timeBit = (timeBit << 1) | 1;
+        }
+        timeBit = PlaceInfoBit.TIME.getValue() & ~timeBit;
+
+        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService
+                .findAllByPlaceAndNowOver(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit(), timeBit));
         return ResponseEntity.ok(tabletDTO);
     }
 }

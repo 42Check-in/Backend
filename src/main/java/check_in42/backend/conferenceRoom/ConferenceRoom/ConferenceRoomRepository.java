@@ -18,9 +18,13 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
 
     @Query(value = "select * from conference_room " +
             "where date = :date " +
-            "and (reservation_info & :placeInfo) = :placeInfo",
+            "and (reservation_info & :placeInfo) = :placeInfo " +
+            "and (reservation_info & :timeBit) > 0 " +
+            "order by reservation_info asc",
             nativeQuery = true)
-    List<ConferenceRoom> findAllByNowAndPlace(@Param("date") LocalDate date, @Param("placeInfo") Long placeInfo);
+    List<ConferenceRoom> findAllByPlaceAndNowOver(@Param("date") LocalDate date,
+                                                  @Param("placeInfo") Long placeInfo,
+                                                  @Param("timeBit") Long timeBit);
 
 //    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
 //    내가 신청한 폼과 같은 위치의 애들
