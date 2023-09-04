@@ -37,14 +37,14 @@ public class VocalController {
         return ResponseEntity.ok().body(visitorsList);
     }
 
-    @GetMapping("/presentations/approval")
+    @GetMapping("/presentations/form/approval")
     public ResponseEntity allApprovalPresentation(Pageable pageable) {
         final ResponsePresentation presentationList =
                 presentationService.findAllApprovalPresentation(pageable);
         return ResponseEntity.ok(presentationList);
     }
 
-    @GetMapping("/presentations/not-approval")
+    @GetMapping("/presentations/form/not-approval")
     public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
         final ResponsePresentation presentation =
                 presentationService.findAllNotApprovalPresentation(pageable);
@@ -54,13 +54,13 @@ public class VocalController {
 
 
     // 전체 기자재 신청 목록을 보여주는 기능
-    @GetMapping("/equipments/approval")
+    @GetMapping("/equipments/form/approval")
     public ResponseEntity allApprovalEquipment(Pageable pageable) {
         final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
         return ResponseEntity.ok(equipmentList);
     }
 
-    @GetMapping("/equipments/not-approval")
+    @GetMapping("/equipments/form/not-approval")
     public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
         final ResponseEquipment equipmentList =
                 equipmentService.findAllNotApproval(pageable);
