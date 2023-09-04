@@ -27,6 +27,11 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         final String intraId = userContext.getIntraId();
-        return UserInfo.builder().intraId(intraId).build();
+        final boolean staff = userContext.isStaff();
+        final String grade = userContext.getGrade();
+        return UserInfo.builder().intraId(intraId)
+                .staff(staff)
+                .grade(grade)
+                .build();
     }
 }

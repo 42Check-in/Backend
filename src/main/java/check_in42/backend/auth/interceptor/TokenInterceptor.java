@@ -34,9 +34,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         final Claims claims = tokenProvider.parseAccessTokenClaim(token);
         final String intraId = claims.get("intraId", String.class);
         final boolean staff = claims.get("staff", boolean.class);
+        final String grade = claims.get("grade", String.class);
         userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
         userContext.setIntraId(intraId);
         userContext.setStaff(staff);
+        userContext.setGrade(grade);
         log.info("In tokenInterceptor! intra id is...." + intraId);
 
         return true;

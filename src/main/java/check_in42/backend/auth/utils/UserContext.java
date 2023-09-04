@@ -13,6 +13,8 @@ public class UserContext {
 
     private boolean staff;
 
+    private String grade;
+
     public void setIntraId(final String intraId) {
         this.intraId = intraId;
     }
@@ -21,7 +23,16 @@ public class UserContext {
         this.staff = staff;
     }
 
+    public void setGrade(final String grade) {
+        this.grade = grade;
+    }
     public String getIntraId() {
         return this.intraId;
+    }
+    public boolean isStaff() {
+        return this.staff;
+    }
+    public String getGrade() {
+        return this.grade;
     }
 }

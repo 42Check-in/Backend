@@ -3,7 +3,6 @@ package check_in42.backend.vocal;
 
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
-import check_in42.backend.equipments.EquipmentDTO;
 
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.equipments.utils.ResponseEquipment;
@@ -11,7 +10,6 @@ import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
 import check_in42.backend.user.exception.IllegalRoleException;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
@@ -19,8 +17,6 @@ import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +46,11 @@ public class VocalController {
 
 
     @GetMapping("/presentations/form/approval")
-    public ResponseEntity allApprovalPresentation(Pageable pageable) {
+    public ResponseEntity allApprovalPresentation(@UserId UserInfo userInfo,
+                                                  final Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         log.info(pageable.toString() + "=======================================");
         final ResponsePresentation presentationList =
                 presentationService.findAllApprovalPresentation(pageable);
@@ -58,7 +58,12 @@ public class VocalController {
     }
 
     @GetMapping("/presentations/form/not-approval")
-    public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
+    public ResponseEntity allNotApprovalPresentation(@UserId UserInfo userInfo,
+                                                     final Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
+
         log.info(pageable.toString() + "=======================================");
 
         final ResponsePresentation presentation =
@@ -67,16 +72,22 @@ public class VocalController {
 
     }
 
-
-
     @GetMapping("/equipments/form/approval")
-    public ResponseEntity allApprovalEquipment(Pageable pageable) {
+    public ResponseEntity allApprovalEquipment(@UserId final UserInfo userInfo,
+                                               final Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
         return ResponseEntity.ok(equipmentList);
     }
 
     @GetMapping("/equipments/form/not-approval")
-    public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
+    public ResponseEntity allNotApprovalEquipment(@UserId final UserInfo userInfo,
+                                                  final Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final ResponseEquipment equipmentList =
                 equipmentService.findAllNotApproval(pageable);
 
@@ -105,7 +116,11 @@ public class VocalController {
     }
 
     @PostMapping("/equipments")
-    public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
+    public ResponseEntity confirmEquipmentApply(@UserId UserInfo userInfo,
+                                                @RequestBody final FormIdList formIdList) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         equipmentService.setAgreeDates(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -121,13 +136,21 @@ public class VocalController {
     }
 
     @GetMapping("visitors/form/approval")
-    public ResponseEntity<VisitorVocalResponse> allApprovalFormVisitors(Pageable pageable) {
+    public ResponseEntity<VisitorVocalResponse> allApprovalFormVisitors(@UserId UserInfo userInfo,
+                                                                        Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
         return ResponseEntity.ok(visitorVocalResponse);
     }
 
     @GetMapping("visitors/form/not-approval")
-    public ResponseEntity<VisitorVocalResponse> allNotApprovalFormVisitors(Pageable pageable) {
+    public ResponseEntity<VisitorVocalResponse> allNotApprovalFormVisitors(@UserId UserInfo userInfo,
+                                                                           Pageable pageable) {
+        if (!userInfo.isStaff()) {
+            throw new IllegalRoleException.NotStaffException();
+        }
         final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
         return ResponseEntity.ok(visitorVocalResponse);
     }

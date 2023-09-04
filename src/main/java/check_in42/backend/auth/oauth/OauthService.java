@@ -134,11 +134,11 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-      
+
         log.info(user42Info.getCursus_users().get(0).getGrade() + "-----------------------------------");
         final String grade = user42Info.getCursus_users().get(1).getGrade();
-        final String accessToken = tokenProvider.createAccessToken(intraId);
-        final String refreshToken = tokenProvider.createRefreshToken(intraId);
+        final String accessToken = tokenProvider.createAccessToken(intraId, staff, grade);
+        final String refreshToken = tokenProvider.createRefreshToken(intraId, staff, grade);
         userService.findByName(intraId)
                 .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
                         () -> userService.create(intraId, staff, refreshToken, grade));
@@ -182,6 +182,7 @@ public class OauthService {
                 .orElseThrow(AuthorizationException.RefreshTokenNotFoundException::new);
         final String intraId = claims.get("intraId", String.class);
         final boolean staff = claims.get("staff", boolean.class);
-        return tokenProvider.createAccessToken(intraId, staff);
+        final String grade = claims.get("grade", String.class);
+        return tokenProvider.createAccessToken(intraId, staff, grade);
     }
 }

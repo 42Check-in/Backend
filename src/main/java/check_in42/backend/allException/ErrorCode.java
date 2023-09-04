@@ -21,6 +21,7 @@ public enum ErrorCode {
     BAD_DATE(1006, "날짜가 양식에 맞지 않습니다"),
     INVALIDED_ID(1010, "Id에 해당하는 Entity가 존재하지 않습니다"),
     NOT_STAFF(1012, "staff 권한이 없습니다"),
+    NOT_MEMBER(1013, "member가 아닙니다"),
 
     //conferenceException
     INVALIDED_RESERVATION(1007, "클러스터 정보가 유효하지 않습니다"),

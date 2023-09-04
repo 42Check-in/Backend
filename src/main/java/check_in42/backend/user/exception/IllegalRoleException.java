@@ -14,4 +14,10 @@ public class IllegalRoleException extends CustomException {
             super(ErrorCode.NOT_STAFF);
         }
     }
+
+    public static class NotMemberException extends IllegalRoleException {
+        public NotMemberException() {
+            super(ErrorCode.NOT_MEMBER);
+        }
+    }
 }

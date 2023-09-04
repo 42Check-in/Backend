@@ -23,6 +23,5 @@ public class User42Info {
     public static class CursusUser {
         @JsonProperty("grade")
         private String grade;
-
     }
 }

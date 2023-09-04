@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor;
 public class UserInfo {
     private String intraId;
     private boolean staff;
-    protected UserInfo(String intraId, boolean staff) {
+    private String grade;
+
+    protected UserInfo(final String intraId, final boolean staff, final String grade) {
         this.intraId = intraId;
         this.staff = staff;
+        this.grade = grade;
     }
 }
