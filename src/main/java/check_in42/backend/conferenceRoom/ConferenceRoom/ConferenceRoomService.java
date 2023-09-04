@@ -52,9 +52,9 @@ public class ConferenceRoomService {
                 .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
-    public List<ConferenceRoomDTO> findByDateConferenceRooms(LocalDate date) {
+    public List<ConferenceRoomDTO> findAllByNowAndPlace(LocalDate date, Long placeInfo) {
         List<ConferenceRoomDTO> result = new ArrayList<>();
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByNowAndPlace(date, placeInfo);
         conferenceRooms.forEach(conferenceRoom -> result.add(ConferenceRoomDTO.create(conferenceRoom)));
         return result;
     }
@@ -71,7 +71,7 @@ public class ConferenceRoomService {
 
     public void setReservedInfo(Map<String, long[]> result, LocalDate date) {
         Long[] reservationInfo;
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findByDate(date);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDate(date);
 
         log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {
