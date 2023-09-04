@@ -132,7 +132,8 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        log.info("-------------------------" + user42Info.getCursus_users().get(1).getGrade());
+        log.info("-------------------------" + user42Info.getCursus_users().get(0));
+        log.info("-------------------------" + user42Info.getCursus_users().get(1));
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         userService.findByName(intraId)
