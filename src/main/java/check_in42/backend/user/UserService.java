@@ -3,7 +3,7 @@ package check_in42.backend.user;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.equipments.Equipment;
-import check_in42.backend.equipments.EquipmentDTO;
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.exception.UserRunTimeException;

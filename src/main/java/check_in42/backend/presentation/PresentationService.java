@@ -1,14 +1,15 @@
 package check_in42.backend.presentation;
 
-import check_in42.backend.allException.ErrorCode;
-import check_in42.backend.allException.FormException;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.PresentationStatus;
+import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,22 +27,22 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PresentationService {
 
+    private final PresenRepository presenRepository;
     private final PresentationRepository presentationRepository;
     private final UserRepository userRepository;
 
     @Transactional
     public Long join(Presentation presentation) {
-        presentationRepository.save(presentation);
-
+        presenRepository.save(presentation);
         return presentation.getId();
     }
 
     public void delete(Long formId) {
-        presentationRepository.delete(formId);
+        presenRepository.deleteById(formId);
     }
 
     public Presentation findOne(Long id) {
-        return presentationRepository.findOne(id).get();
+        return presenRepository.findById(id).get();
     }
 
     public Presentation create(User user, PresentationDTO presentationDTO, int count) {
@@ -149,4 +150,21 @@ public class PresentationService {
 
         return formId;
     }
+
+    public ResponsePresentation findAllApprovalPresentation(Pageable pageable) {
+        final Page<Presentation> presentations = presenRepository.findByStatus("강의 완료", pageable);
+        final List<PresentationDTO> presen = presentations.getContent().stream().map(PresentationDTO::create).toList();
+        final int count = presentations.getTotalPages();
+        ResponsePresentation res =  ResponsePresentation.create(presen, count);
+        return res;
+    }
+
+    public ResponsePresentation findAllNotApprovalPresentation(Pageable pageable) {
+        final Page<Presentation> presentations = presenRepository.findByStatusNot("강의 완료", pageable);
+        final List<PresentationDTO> presen = presentations.getContent().stream().map(PresentationDTO::create).toList();
+        final int count = presentations.getTotalPages();
+        ResponsePresentation res =  ResponsePresentation.create(presen, count);
+        return res;
+    }
+
 }

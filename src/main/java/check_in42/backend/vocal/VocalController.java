@@ -1,16 +1,17 @@
 package check_in42.backend.vocal;
 
-import check_in42.backend.equipments.EquipmentDTO;
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
-import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,16 +36,33 @@ public class VocalController {
         return ResponseEntity.ok().body(visitorsList);
     }
 
-    @GetMapping("/presentations")
-    public ResponseEntity allPresentation() {
-        List<PresentationDTO> presentationList = presentationService.findAllDESC();
+    @GetMapping("/presentations/approval")
+    public ResponseEntity allApprovalPresentation(Pageable pageable) {
+        final ResponsePresentation presentationList =
+                presentationService.findAllApprovalPresentation(pageable);
         return ResponseEntity.ok(presentationList);
     }
 
+    @GetMapping("/presentations/not-approval")
+    public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
+        final ResponsePresentation presentation =
+                presentationService.findAllNotApprovalPresentation(pageable);
+        return ResponseEntity.ok(presentation);
+
+    }
+
+
     // 전체 기자재 신청 목록을 보여주는 기능
-    @GetMapping("/equipments")
-    public ResponseEntity allEquipment() {
-        List<EquipmentDTO> equipmentList = equipmentService.findAll();
+    @GetMapping("/equipments/approval")
+    public ResponseEntity allApprovalEquipment(Pageable pageable) {
+        final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
+        return ResponseEntity.ok(equipmentList);
+    }
+
+    @GetMapping("/equipments/not-approval")
+    public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
+        final ResponseEquipment equipmentList =
+                equipmentService.findAllNotApproval(pageable);
         return ResponseEntity.ok(equipmentList);
     }
 

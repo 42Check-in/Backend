@@ -1,6 +1,6 @@
-package check_in42.backend.equipments;
+package check_in42.backend.equipments.utils;
 
-import check_in42.backend.equipments.utils.EquipmentType;
+import check_in42.backend.equipments.Equipment;
 import lombok.Getter;
 
 @Getter
