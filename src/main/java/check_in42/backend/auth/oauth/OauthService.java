@@ -54,6 +54,7 @@ public class OauthService {
     public User42Info get42SeoulInfo(String token) {
         req = req42ApiHeader(token);
         res = resGetApi(req, req42UserUri());
+        log.info(res.getBody());
         return readUser42Info(res.getBody());
     }
 

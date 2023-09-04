@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CursusUser {
     private String grade;
+    private String curses_id;
 }
