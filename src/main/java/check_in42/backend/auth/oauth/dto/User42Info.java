@@ -21,7 +21,6 @@ public class User42Info {
 
         @Getter
         public static class Cursus {
-            private String grade;
 
         }
     }
