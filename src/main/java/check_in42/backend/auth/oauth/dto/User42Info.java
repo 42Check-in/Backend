@@ -15,6 +15,7 @@ public class User42Info {
     private boolean staff;
 
     @JsonProperty("cursus_users")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private List<CursusUser> cursus_users;
 
     @Getter
