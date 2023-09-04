@@ -18,7 +18,6 @@ public class User42Info {
     private List<CursusUser> cursus_users;
 
     @Getter
-    @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class CursusUser {
         @JsonProperty("grade")
