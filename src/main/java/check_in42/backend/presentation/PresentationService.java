@@ -33,17 +33,16 @@ public class PresentationService {
 
     @Transactional
     public Long join(Presentation presentation) {
-        presentationRepository.save(presentation);
-
+        presenRepository.save(presentation);
         return presentation.getId();
     }
 
     public void delete(Long formId) {
-        presentationRepository.delete(formId);
+        presenRepository.deleteById(formId);
     }
 
     public Presentation findOne(Long id) {
-        return presentationRepository.findOne(id).get();
+        return presenRepository.findById(id).get();
     }
 
     public Presentation create(User user, PresentationDTO presentationDTO, int count) {
