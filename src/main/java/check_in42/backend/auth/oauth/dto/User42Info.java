@@ -15,11 +15,11 @@ public class User42Info {
     private boolean staff;
 
     @JsonProperty("cursus_users")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private List<CursusUser> cursus_users;
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class CursusUser {
         @JsonProperty("grade")
         private String grade;
