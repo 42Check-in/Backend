@@ -1,6 +1,5 @@
 package check_in42.backend.vocal;
 
-import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
 import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
@@ -93,13 +92,13 @@ public class VocalController {
     }
 
     @GetMapping("visitors/form/approval")
-    public ResponseEntity<VisitorVocalResponse> approvalForm(Pageable pageable) {
+    public ResponseEntity<VisitorVocalResponse> allApprovalFormVisitors(Pageable pageable) {
         final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
         return ResponseEntity.ok(visitorVocalResponse);
     }
 
     @GetMapping("visitors/form/not-approval")
-    public ResponseEntity<VisitorVocalResponse> notApprovalForm(Pageable pageable) {
+    public ResponseEntity<VisitorVocalResponse> allNotApprovalFormVisitors(Pageable pageable) {
         final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
         return ResponseEntity.ok(visitorVocalResponse);
     }
