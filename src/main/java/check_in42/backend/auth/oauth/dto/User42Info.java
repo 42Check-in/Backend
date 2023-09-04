@@ -26,6 +26,7 @@ public class User42Info {
 
         @Getter @Setter
         public static class Cursus {
+            @JsonProperty("grade")
             private String grade;
 
         }
