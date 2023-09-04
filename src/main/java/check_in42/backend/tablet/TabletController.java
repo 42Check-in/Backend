@@ -1,14 +1,15 @@
 package check_in42.backend.tablet;
 
+import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
+import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -17,7 +18,9 @@ import java.time.LocalDate;
 @RequestMapping("/tablet/")
 public class TabletController {
 
-    private final ConferenceRoomService conferenceRoomService;
+    private final ConferenceCheckOutService conferenceCheckOutService;
+    private final TabletService tabletService;
+    private final UserService userService;
 
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
@@ -29,8 +32,28 @@ public class TabletController {
         }
         timeBit = PlaceInfoBit.TIME.getValue() & ~timeBit;
 
-        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService
+        TabletDTO tabletDTO = new TabletDTO(tabletService
                 .findAllByPlaceAndNowOver(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit(), timeBit));
         return ResponseEntity.ok(tabletDTO);
+    }
+
+    @PostMapping("check-in")
+    public ResponseEntity updateState(@RequestBody Long formId) {
+        tabletService.updateState(formId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("check-out")
+    public ResponseEntity checkOut(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
+        conferenceCheckOutService.join(conferenceCheckOutService
+                .create(conferenceRoomDTO, userService.findOne(conferenceRoomDTO.getUserId())));
+        tabletService.deleteForm(conferenceRoomDTO.getFormId());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("cancel")
+    public ResponseEntity deleteForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
+        tabletService.deleteForm(conferenceRoomDTO.getFormId());
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }
