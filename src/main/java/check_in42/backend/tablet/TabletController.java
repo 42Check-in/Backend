@@ -22,7 +22,7 @@ public class TabletController {
 
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
-        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService.findAllByNowAndPlace(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit()));
+        TabletDTO tabletDTO = new TabletDTO(conferenceRoomService.findAllByNowAndPlace(LocalDate.now(), Rooms.valueOf("cluster1_1").getRoomBit()));
         return ResponseEntity.ok(tabletDTO);
     }
 }
