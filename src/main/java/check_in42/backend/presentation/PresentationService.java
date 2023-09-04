@@ -152,7 +152,7 @@ public class PresentationService {
     }
 
     public ResponsePresentation findAllApprovalPresentation(Pageable pageable) {
-        final Page<Presentation> presentations = presenRepository.findByStatus("강의 완료", pageable);
+        final Page<Presentation> presentations = presenRepository.findByStatusOrderByDate("강의 완료", pageable);
         final List<PresentationDTO> presen = presentations.getContent().stream().map(PresentationDTO::create).toList();
         final int count = presentations.getTotalPages();
         ResponsePresentation res =  ResponsePresentation.create(presen, count);
@@ -160,11 +160,22 @@ public class PresentationService {
     }
 
     public ResponsePresentation findAllNotApprovalPresentation(Pageable pageable) {
-        final Page<Presentation> presentations = presenRepository.findByStatusNot("강의 완료", pageable);
+        final Page<Presentation> presentations = presenRepository.findByStatusNotOrderByDate("강의 완료", pageable);
         final List<PresentationDTO> presen = presentations.getContent().stream().map(PresentationDTO::create).toList();
         final int count = presentations.getTotalPages();
         ResponsePresentation res =  ResponsePresentation.create(presen, count);
         return res;
     }
+
+    // 전체 조회
+
+    public ResponsePresentation findAllByDate(Pageable pageable) {
+        final Page<Presentation> presentations = presenRepository.findAllByDate(pageable);
+        final List<PresentationDTO> presen = presentations.getContent().stream().map(PresentationDTO::create).toList();
+        final int count = presentations.getTotalPages();
+        ResponsePresentation res =  ResponsePresentation.create(presen, count);
+        return res;
+    }
+
 
 }

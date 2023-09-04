@@ -56,6 +56,13 @@ public class VocalController {
 
     }
 
+    @GetMapping("/presentations/form/all")
+    public ResponseEntity allFormByDate(Pageable pageable) {
+        final ResponsePresentation presentation =
+                presentationService.findAllByDate(pageable);
+        return ResponseEntity.ok(presentation);
+    }
+
 
     // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments/form/approval")
