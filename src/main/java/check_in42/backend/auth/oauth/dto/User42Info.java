@@ -12,15 +12,18 @@ public class User42Info {
     private String login;
     @JsonProperty("staff?")
     private boolean staff;
+    @JsonProperty("cursus_users")
     private List<CursusUser> cursus_users;
 
     @Getter
     public static class CursusUser {
+        @JsonProperty("cursus")
         private Cursus cursus;
 
 
         @Getter
         public static class Cursus {
+            private String grade;
 
         }
     }
