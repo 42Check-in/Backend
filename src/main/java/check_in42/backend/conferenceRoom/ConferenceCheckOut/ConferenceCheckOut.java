@@ -17,8 +17,7 @@ public class ConferenceCheckOut {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     private LocalDate date;
