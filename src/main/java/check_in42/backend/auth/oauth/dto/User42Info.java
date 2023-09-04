@@ -20,15 +20,8 @@ public class User42Info {
     @Getter
     @Setter
     public static class CursusUser {
-        @JsonProperty("cursus")
-        private Cursus cursus;
+        @JsonProperty("grade")
+        private String grade;
 
-
-        @Getter @Setter
-        public static class Cursus {
-            @JsonProperty("grade")
-            private String grade;
-
-        }
     }
 }
