@@ -38,6 +38,7 @@ public class VocalController {
 
     @GetMapping("/presentations/form/approval")
     public ResponseEntity allApprovalPresentation(Pageable pageable) {
+        log.info(pageable.toString() + "=======================================");
         final ResponsePresentation presentationList =
                 presentationService.findAllApprovalPresentation(pageable);
         return ResponseEntity.ok(presentationList);
@@ -45,6 +46,7 @@ public class VocalController {
 
     @GetMapping("/presentations/form/not-approval")
     public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
+        log.info(pageable.toString() + "=======================================");
         final ResponsePresentation presentation =
                 presentationService.findAllNotApprovalPresentation(pageable);
         return ResponseEntity.ok(presentation);
