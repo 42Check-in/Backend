@@ -47,7 +47,6 @@ public class OauthService {
         req = req42TokenHeader(code);
         log.info(code);
         res = resPostApi(req, req42TokenUri());
-        log.info(res.getBody());
         return readOauthToken(res.getBody());
     }
 
@@ -134,7 +133,9 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        log.info(user42Info.getCursus_users().get(0).getGrade() + "-----------------------------------");
+        log.info(user42Info.getCursus().get(0) + "-----------------------------------");
+        log.info(user42Info.getCursus().get(1) + "-----------------------------------");
+        log.info(user42Info.getCursus().get(2) + "-----------------------------------");
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         userService.findByName(intraId)
