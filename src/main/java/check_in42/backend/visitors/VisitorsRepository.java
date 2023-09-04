@@ -1,5 +1,7 @@
 package check_in42.backend.visitors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +19,7 @@ public interface VisitorsRepository extends JpaRepository<Visitors, Long> {
     @Query("select v from Visitors v where not v.notice")
     List<Visitors> findByNoticeFalse();
 
+    Page<Visitors> findAllByApprovalIsNull(Pageable pageable);
+
+    Page<Visitors> findAllByApprovalIsNotNull(Pageable pageable);
 }

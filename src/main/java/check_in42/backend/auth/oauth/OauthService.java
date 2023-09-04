@@ -47,7 +47,6 @@ public class OauthService {
         req = req42TokenHeader(code);
         log.info(code);
         res = resPostApi(req, req42TokenUri());
-        log.info(res.getBody());
         return readOauthToken(res.getBody());
     }
 
@@ -135,14 +134,17 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
+      
         log.info(user42Info.getCursus_users().get(0).getGrade() + "-----------------------------------");
-        final String accessToken = tokenProvider.createAccessToken(intraId, staff);
-        final String refreshToken = tokenProvider.createRefreshToken(intraId, staff);
+        final String grade = user42Info.getCursus_users().get(1).getGrade();
+        final String accessToken = tokenProvider.createAccessToken(intraId);
+        final String refreshToken = tokenProvider.createRefreshToken(intraId);
         userService.findByName(intraId)
                 .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
-                        () -> userService.create(intraId, staff, refreshToken));
+                        () -> userService.create(intraId, staff, refreshToken, grade));
         return new TokenPair(accessToken, refreshToken);
     }
+
 
     @Transactional
     public void logout(final String intraId) {
@@ -161,6 +163,18 @@ public class OauthService {
 
         return staff;
     }
+
+    public String getGrade(final String accessToken) {
+        final Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
+        final String intraId = claims.get("intraId", String.class);
+
+        final User user = userService.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final String grade = user.getGrade();
+
+        return grade;
+    }
+
 
     public String reissueToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);

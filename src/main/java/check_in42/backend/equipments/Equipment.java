@@ -1,5 +1,6 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.utils.EquipmentType;
 import check_in42.backend.user.User;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -38,12 +40,16 @@ public class Equipment {
 
     private LocalDate returnDate; // 반납 일자
 
-    private LocalDate approval;
+    private LocalDateTime approval;
 
     private boolean notice;
 
     private String equipment;
+
     private int extension;
+
+    private String time;
+
 
     @ManyToOne(fetch = FetchType.LAZY) // user쪽에서 casecade 걸어주면 자동으로 추가되게?
     @JoinColumn(name = "user_id")
@@ -65,8 +71,9 @@ public class Equipment {
         this.detail = equipmentDTO.getDetail();
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
-        this.returnDate = LocalDate.parse(equipmentDTO.getReturnDate(), formatter);
-        this.period = equipmentDTO.getPeriod();
+        this.returnDate = equipmentDTO.getReturnDate() != null
+                ? LocalDate.parse(equipmentDTO.getReturnDate(), formatter) : null;
+        this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         if (equipmentDTO.getEquipment() == 0)
             this.equipment = equipmentDTO.getEtcEquipment();
         else
@@ -75,50 +82,33 @@ public class Equipment {
         this.approval = null;
         this.notice = false;
         this.extension = 0;
+        this.time = equipmentDTO.getTime();
     }
 
     public void extendReturnDateByPeriod(int period) {
         this.returnDate = this.returnDate.plusMonths(period);
     }
 
-    public void setExtension(int extension) {
-        this.extension = extension;
-    }
 
     public void updateForExtension(EquipmentDTO equipmentDTO) {
         this.extension = 1;
-        this.period = equipmentDTO.getPeriod();
+        this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
         this.date = LocalDate.parse(equipmentDTO.getDate());
+        this.time = equipmentDTO.getTime();
         setApprovalNull();
     }
 
+    public void updateForNew(EquipmentDTO equipmentDTO) {
+    }
+
     public void setApproval() {
-        this.approval = LocalDate.now();
+        this.approval = LocalDateTime.now();
     }
     public void setApprovalNull() {
         this.approval = null;
     }
 
-    public void setPeriod(int period) {
-        this.period = period;
-    }
-
-    public void setDate(LocalDate extendDate) {
-        this.date = extendDate;
-    }
     public void setNotice(boolean notice) {
         this.notice = notice;
     }
 }
-
-/*
-* 1. String userName // 본명
-2. String phoneNumber
-3. String date
-3. Long equipments // (enum)
-4. boolean purpose
-5. String detail // 상세 사유
-6. String benefit // 기대효과
-7. String period
-8. String returnDate
-* */

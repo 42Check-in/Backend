@@ -1,6 +1,6 @@
-package check_in42.backend.equipments;
+package check_in42.backend.equipments.utils;
 
-import check_in42.backend.equipments.utils.EquipmentType;
+import check_in42.backend.equipments.Equipment;
 import lombok.Getter;
 
 @Getter
@@ -20,6 +20,8 @@ public class EquipmentDTO {
     private String etcEquipment;
     private int status;
     private int extension;
+    private String intraId;
+    private String time;
 
     public static EquipmentDTO create(Equipment equipment) {
         EquipmentDTO equipmentDTO = new EquipmentDTO();
@@ -38,6 +40,8 @@ public class EquipmentDTO {
         equipmentDTO.equipment = EquipmentType.getOrdinalByDescription(equipment.getEquipment());
         equipmentDTO.status = equipment.getApproval() != null ? 1 : 0;
         equipmentDTO.extension = equipment.getExtension();
+        equipmentDTO.intraId = equipment.getIntraId();
+        equipmentDTO.time = equipment.getTime();
         return equipmentDTO;
     }
 }
