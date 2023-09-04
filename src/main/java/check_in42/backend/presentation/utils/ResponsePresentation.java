@@ -9,14 +9,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponsePresentation {
 
-    private List<PresentationDTO> presentations;
-    private int count;
+    private List<PresentationDTO> list;
+    private int pageCount;
 
 
     public static ResponsePresentation create(List<PresentationDTO> presentations, int count) {
         ResponsePresentation responsePresentation = new ResponsePresentation();
-        responsePresentation.presentations = presentations;
-        responsePresentation.count = count;
+        responsePresentation.list = presentations;
+        responsePresentation.pageCount = count;
 
         return responsePresentation;
     }

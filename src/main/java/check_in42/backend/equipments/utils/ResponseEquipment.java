@@ -9,14 +9,14 @@ import java.util.List;
 @Getter
 public class ResponseEquipment {
 
-    private List<EquipmentDTO> equipments;
-    private int count;
+    private List<EquipmentDTO> list;
+    private int pageCount;
 
     public static ResponseEquipment create(List<EquipmentDTO> equipments, int count) {
         ResponseEquipment responseEquipment = new ResponseEquipment();
 
-        responseEquipment.equipments = equipments;
-        responseEquipment.count = count;
+        responseEquipment.list = equipments;
+        responseEquipment.pageCount = count;
 
         return responseEquipment;
     }

@@ -10,12 +10,12 @@ import java.util.List;
 public class VisitorVocalResponse {
 
     private List<VisitorsDTO> list;
-    private int offSet;
+    private int pageCount;
 
     public static VisitorVocalResponse create(final List<VisitorsDTO> visitorsDTOS, int offSet) {
         VisitorVocalResponse visitorVocalResponse = new VisitorVocalResponse();
         visitorVocalResponse.list = visitorsDTOS;
-        visitorVocalResponse.offSet = offSet;
+        visitorVocalResponse.pageCount = offSet;
 
         return visitorVocalResponse;
     }
