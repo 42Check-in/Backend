@@ -38,8 +38,8 @@ public class TabletController {
     }
 
     @PostMapping("check-in")
-    public ResponseEntity updateState(@RequestBody Long formId) {
-        tabletService.updateState(formId);
+    public ResponseEntity updateState(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
+        tabletService.updateState(conferenceRoomDTO.getFormId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
