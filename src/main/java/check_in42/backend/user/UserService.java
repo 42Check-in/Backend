@@ -30,11 +30,13 @@ public class UserService {
     }
 
     @Transactional
-    public User create(String intraId, boolean staff, String refreshToken) {
+    public User create(String intraId, boolean staff, String refreshToken, String grade) {
         User user = User.builder()
                 .intraId(intraId)
                 .staff(staff)
-                .refreshToken(refreshToken).build();
+                .refreshToken(refreshToken)
+                .grade(grade)
+                .build();
         userRepository.save(user);
         return user;
     }
