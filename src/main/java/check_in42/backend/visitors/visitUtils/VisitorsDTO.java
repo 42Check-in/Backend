@@ -51,11 +51,11 @@ public class VisitorsDTO {
                 .getOrdinalByDescription(visitors.getPriorApproval().getRelationWithUser());
         visitorsDTO.visitPlace = VisitPlace
                 .getOrdinalByDescription(visitors.getPriorApproval().getVisitPlace());
-        visitorsDTO.etcPurpose = visitorsDTO.getVisitPurpose() == 0
+        visitorsDTO.etcPurpose = visitorsDTO.getVisitPurpose() != 0
                 ? null : visitors.getPriorApproval().getVisitPurpose();
-        visitorsDTO.etcRelation = visitorsDTO.getRelationWithUser() == 0
+        visitorsDTO.etcRelation = visitorsDTO.getRelationWithUser() != 0
                 ? null : visitors.getPriorApproval().getRelationWithUser();
-        visitorsDTO.etcPlace = visitorsDTO.getVisitPlace() == 0
+        visitorsDTO.etcPlace = visitorsDTO.getVisitPlace() != 0
                 ? null : visitors.getPriorApproval().getVisitPlace();
         visitorsDTO.agreement = visitors.getPriorApproval().isAgreement();
         visitorsDTO.status = visitors.getApproval() != null ? 1 : 0;
