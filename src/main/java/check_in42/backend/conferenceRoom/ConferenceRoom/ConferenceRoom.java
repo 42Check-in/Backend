@@ -36,7 +36,7 @@ public class ConferenceRoom {
         this.checkInState = false;
     }
 
-    public void setCheckInstate(boolean checkInstate) {
-        this.checkInState = checkInstate;
+    public void setCheckInState(boolean checkInState) {
+        this.checkInState = checkInState;
     }
 }

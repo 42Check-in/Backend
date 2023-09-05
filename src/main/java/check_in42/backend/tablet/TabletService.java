@@ -27,7 +27,7 @@ public class TabletService {
 
     @Transactional
     public void updateState(Long formId) {
-        conferenceRoomRepository.findById(formId).get().setCheckInstate(true);
+        conferenceRoomRepository.findById(formId).get().setCheckInState(true);
     }
 
     @Transactional
