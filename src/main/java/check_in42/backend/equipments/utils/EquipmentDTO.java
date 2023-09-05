@@ -32,7 +32,7 @@ public class EquipmentDTO {
         equipmentDTO.date = equipment.getDate().toString();
         equipmentDTO.formId = equipment.getId();
         equipmentDTO.purpose = equipment.getPurpose().equals("42서울") ? 1 : 0;
-        equipmentDTO.etcPurpose = equipmentDTO.purpose == 0 ? equipment.getEquipment() : null;
+        equipmentDTO.etcPurpose = equipmentDTO.purpose == 0 ? equipment.getPurpose() : null;
         equipmentDTO.detail = equipment.getDetail();
         equipmentDTO.period = equipment.getPeriod();
         equipmentDTO.benefit = equipment.getBenefit();
