@@ -20,6 +20,6 @@ public enum VisitPlace {
     }
 
     public static int getOrdinalByDescription(String description) {
-        return EnumUtils.getOrdinalByDescription(EquipmentType.class, description);
+        return EnumUtils.getOrdinalByDescription(VisitPlace.class, description);
     }
 }

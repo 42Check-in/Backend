@@ -19,6 +19,6 @@ public enum RelationWithUser {
     }
 
     public static int getOrdinalByDescription(String description) {
-        return EnumUtils.getOrdinalByDescription(EquipmentType.class, description);
+        return EnumUtils.getOrdinalByDescription(RelationWithUser.class, description);
     }
 }
