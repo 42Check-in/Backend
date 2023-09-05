@@ -52,17 +52,17 @@ public class ConferenceRoomService {
                 .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
-    public Map<String, long[]> makeBase() {
-        Map<String, long[]> result = new HashMap<>();
+    public Map<String, long[][]> makeBase() {
+        Map<String, long[][]> result = new HashMap<>();
         PlaceInfo[] placeInfos = PlaceInfo.values();
         RoomCount[] roomInfos = RoomCount.values();
 
         for (int i = 0; i < placeInfos.length; i++)
-            result.put(placeInfos[i].getValue(), new long[roomInfos[i].getValue().intValue()]);
+            result.put(placeInfos[i].getValue(), new long[roomInfos[i].getValue().intValue()][2]);
         return result;
     }
 
-    public void setReservedInfo(Map<String, long[]> result, LocalDate date) {
+    public void setReservedInfo(Map<String, long[][]> result, String intraId, LocalDate date) {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDate(date);
 
@@ -71,13 +71,16 @@ public class ConferenceRoomService {
             log.info("데이터 넣어");
             log.info("reservationInfo: " + cr.getReservationInfo() + " => " + Long.toBinaryString(cr.getReservationInfo()));
             reservationInfo = ConferenceUtil.setReservationInfo(cr.getReservationInfo());
-            long[] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.bitIdx(reservationInfo[0]));
+            long[][] rooms = ConferenceUtil.getRooms(result, ConferenceUtil.bitIdx(reservationInfo[0]));
             int roomIdx = ConferenceUtil.bitIdx(reservationInfo[1]);
             if (rooms == null || roomIdx == -1) {
                 log.info("reservationInfo 이상함");
                 throw new ConferenceException.ReservationRunTimeException();
             }
-            rooms[roomIdx] |= reservationInfo[2];
+            if (cr.getUser().getIntraId().equals(intraId))
+                rooms[roomIdx][0] |= reservationInfo[2];
+            else
+                rooms[roomIdx][1] |= reservationInfo[2];
         }
         log.info("정상 종료");
     }

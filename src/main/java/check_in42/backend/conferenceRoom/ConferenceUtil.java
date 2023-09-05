@@ -29,7 +29,7 @@ public class ConferenceUtil {
         return result;
     }
 
-    public static long[] getRooms(Map<String, long[]> clusters, Integer clusterNum) {
+    public static long[][] getRooms(Map<String, long[][]> clusters, Integer clusterNum) {
         if (clusterNum < 0)
             return null;
         if (clusterNum == PlaceInfo.GAEPO.ordinal())

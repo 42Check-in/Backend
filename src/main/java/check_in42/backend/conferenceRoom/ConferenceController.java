@@ -38,11 +38,12 @@ public class ConferenceController {
     }
 
     @GetMapping("place-time/{date}")
-    public ResponseEntity<Map<String, long[]>> placeTime(@PathVariable(name = "date") final LocalDate date) {
+    public ResponseEntity<Map<String, long[][]>> placeTime(@UserId final UserInfo userInfo,
+                                                           @PathVariable(name = "date") final LocalDate date) {
         log.info("요청 들어오니?");
-        Map<String, long[]> result = conferenceRoomService.makeBase();
+        Map<String, long[][]> result = conferenceRoomService.makeBase();
 
-        conferenceRoomService.setReservedInfo(result, date);
+        conferenceRoomService.setReservedInfo(result, userInfo.getIntraId(), date);
         log.info("혹시 이전에 끝나니?");
         return ResponseEntity.ok().body(result);
     }
