@@ -97,13 +97,13 @@ public class VocalController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/presentations")
+    @GetMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/equipments")
+    @GetMapping("/equipments")
     public ResponseEntity confirmEquipmentApply(@RequestBody final FormIdList formIdList) {
         equipmentService.setAgreeDates(formIdList.getFormIds());
         return ResponseEntity.ok(HttpStatus.OK);
