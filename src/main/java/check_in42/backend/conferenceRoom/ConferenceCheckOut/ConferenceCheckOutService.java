@@ -1,6 +1,8 @@
 package check_in42.backend.conferenceRoom.ConferenceCheckOut;
 
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomRepository;
 import check_in42.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @Transactional(readOnly = true)
 public class ConferenceCheckOutService {
 
+    private final ConferenceRoomRepository conferenceRoomRepository;
     private final ConferenceCheckOutRepository conferenceCheckOutRepository;
 
     public ConferenceCheckOut create (ConferenceRoomDTO conferenceRoomDTO, User user) {

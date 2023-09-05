@@ -2,6 +2,7 @@ package check_in42.backend.tablet;
 
 import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
@@ -22,8 +23,8 @@ import java.time.LocalDate;
 public class TabletController {
 
     private final ConferenceCheckOutService conferenceCheckOutService;
+    private final ConferenceRoomService conferenceRoomService;
     private final TabletService tabletService;
-    private final UserService userService;
 
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
@@ -47,15 +48,17 @@ public class TabletController {
     }
 
     @PostMapping("check-out")
-    public ResponseEntity checkOut(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
+    public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
+        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(conferenceRoomDTO.getFormId());
+        conferenceRoomDTO = ConferenceRoomDTO.create(conferenceRoom);
         conferenceCheckOutService.join(conferenceCheckOutService
-                .create(conferenceRoomDTO, userService.findOne(conferenceRoomDTO.getUserId())));
+                .create(conferenceRoomDTO, conferenceRoom.getUser()));
         tabletService.deleteForm(conferenceRoomDTO.getFormId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("cancel")
-    public ResponseEntity deleteForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
+    public ResponseEntity deleteForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         log.info("deleteForm 들어옴!!");
         log.info(tabletService.deleteForm(conferenceRoomDTO.getFormId()) + " 삭제!!");
         log.info("deleteForm 종료!!");
