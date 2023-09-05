@@ -39,7 +39,4 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
 
     @Query("DELETE FROM ConferenceRoom c WHERE c.date < :oneWeek")
     void deleteAllByDateBeforeOneWeek(@Param("oneWeek") LocalDate oneWeek);
-
-    @Query("DELETE FROM ConferenceRoom c WHERE c.id = :formId")
-    void deleteById(@Param("formId") Long formId);
 }
