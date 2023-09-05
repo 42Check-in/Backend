@@ -77,17 +77,17 @@ public class VocalController {
         return ResponseEntity.ok(equipmentList);
     }
 
-    @GetMapping("/equipments")
-    public ResponseEntity allFormEquipment() {
-        final List<EquipmentDTO> res = equipmentService.findAll();
-        return ResponseEntity.ok(res);
-    }
-
-    @GetMapping("/presentations")
-    public ResponseEntity allFormPresentation() {
-        final List<PresentationDTO> res = presentationService.findAll();
-        return ResponseEntity.ok(res);
-    }
+//    @GetMapping("/equipments")
+//    public ResponseEntity allFormEquipment() {
+//        final List<EquipmentDTO> res = equipmentService.findAll();
+//        return ResponseEntity.ok(res);
+//    }
+//
+//    @GetMapping("/presentations")
+//    public ResponseEntity allFormPresentation() {
+//        final List<PresentationDTO> res = presentationService.findAll();
+//        return ResponseEntity.ok(res);
+//    }
 
     // 외부인 신청에 대한 수락
     @PostMapping("/visitors")
