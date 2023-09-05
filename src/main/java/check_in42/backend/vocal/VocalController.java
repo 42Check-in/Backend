@@ -86,7 +86,7 @@ public class VocalController {
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/presentation")
+    @GetMapping("/presentations")
     public ResponseEntity allFormPresentation() {
         final List<PresentationDTO> res = presentationService.findAll();
         return ResponseEntity.ok(res);
