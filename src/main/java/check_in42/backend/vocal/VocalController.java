@@ -1,8 +1,10 @@
 package check_in42.backend.vocal;
 
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
+import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
 import check_in42.backend.visitors.VisitorsService;
@@ -76,6 +78,18 @@ public class VocalController {
         final ResponseEquipment equipmentList =
                 equipmentService.findAllNotApproval(pageable);
         return ResponseEntity.ok(equipmentList);
+    }
+
+    @GetMapping("/equipments")
+    public ResponseEntity allFormEquipment() {
+        final List<EquipmentDTO> res = equipmentService.findAll();
+        return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/presentation")
+    public ResponseEntity allFormPresentation() {
+        final List<PresentationDTO> res = presentationService.findAll();
+        return ResponseEntity.ok(res);
     }
 
     // 외부인 신청에 대한 수락

@@ -112,8 +112,12 @@ public class PresentationService {
         return presentationRepository.findDataBeforeDay(day);
     }
 
-    public List<Presentation> findAll() {
-        return presentationRepository.findAll();
+    public List<PresentationDTO> findAll() {
+        final List<Presentation> presentations = presentationRepository.findAll();
+        final List<PresentationDTO> res = presentations.stream()
+                .map(PresentationDTO::create)
+                .toList();
+        return res;
     }
 
     public List<PresentationDTO> findAllDESC() {
