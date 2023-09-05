@@ -38,6 +38,7 @@ public class ConferenceCheckOutService {
         ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(formId).get();
         ConferenceRoomDTO conferenceRoomDTO = ConferenceRoomDTO.create(conferenceRoom);
         conferenceCheckOutRepository.save(create(conferenceRoomDTO, conferenceRoom.getUser()));
+        return formId;
     }
 
 }
