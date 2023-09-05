@@ -32,14 +32,14 @@ public class PriorApproval {
         this.visitorsName = visitorsDTO.getVisitorsName();
         this.visitDate = visitorsDTO.getDate().format(dateTimeFormatter);
         this.visitTime = visitorsDTO.getVisitTime();
-        this.visitPurpose = visitorsDTO.getEtcPurpose() != null ? VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType()
-                + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getPurposeType();
-        this.relationWithUser = visitorsDTO.getEtcRelation() != null ? RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType()
-                + visitorsDTO.getEtcRelation() : RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getType();
+        this.visitPurpose = visitorsDTO.getEtcPurpose() != null ? VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getName()
+                + visitorsDTO.getEtcPurpose() : VisitPurpose.values()[visitorsDTO.getVisitPurpose()].getName();
+        this.relationWithUser = visitorsDTO.getEtcRelation() != null ? RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getName()
+                + visitorsDTO.getEtcRelation() : RelationWithUser.values()[visitorsDTO.getRelationWithUser()].getName();
         this.visitPlace =
                 visitorsDTO.getEtcPlace() != null ?
-                        VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType() + visitorsDTO.getEtcPlace()
-                        : VisitPlace.values()[visitorsDTO.getVisitPlace()].getPlaceType();
+                        VisitPlace.values()[visitorsDTO.getVisitPlace()].getName() + visitorsDTO.getEtcPlace()
+                        : VisitPlace.values()[visitorsDTO.getVisitPlace()].getName();
         this.agreement = visitorsDTO.isAgreement();
     }
 

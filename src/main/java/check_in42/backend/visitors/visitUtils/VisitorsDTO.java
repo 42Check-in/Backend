@@ -45,23 +45,12 @@ public class VisitorsDTO {
         visitorsDTO.date = LocalDate.parse(visitors.getPriorApproval().getVisitDate(),
                 DateTimeFormatter.ISO_LOCAL_DATE);
         visitorsDTO.visitTime = visitors.getPriorApproval().getVisitTime();
-        try {
-            visitorsDTO.visitPurpose = VisitPurpose.valueOf(visitors.getPriorApproval()
-                    .getVisitPurpose()).ordinal();
-        } catch (IllegalArgumentException e) {
-            visitorsDTO.visitPurpose = 0;
-        }
-        try {
-            visitorsDTO.relationWithUser = RelationWithUser.valueOf(visitors.getPriorApproval()
-                    .getRelationWithUser()).ordinal();
-        } catch (IllegalArgumentException e) {
-            visitorsDTO.relationWithUser = 0;
-        }
-        try {
-            visitorsDTO.visitPlace = VisitPlace.valueOf(visitors.getPriorApproval().getVisitPlace()).ordinal();
-        } catch (IllegalArgumentException e) {
-            visitorsDTO.visitPlace = 0;
-        }
+        visitorsDTO.visitPurpose = VisitPurpose
+                .getOrdinalByDescription(visitors.getPriorApproval().getVisitPurpose());
+        visitorsDTO.relationWithUser = RelationWithUser
+                .getOrdinalByDescription(visitors.getPriorApproval().getRelationWithUser());
+        visitorsDTO.visitPlace = VisitPlace
+                .getOrdinalByDescription(visitors.getPriorApproval().getVisitPlace());
         visitorsDTO.etcPurpose = visitors.getPriorApproval().getVisitPurpose();
         visitorsDTO.etcRelation = visitors.getPriorApproval().getRelationWithUser();
         visitorsDTO.etcPlace = visitors.getPriorApproval().getVisitPlace();

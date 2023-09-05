@@ -1,5 +1,7 @@
 package check_in42.backend.visitors.visitUtils;
 
+import check_in42.backend.equipments.utils.EnumUtils;
+import check_in42.backend.presentation.utils.PresentationTime;
 import lombok.Getter;
 
 @Getter
@@ -9,9 +11,13 @@ public enum VisitPurpose {
     STUDYING("학습: \"너와 함께 공부하고 싶어!\""),
     TALKING("토크: \"이야기할 것이 많으니 교육장 안에서 이야기하자\"");
 
-    private String purposeType;
+    private String name;
 
-    VisitPurpose(String purposeType) {
-        this.purposeType = purposeType;
+    VisitPurpose(String name) {
+        this.name = name;
+    }
+
+    public static int getOrdinalByDescription(String description) {
+        return EnumUtils.getOrdinalByDescription(PresentationTime.class, description);
     }
 }
