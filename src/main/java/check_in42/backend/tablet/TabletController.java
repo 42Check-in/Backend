@@ -7,6 +7,8 @@ import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tablet/")
+@Slf4j
 public class TabletController {
 
     private final ConferenceCheckOutService conferenceCheckOutService;
@@ -53,7 +56,9 @@ public class TabletController {
 
     @PostMapping("cancel")
     public ResponseEntity deleteForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
-        tabletService.deleteForm(conferenceRoomDTO.getFormId());
+        log.info("deleteForm 들어옴!!");
+        log.info(tabletService.deleteForm(conferenceRoomDTO.getFormId()) + " 삭제!!");
+        log.info("deleteForm 종료!!");
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

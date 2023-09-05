@@ -30,7 +30,8 @@ public class TabletService {
         conferenceRoomRepository.findById(formId).get().setCheckInstate(true);
     }
 
-    public void deleteForm(Long formId) {
+    public Long deleteForm(Long formId) {
         conferenceRoomRepository.deleteById(formId);
+        return formId;
     }
 }
