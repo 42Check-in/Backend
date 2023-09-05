@@ -28,6 +28,7 @@ public class Equipment {
 
     private LocalDate date;
 
+    // 0으로 들어오면 etc를 받기
     private String purpose; // 1 -> 42과제, 0 -> 그 외
 
     @Column(length = 1500)
@@ -44,6 +45,7 @@ public class Equipment {
 
     private boolean notice;
 
+    // 0으로 들어오면 etc를 받기
     private String equipment;
 
     private int extension;
@@ -63,21 +65,16 @@ public class Equipment {
         this.intraId = user.getIntraId();
         this.userName = equipmentDTO.getUserName();
         this.phoneNumber = equipmentDTO.getPhoneNumber();
-        if (equipmentDTO.getPurpose() == 1) {
-            this.purpose = "42서울";
-        } else {
-            this.purpose = "그 외" + equipmentDTO.getEtcPurpose();
-        }
+        this.purpose = (equipmentDTO.getPurpose() == 0) ?
+                equipmentDTO.getEtcPurpose() : "42서울";
         this.detail = equipmentDTO.getDetail();
         this.benefit = equipmentDTO.getBenefit();
         this.date = LocalDate.parse(equipmentDTO.getDate(), formatter);
-        this.returnDate = equipmentDTO.getReturnDate() != null
-                ? LocalDate.parse(equipmentDTO.getReturnDate(), formatter) : null;
+        this.returnDate = (equipmentDTO.getReturnDate() != null) ?
+                LocalDate.parse(equipmentDTO.getReturnDate(), formatter) : null;
         this.period = (equipmentDTO.getPeriod() == 0) ? 1 : 3;
-        if (equipmentDTO.getEquipment() == 0)
-            this.equipment = equipmentDTO.getEtcEquipment();
-        else
-            this.equipment = EquipmentType.values()[equipmentDTO.getEquipment()].getName();
+        this.equipment = (equipmentDTO.getEquipment() == 0) ?
+                equipmentDTO.getEtcEquipment() : EquipmentType.values()[equipmentDTO.getEquipment()].getName();
         this.user = user;
         this.approval = null;
         this.notice = false;
