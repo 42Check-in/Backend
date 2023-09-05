@@ -120,7 +120,7 @@ public class OauthService {
         params.add("client_id", "u-s4t2ud-f90f9eeac95b368279b59a8f0eb2e43a8b348db52752754f2aa249ded96390aa");
         params.add("client_secret", "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");
         params.add("code", code);
-        params.add("redirect_uri", "http://localhost:3000/oauth/login");
+        params.add("redirect_uri", "https://42checkin-kr/");
 
         return new HttpEntity<>(params, headers);
     }
