@@ -64,7 +64,6 @@ public class VocalController {
     }
 
 
-    // 전체 기자재 신청 목록을 보여주는 기능
     @GetMapping("/equipments/form/approval")
     public ResponseEntity allApprovalEquipment(Pageable pageable) {
         final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
