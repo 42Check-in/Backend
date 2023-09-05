@@ -25,7 +25,7 @@ public class ConferenceRoomDTO {
         conferenceRoomDTO.date = conferenceRoom.getDate();
         conferenceRoomDTO.reservationCount = conferenceRoom.getReservationCount();
         conferenceRoomDTO.reservationInfo = conferenceRoom.getReservationInfo();
-//        conferenceRoomDTO.checkInState = conferenceRoom.isCheckInState();
+        conferenceRoomDTO.checkInState = conferenceRoom.isCheckInState();
         return conferenceRoomDTO;
     }
 }

@@ -40,11 +40,11 @@ public class TabletController {
         return ResponseEntity.ok(tabletDTO);
     }
 
-//    @PostMapping("check-in")
-//    public ResponseEntity updateState(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
-//        tabletService.updateState(conferenceRoomDTO.getFormId());
-//        return ResponseEntity.ok(HttpStatus.OK);
-//    }
+    @PostMapping("check-in")
+    public ResponseEntity updateState(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
+        tabletService.updateState(conferenceRoomDTO.getFormId());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
     @PostMapping("check-out")
     public ResponseEntity checkOut(@RequestBody final ConferenceRoomDTO conferenceRoomDTO) {
