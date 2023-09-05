@@ -77,11 +77,11 @@ public class VocalController {
         return ResponseEntity.ok(equipmentList);
     }
 
-//    @GetMapping("/equipments")
-//    public ResponseEntity allFormEquipment() {
-//        final List<EquipmentDTO> res = equipmentService.findAll();
-//        return ResponseEntity.ok(res);
-//    }
+    @GetMapping("/equipments")
+    public ResponseEntity allFormEquipment() {
+        final List<EquipmentDTO> res = equipmentService.findAll();
+        return ResponseEntity.ok(res);
+    }
 //
 //    @GetMapping("/presentations")
 //    public ResponseEntity allFormPresentation() {
