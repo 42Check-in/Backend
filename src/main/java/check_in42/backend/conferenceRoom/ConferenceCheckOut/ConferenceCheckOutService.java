@@ -32,4 +32,12 @@ public class ConferenceCheckOutService {
         conferenceCheckOutRepository.save(conferenceCheckOut);
         return conferenceCheckOut.getId();
     }
+
+    @Transactional
+    public Long inputCheckOut(Long formId) {
+        ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(formId).get();
+        ConferenceRoomDTO conferenceRoomDTO = ConferenceRoomDTO.create(conferenceRoom);
+        conferenceCheckOutRepository.save(create(conferenceRoomDTO, conferenceRoom.getUser()));
+    }
+
 }

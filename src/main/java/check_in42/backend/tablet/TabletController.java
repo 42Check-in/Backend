@@ -49,10 +49,7 @@ public class TabletController {
 
     @PostMapping("check-out")
     public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
-        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(conferenceRoomDTO.getFormId());
-        conferenceRoomDTO = ConferenceRoomDTO.create(conferenceRoom);
-        conferenceCheckOutService.join(conferenceCheckOutService
-                .create(conferenceRoomDTO, conferenceRoom.getUser()));
+        conferenceCheckOutService.inputCheckOut(conferenceRoomDTO.getFormId());
         tabletService.deleteForm(conferenceRoomDTO.getFormId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
