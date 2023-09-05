@@ -14,8 +14,6 @@ import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/vocal/subscriptions")
+@RequestMapping("/bocal/subscriptions")
 public class VocalController {
 
     private final VisitorsService visitorsService;
