@@ -3,7 +3,6 @@ package check_in42.backend.conferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
-import check_in42.backend.tablet.TabletUtil;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class ConferenceUtil {
     }
 
     public static int getTimeIdx() {
-        LocalDateTime now = LocalDateTime.now().withDayOfMonth(7).withHour(8).withMinute(0);
+        LocalDateTime now = LocalDateTime.now();
 
         if (now.getHour() < 8)
             return 0;
