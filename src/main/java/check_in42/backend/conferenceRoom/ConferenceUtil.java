@@ -3,7 +3,9 @@ package check_in42.backend.conferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
+import check_in42.backend.tablet.TabletUtil;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class ConferenceUtil {
@@ -46,5 +48,23 @@ public class ConferenceUtil {
         result[1] = (reservationInfoBit & PlaceInfoBit.ROOM.getValue()) >> PlaceInfoBitSize.TIME.getValue();
         result[2] = reservationInfoBit & PlaceInfoBit.TIME.getValue();
         return result;
+    }
+
+    public static int getTimeIdx() {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.getHour() < 8)
+            return 0;
+        return ((now.getHour() - 8) * 2) + (now.getMinute() >= 30 ? 1 : 0);
+    }
+
+    public static Long getNowAfterBit() {
+        int nowTimeIdx = getTimeIdx();
+
+        long timeBit = 0;
+        for (int i = 0; i < nowTimeIdx; i++) {
+            timeBit = (timeBit << 1) | 1;
+        }
+        return PlaceInfoBit.TIME.getValue() & ~timeBit;
     }
 }

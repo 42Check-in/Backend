@@ -29,16 +29,8 @@ public class TabletController {
 
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
-        int nowTimeIdx = TabletUtil.getTimeIdx();
-
-        long timeBit = 0;
-        for (int i = 0; i < nowTimeIdx; i++) {
-            timeBit = (timeBit << 1) | 1;
-        }
-        timeBit = PlaceInfoBit.TIME.getValue() & ~timeBit;
-
         TabletDTO tabletDTO = new TabletDTO(tabletService
-                .findAllByPlaceAndNowOver(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit(), timeBit));
+                .findAllByPlaceAndNowOver(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit(), ConferenceUtil.getNowAfterBit()));
         return ResponseEntity.ok(tabletDTO);
     }
 

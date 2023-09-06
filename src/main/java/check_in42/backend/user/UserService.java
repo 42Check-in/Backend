@@ -2,6 +2,7 @@ package check_in42.backend.user;
 
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
+import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.presentation.Presentation;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +67,7 @@ public class UserService {
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
         Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
+                .filter(room -> !room.getDate().isEqual(LocalDate.now()) || (room.getReservationInfo() & ConferenceUtil.getNowAfterBit()) > 0)
                 .sorted(descendingComparator)
                 .map(ConferenceRoomDTO::create)
                 .collect(Collectors.toList());
