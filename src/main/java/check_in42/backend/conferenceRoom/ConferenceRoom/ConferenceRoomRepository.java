@@ -14,6 +14,8 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
     @Query("select sum(c.reservationCount) from ConferenceRoom c where c.date = :date")
     long getSumReservationCountByDate(@Param("date") LocalDate date);
 
+    List<ConferenceRoom> findAllByDate(@Param("date") LocalDate date);
+
     @Query(value = "select * from conference_room " +
             "where date = :date " +
             "and (reservation_info & :timeBit) > 0",

@@ -65,7 +65,11 @@ public class ConferenceRoomService {
 
     public void setReservedInfo(Map<String, long[][]> result, String intraId, LocalDate date) {
         Long[] reservationInfo;
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(date, ConferenceUtil.getAfterNowBit());
+        List<ConferenceRoom> conferenceRooms;
+        if (date.isEqual(LocalDate.now()))
+            conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(date, ConferenceUtil.getAfterNowBit());
+        else
+            conferenceRooms = conferenceRoomRepository.findAllByDate(date);
 
         log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {
