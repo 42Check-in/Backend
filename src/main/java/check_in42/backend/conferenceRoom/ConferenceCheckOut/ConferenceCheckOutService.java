@@ -3,6 +3,7 @@ package check_in42.backend.conferenceRoom.ConferenceCheckOut;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomRepository;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class ConferenceCheckOutService {
 
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final ConferenceCheckOutRepository conferenceCheckOutRepository;
+    private final ConferenceRoomService conferenceRoomService;
 
     public ConferenceCheckOut create (ConferenceRoomDTO conferenceRoomDTO, User user) {
         return ConferenceCheckOut.builder()
@@ -35,7 +37,7 @@ public class ConferenceCheckOutService {
 
     @Transactional
     public Long inputCheckOut(Long formId) {
-        ConferenceRoom conferenceRoom = conferenceRoomRepository.findById(formId).get();
+        ConferenceRoom conferenceRoom = conferenceRoomService.findOne(formId);
         ConferenceRoomDTO conferenceRoomDTO = ConferenceRoomDTO.create(conferenceRoom);
         conferenceCheckOutRepository.save(create(conferenceRoomDTO, conferenceRoom.getUser()));
         return formId;

@@ -2,6 +2,7 @@ package check_in42.backend.conferenceRoom.ConferenceRoom;
 
 import check_in42.backend.allException.FormException;
 import check_in42.backend.auth.argumentresolver.UserInfo;
+import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
@@ -25,6 +26,7 @@ import java.util.*;
 @Slf4j
 public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
+    private final ConferenceCheckDayService conferenceCheckDayService;
     private final UserService userService;
 
     private final static Long reservationAllTimeNum = (RoomCount.GAEPO.getValue() + RoomCount.SEOCHO.getValue()) * PlaceInfoBitSize.TIME.getValue();
@@ -128,10 +130,11 @@ public class ConferenceRoomService {
     }
 
     @Transactional
-    public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, String intraId) {
-        User user = userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
-        conferenceRoomRepository.deleteById(conferenceRoomDTO.getFormId());
-        user.deleteConferenceRoomForm(conferenceRoomDTO.getFormId());
+    public Long deleteForm(ConferenceRoomDTO conferenceRoomDTO) {
+        ConferenceRoom conferenceRoom = findOne(conferenceRoomDTO.getFormId());
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoom);
+        conferenceRoom.getUser().deleteConferenceRoomForm(conferenceRoomDTO.getFormId());
+        conferenceRoomRepository.deleteById(conferenceRoom.getId());
         return conferenceRoomDTO.getFormId();
     }
 

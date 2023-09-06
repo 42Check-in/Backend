@@ -41,28 +41,16 @@ public class TabletController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    ConferenceCheckDayService conferenceCheckDayService;
-
     @PostMapping("check-out")
-    public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) throws InterruptedException {
-
-        log.info("date: " + conferenceRoomDTO.getDate().toString());
-        Thread.sleep(3000);
-
+    public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         conferenceCheckOutService.inputCheckOut(conferenceRoomDTO.getFormId());
-
-        log.info("check-out 여기까지 오냐?");
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
-
-        log.info("여기까지는????");
-        conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
+        conferenceRoomService.deleteForm(conferenceRoomDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("cancel")
     public ResponseEntity deleteForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
-        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
-        conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
+        conferenceRoomService.deleteForm(conferenceRoomDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
