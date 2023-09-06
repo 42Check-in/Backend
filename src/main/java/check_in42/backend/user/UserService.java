@@ -67,7 +67,7 @@ public class UserService {
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
         Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
-                .filter(room -> (room.getDate().isEqual(LocalDate.now()) || room.getDate().isAfter(LocalDate.now())) &&
+                .filter(room -> room.getDate().isAfter(LocalDate.now()) ||
                         room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterNowBit()) > 0)
                 .sorted(descendingComparator)
                 .map(ConferenceRoomDTO::create)
