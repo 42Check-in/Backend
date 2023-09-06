@@ -1,5 +1,7 @@
 package check_in42.backend.tablet;
 
+import check_in42.backend.auth.argumentresolver.UserId;
+import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,5 +55,11 @@ public class TabletController {
     public ResponseEntity deleteForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         conferenceRoomService.deleteForm(conferenceRoomDTO);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    UserService userService;
+    @GetMapping("test")
+    public ResponseEntity<List<ConferenceRoomDTO>> test(@UserId UserInfo userInfo) {
+        return ResponseEntity.ok(userService.findConferenceList(userInfo.getIntraId()));
     }
 }
