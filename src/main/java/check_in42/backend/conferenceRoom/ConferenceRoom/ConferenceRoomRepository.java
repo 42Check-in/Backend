@@ -14,7 +14,12 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
     @Query("select sum(c.reservationCount) from ConferenceRoom c where c.date = :date")
     long getSumReservationCountByDate(@Param("date") LocalDate date);
 
-    List<ConferenceRoom> findAllByDate(@Param("date") LocalDate date);
+    @Query(value = "select * from conference_room " +
+            "where date = :date " +
+            "and (reservation_info & :timeBit) > 0",
+            nativeQuery = true)
+    List<ConferenceRoom> findAllByDateAndAfterNow(@Param("date") LocalDate date,
+                                                  @Param("timeBit") Long timeBit);
 
     @Query(value = "select * from conference_room " +
             "where date = :date " +
@@ -22,7 +27,7 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
             "and (reservation_info & :timeBit) > 0 " +
             "order by reservation_info asc",
             nativeQuery = true)
-    List<ConferenceRoom> findAllByPlaceAndNowOver(@Param("date") LocalDate date,
+    List<ConferenceRoom> findAllByPlaceAndAfterNow(@Param("date") LocalDate date,
                                                   @Param("placeInfo") Long placeInfo,
                                                   @Param("timeBit") Long timeBit);
 

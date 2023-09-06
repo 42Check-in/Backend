@@ -20,7 +20,7 @@ public class TabletService {
 
     public List<ConferenceRoomDTO> findAllByPlaceAndNowOver(LocalDate date, Long placeInfo, Long timeBit) {
         List<ConferenceRoomDTO> result = new ArrayList<>();
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByPlaceAndNowOver(date, placeInfo, timeBit);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByPlaceAndAfterNow(date, placeInfo, timeBit);
         conferenceRooms.forEach(conferenceRoom -> result.add(ConferenceRoomDTO.create(conferenceRoom)));
         return result;
     }

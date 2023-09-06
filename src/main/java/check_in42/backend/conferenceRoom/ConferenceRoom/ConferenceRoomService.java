@@ -3,6 +3,7 @@ package check_in42.backend.conferenceRoom.ConferenceRoom;
 import check_in42.backend.allException.FormException;
 import check_in42.backend.auth.argumentresolver.UserInfo;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBitSize;
 import check_in42.backend.conferenceRoom.ConferenceEnum.RoomCount;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfo;
@@ -26,7 +27,7 @@ public class ConferenceRoomService {
     private final ConferenceRoomRepository conferenceRoomRepository;
     private final UserService userService;
 
-    private final static Long reservationAllTimeNum = RoomCount.GAEPO.getValue() * 24 + RoomCount.SEOCHO.getValue() * 24;
+    private final static Long reservationAllTimeNum = (RoomCount.GAEPO.getValue() + RoomCount.SEOCHO.getValue()) * PlaceInfoBitSize.TIME.getValue();
 
     @Transactional
     public Long join(ConferenceRoom conferenceRoom) {
@@ -64,7 +65,7 @@ public class ConferenceRoomService {
 
     public void setReservedInfo(Map<String, long[][]> result, String intraId, LocalDate date) {
         Long[] reservationInfo;
-        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDate(date);
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(date, ConferenceUtil.getAfterNowBit());
 
         log.info("conferenceRoom 개수: " + conferenceRooms.size());
         for (ConferenceRoom cr: conferenceRooms) {

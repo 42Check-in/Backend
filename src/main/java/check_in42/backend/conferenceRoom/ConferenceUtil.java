@@ -58,7 +58,7 @@ public class ConferenceUtil {
         return ((now.getHour() - 8) * 2) + (now.getMinute() >= 30 ? 1 : 0);
     }
 
-    public static Long getNowAfterBit() {
+    public static Long getAfterNowBit() {
         int nowTimeIdx = getTimeIdx();
 
         long timeBit = 0;
