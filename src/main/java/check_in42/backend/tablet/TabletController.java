@@ -62,9 +62,4 @@ public class TabletController {
         log.info("deleteForm 종료!!");
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    @GetMapping("test")
-    public RedirectView redirectView() {
-        return new RedirectView("/");
-    }
 }
