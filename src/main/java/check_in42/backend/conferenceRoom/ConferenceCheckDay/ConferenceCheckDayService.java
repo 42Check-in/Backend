@@ -63,7 +63,7 @@ public class ConferenceCheckDayService {
         day = conferenceRoom.getDate().getDayOfMonth();
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayRepository.findByYearMonth(year, month);
         if (conferenceCheckDay == null)
-            return null;
+            return 0L;
         conferenceCheckDay.setDays(conferenceCheckDay.getDays() & ~(1L << (day - 1)));
         return conferenceCheckDay.getId();
     }

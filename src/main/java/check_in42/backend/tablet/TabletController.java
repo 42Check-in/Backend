@@ -44,7 +44,11 @@ public class TabletController {
     ConferenceCheckDayService conferenceCheckDayService;
 
     @PostMapping("check-out")
-    public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
+    public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) throws InterruptedException {
+
+        log.info("date: " + conferenceRoomDTO.getDate().toString());
+        Thread.sleep(3000);
+
         conferenceCheckOutService.inputCheckOut(conferenceRoomDTO.getFormId());
 
         log.info("check-out 여기까지 오냐?");
