@@ -27,6 +27,8 @@ public class ConferenceController {
 
     private final UserService userService;
 
+    private final Object lock = new Object();
+
     @GetMapping("calendar/{year}/{month}")
     public ResponseEntity<Long> calender(@PathVariable(name = "year") final Long year,
                                          @PathVariable(name = "month") final Long month) {
@@ -49,7 +51,7 @@ public class ConferenceController {
     }
 
     @PostMapping("form")
-    public ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
+    public synchronized ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                     @UserId final UserInfo userInfo) {
         conferenceRoomDTO.setUserId(userService.findByName(userInfo.getIntraId())
                 .orElseThrow(UserRunTimeException.NoUserException::new).getId());
