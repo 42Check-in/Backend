@@ -1,7 +1,9 @@
 package check_in42.backend.user;
 
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.equipments.Equipment;
 import check_in42.backend.equipments.utils.EquipmentDTO;
@@ -65,9 +67,14 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
-
-        Comparator<ConferenceRoom> descendingComparator = Comparator.comparing(ConferenceRoom::getDate);
-
+        Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> {
+            if (v1.getDate().isEqual(v2.getDate())) {
+                Long v1TimeBit = v1.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+                Long v2TimeBit = v2.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+                return v1TimeBit.compareTo(v2TimeBit);
+            }
+            return v1.getDate().compareTo(v2.getDate());
+        };
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
                 .filter(room -> room.getDate().isAfter(LocalDate.now()) ||
                         (room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterNowBit()) > 0))
