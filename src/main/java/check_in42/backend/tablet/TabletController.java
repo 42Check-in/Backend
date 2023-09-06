@@ -1,30 +1,19 @@
 package check_in42.backend.tablet;
 
-import check_in42.backend.auth.argumentresolver.UserId;
-import check_in42.backend.auth.argumentresolver.UserInfo;
-import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutService;
-import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
-import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import check_in42.backend.conferenceRoom.ConferenceUtil;
-import check_in42.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tablet/")
-@Slf4j
 public class TabletController {
 
     private final ConferenceCheckOutService conferenceCheckOutService;
@@ -55,11 +44,5 @@ public class TabletController {
     public ResponseEntity deleteForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         conferenceRoomService.deleteForm(conferenceRoomDTO);
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    UserService userService;
-    @GetMapping("test")
-    public ResponseEntity<List<ConferenceRoomDTO>> test(@UserId UserInfo userInfo) {
-        return ResponseEntity.ok(userService.findConferenceList(userInfo.getIntraId()));
     }
 }

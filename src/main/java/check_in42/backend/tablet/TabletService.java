@@ -1,9 +1,9 @@
 package check_in42.backend.tablet;
 
-import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutRepository;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomRepository;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class TabletService {
     private final ConferenceRoomRepository conferenceRoomRepository;
+    private final ConferenceRoomService conferenceRoomService;
 
     public List<ConferenceRoomDTO> findAllByPlaceAndNowOver(LocalDate date, Long placeInfo, Long timeBit) {
         List<ConferenceRoomDTO> result = new ArrayList<>();
@@ -27,6 +28,6 @@ public class TabletService {
 
     @Transactional
     public void updateState(Long formId) {
-        conferenceRoomRepository.findById(formId).get().setCheckInState(true);
+        conferenceRoomService.findOne(formId).setCheckInState(true);
     }
 }

@@ -54,7 +54,6 @@ public class ConferenceCheckDayService {
         return conferenceCheckDay.getId();
     }
 
-    @Transactional
     public Long updateAllowCheckDay(ConferenceRoom conferenceRoom) {
         long year, month, day;
 

@@ -61,7 +61,7 @@ public class UserService {
         return userRepository.findByRefreshToken(refreshToken);
     }
 
-    public List<ConferenceRoomDTO> findConferenceList (String intraId) {
+    public List<ConferenceRoomDTO> findConferenceByAfterNowList (String intraId) {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();

@@ -79,7 +79,7 @@ public class MyCheckInService {
     }
 
     public List<ConferenceRoomDTO> userConferenceRoomList(final String intraId) {
-        final List<ConferenceRoomDTO> conferenceRoomDTOS = userService.findConferenceList(intraId);
+        final List<ConferenceRoomDTO> conferenceRoomDTOS = userService.findConferenceByAfterNowList(intraId);
         return conferenceRoomDTOS;
     }
 }
