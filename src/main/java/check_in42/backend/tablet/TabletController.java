@@ -47,6 +47,7 @@ public class TabletController {
     public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         conferenceCheckOutService.inputCheckOut(conferenceRoomDTO.getFormId());
 
+        log.info("check-out 여기까지 오냐?");
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
         conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
