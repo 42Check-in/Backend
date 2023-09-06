@@ -65,7 +65,9 @@ public class UserService {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
-        Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
+
+        Comparator<ConferenceRoom> descendingComparator = Comparator.comparing(ConferenceRoom::getDate);
+
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
                 .filter(room -> room.getDate().isAfter(LocalDate.now()) ||
                         (room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterNowBit()) > 0))
