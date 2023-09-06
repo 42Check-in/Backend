@@ -26,7 +26,6 @@ public class ConferenceController {
     private final ConferenceCheckDayService conferenceCheckDayService;
 
     private final UserService userService;
-
     private final Object lock = new Object();
 
     @GetMapping("calendar/{year}/{month}")
@@ -51,13 +50,15 @@ public class ConferenceController {
     }
 
     @PostMapping("form")
-    public synchronized ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
+    public ResponseEntity inputForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                     @UserId final UserInfo userInfo) {
-        conferenceRoomDTO.setUserId(userService.findByName(userInfo.getIntraId())
-                .orElseThrow(UserRunTimeException.NoUserException::new).getId());
-        conferenceRoomService.isInputForm(conferenceRoomDTO);
+        synchronized (lock) {
+            conferenceRoomDTO.setUserId(userService.findByName(userInfo.getIntraId())
+                    .orElseThrow(UserRunTimeException.NoUserException::new).getId());
+            conferenceRoomService.isInputForm(conferenceRoomDTO);
 
-        conferenceRoomService.inputForm(conferenceRoomDTO, userInfo);
+            conferenceRoomService.inputForm(conferenceRoomDTO, userInfo);
+        }
 
         if (conferenceRoomService.isDayFull(conferenceRoomDTO.getDate()))
             conferenceCheckDayService.updateDenyCheckDay(conferenceRoomDTO.getDate());
