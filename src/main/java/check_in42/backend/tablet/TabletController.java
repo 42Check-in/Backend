@@ -49,6 +49,8 @@ public class TabletController {
 
         log.info("check-out 여기까지 오냐?");
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
+
+        log.info("여기까지는????");
         conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
