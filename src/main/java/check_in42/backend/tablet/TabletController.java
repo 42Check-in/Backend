@@ -1,5 +1,6 @@
 package check_in42.backend.tablet;
 
+import check_in42.backend.conferenceRoom.ConferenceCheckDay.ConferenceCheckDayService;
 import check_in42.backend.conferenceRoom.ConferenceCheckOut.ConferenceCheckOutService;
 import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
@@ -40,18 +41,21 @@ public class TabletController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    ConferenceCheckDayService conferenceCheckDayService;
+
     @PostMapping("check-out")
     public ResponseEntity checkOut(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         conferenceCheckOutService.inputCheckOut(conferenceRoomDTO.getFormId());
-        tabletService.deleteForm(conferenceRoomDTO.getFormId());
+
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
+        conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("cancel")
     public ResponseEntity deleteForm(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
-        log.info("deleteForm 들어옴!!");
-        log.info(tabletService.deleteForm(conferenceRoomDTO.getFormId()) + " 삭제!!");
-        log.info("deleteForm 종료!!");
+        conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
+        conferenceRoomService.cancelForm(conferenceRoomDTO, conferenceRoomDTO.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

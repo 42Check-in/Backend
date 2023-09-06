@@ -123,8 +123,8 @@ public class ConferenceRoomService {
     }
 
     @Transactional
-    public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, UserInfo userInfo) {
-        User user = userService.findByName(userInfo.getIntraId()).orElseThrow(UserRunTimeException.NoUserException::new);
+    public Long cancelForm(ConferenceRoomDTO conferenceRoomDTO, String intraId) {
+        User user = userService.findByName(intraId).orElseThrow(UserRunTimeException.NoUserException::new);
         conferenceRoomRepository.deleteById(conferenceRoomDTO.getFormId());
         user.deleteConferenceRoomForm(conferenceRoomDTO.getFormId());
         return conferenceRoomDTO.getFormId();

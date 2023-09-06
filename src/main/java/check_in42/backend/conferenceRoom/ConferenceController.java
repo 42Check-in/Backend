@@ -67,7 +67,7 @@ public class ConferenceController {
     public ResponseEntity cancelForm(@RequestBody final ConferenceRoomDTO conferenceRoomDTO,
                                      @UserId final UserInfo userInfo) {
         conferenceCheckDayService.updateAllowCheckDay(conferenceRoomService.findOne(conferenceRoomDTO.getFormId()));
-        conferenceRoomService.cancelForm(conferenceRoomDTO, userInfo);
+        conferenceRoomService.cancelForm(conferenceRoomDTO, userInfo.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -29,10 +29,4 @@ public class TabletService {
     public void updateState(Long formId) {
         conferenceRoomRepository.findById(formId).get().setCheckInState(true);
     }
-
-    @Transactional
-    public Long deleteForm(Long formId) {
-        conferenceRoomRepository.deleteById(formId);
-        return formId;
-    }
 }
