@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+//@Component
 public class ConferenceScheduleTask {
 
     ConferenceRoomService conferenceRoomService;
     User user;
 
-    @Scheduled(cron = "0 0 * * MON")
+//    @Scheduled(cron = "0 0 * * MON")
     public void deleteConferenceRooms() {
         conferenceRoomService.deleteAllByDateBeforeOneWeek();
         List<ConferenceRoom> conferenceRooms = user.getConferenceRooms();
