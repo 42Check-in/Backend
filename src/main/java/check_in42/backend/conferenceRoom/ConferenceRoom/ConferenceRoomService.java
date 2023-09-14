@@ -65,12 +65,10 @@ public class ConferenceRoomService {
         for (RoomCount roomCount : roomCounts) {
             todayLeftTimeCnt += roomCount.getValue().intValue() * (PlaceInfoBitSize.TIME.getValue() - nowTimeIdx);
         }
-        log.info("todayLeftFullCnt==> " + todayLeftTimeCnt);
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(LocalDate.now(), afterNowBit);
         for (ConferenceRoom c : conferenceRooms) {
             todayLeftTimeCnt -= ConferenceUtil.bitN(c.getReservationInfo() & (PlaceInfoBit.TIME.getValue() & afterNowBit));
         }
-        log.info("todayLeftCnt==> " + todayLeftTimeCnt);
         // true: full
         // false: left
         return todayLeftTimeCnt <= 0;
