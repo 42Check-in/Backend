@@ -61,7 +61,6 @@ public class ConferenceUtil {
 
     public static Long getAfterTimeBit(int timeIdx) {
         long timeBit = 0;
-
         for (int i = 0; i < timeIdx; i++) {
             timeBit = (timeBit << 1) | 1;
         }
