@@ -22,15 +22,18 @@ public class ConferenceCheckOut {
 
     private LocalDate date;
 
+    private LocalDateTime checkInDateTime;
+
     private LocalDateTime checkOutDateTime;
 
     private Long reservationInfo;
 
     @Builder
-    protected ConferenceCheckOut(Long id, User user, LocalDate date, LocalDateTime checkOutDateTime, Long reservationInfo) {
+    protected ConferenceCheckOut(Long id, User user, LocalDate date, LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime, Long reservationInfo) {
         this.id = id;
         this.user = user;
         this.date = date;
+        this.checkInDateTime = checkInDateTime;
         this.checkOutDateTime = checkOutDateTime;
         this.reservationInfo = reservationInfo;
     }

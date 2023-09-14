@@ -24,6 +24,7 @@ public class ConferenceCheckOutService {
         return ConferenceCheckOut.builder()
                 .user(user)
                 .date(conferenceRoomDTO.getDate())
+                .checkInDateTime(conferenceRoomDTO.getCheckInTime())
                 .checkOutDateTime(LocalDateTime.now())
                 .reservationInfo(conferenceRoomDTO.getReservationInfo())
                 .build();
