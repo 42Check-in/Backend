@@ -56,12 +56,13 @@ public class ConferenceUtil {
     }
 
     public static int getTimeIdx() {
-        return getTimeIdx(LocalDateTime.now().withHour(18).withMinute(30));
+        return getTimeIdx(LocalDateTime.now());
     }
 
-    public static Long getAfterTimeBit(int nowTimeIdx) {
+    public static Long getAfterTimeBit(int timeIdx) {
         long timeBit = 0;
-        for (int i = 0; i < nowTimeIdx; i++) {
+
+        for (int i = 0; i < timeIdx; i++) {
             timeBit = (timeBit << 1) | 1;
         }
         return PlaceInfoBit.TIME.getValue() & ~timeBit;
