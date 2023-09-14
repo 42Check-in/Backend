@@ -32,10 +32,13 @@ public class ConferenceController {
     public ResponseEntity<Long> calender(@PathVariable(name = "year") final Long year,
                                          @PathVariable(name = "month") final Long month) {
         ConferenceCheckDay conferenceCheckDay = conferenceCheckDayService.findByYearMonth(year, month);
+        Long result = 0L;
 
-        if (conferenceCheckDay == null)
-            return ResponseEntity.ok().body(0L);
-        return ResponseEntity.ok().body(conferenceCheckDay.getDays());
+        if (conferenceCheckDay != null)
+            result = conferenceCheckDay.getDays();
+        if (conferenceRoomService.isTodayFull())
+            result |= 1L << LocalDate.now().getDayOfMonth() - 1;
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("place-time/{date}")

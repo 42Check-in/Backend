@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -56,16 +57,22 @@ public class ConferenceRoomService {
     }
 
     public boolean isTodayFull() {
-        final int todayTimeCnt = ;
-        Long afterNowBit = ConferenceUtil.getAfterTimeBit();
+        LocalDateTime now = LocalDateTime.now();
+        int nowTimeIdx = ConferenceUtil.getTimeIdx(now);
+        long afterNowBit = ConferenceUtil.getAfterTimeBit(nowTimeIdx);
+        int todayLeftTimeCnt = 0;
 
+        RoomCount[] roomCounts = RoomCount.values();
+        for (RoomCount roomCount : roomCounts) {
+            todayLeftTimeCnt += roomCount.getValue().intValue() * (PlaceInfoBitSize.TIME.getValue() - nowTimeIdx);
+        }
         List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(LocalDate.now(), afterNowBit);
-        conferenceRooms.forEach(c -> {
-            Long reservationInfo = c.getReservationInfo();
-
-
-        });
-        return false;
+        for (ConferenceRoom c : conferenceRooms) {
+            todayLeftTimeCnt -= ConferenceUtil.bitN(c.getReservationInfo() & (PlaceInfoBit.TIME.getValue() & afterNowBit));
+        }
+        // true: full
+        // false: left
+        return todayLeftTimeCnt <= 0;
     }
 
     public Map<String, long[][]> makeBase() {
