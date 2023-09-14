@@ -30,8 +30,8 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
             "order by reservation_info asc",
             nativeQuery = true)
     List<ConferenceRoom> findAllByPlaceAndAfterNow(@Param("date") LocalDate date,
-                                                  @Param("placeInfo") Long placeInfo,
-                                                  @Param("timeBit") Long timeBit);
+                                                   @Param("placeInfo") Long placeInfo,
+                                                   @Param("timeBit") Long timeBit);
 
 //    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
 //    내가 신청한 폼과 같은 위치의 애들
@@ -40,9 +40,10 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
             "and ((reservation_info & :reqPlaceInfoBit) = :reqPlaceInfoBit " +
             "or (user_id = :userId and (reservation_info & :reqTimeBit) > 0))",
             nativeQuery = true)
-    List<ConferenceRoom> findByDateAndSamePlaceOrMySameTime(@Param("userId") Long userId, @Param("date") LocalDate date,
-                                                @Param("reqPlaceInfoBit") Long reqPlaceInfoBit,
-                                                @Param("reqTimeBit") Long reqTimeBit);
+    List<ConferenceRoom> findByDateAndSamePlaceOrMySameTime(@Param("userId") Long userId,
+                                                            @Param("date") LocalDate date,
+                                                            @Param("reqPlaceInfoBit") Long reqPlaceInfoBit,
+                                                            @Param("reqTimeBit") Long reqTimeBit);
 
     @Query("DELETE FROM ConferenceRoom c WHERE c.date < :oneWeek")
     void deleteAllByDateBeforeOneWeek(@Param("oneWeek") LocalDate oneWeek);

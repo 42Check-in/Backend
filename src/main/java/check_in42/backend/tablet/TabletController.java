@@ -24,15 +24,15 @@ public class TabletController {
     @GetMapping("reservations/{place}")
     public ResponseEntity<TabletDTO> reservations(@PathVariable(name = "place") final String roomName) {
         TabletDTO tabletDTO = new TabletDTO(tabletService
-                .findAllByPlaceAndNowOver(LocalDate.now(), Rooms.valueOf(roomName).getRoomBit(), ConferenceUtil.getAfterTimeBit(
-                        ConferenceUtil.getTimeIdx(LocalDateTime.now().withDayOfMonth(15).withHour(10).withMinute(30))
+                .findAllByPlaceAndNowOver(LocalDate.now().withDayOfMonth(15), Rooms.valueOf(roomName).getRoomBit(), ConferenceUtil.getAfterTimeBit(
+                        ConferenceUtil.getTimeIdx(LocalDateTime.now().withHour(10).withMinute(30))
                 )));
         return ResponseEntity.ok(tabletDTO);
     }
 
     @PostMapping("check-in")
     public ResponseEntity updateState(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
-        tabletService.updateState(conferenceRoomDTO.getFormId());
+        tabletService.updateTime(conferenceRoomDTO.getFormId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

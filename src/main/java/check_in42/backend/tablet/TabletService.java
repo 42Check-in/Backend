@@ -28,7 +28,7 @@ public class TabletService {
     }
 
     @Transactional
-    public void updateState(Long formId) {
+    public void updateTime(Long formId) {
         conferenceRoomService.findOne(formId).setCheckInTime(LocalDateTime.now());
     }
 }
