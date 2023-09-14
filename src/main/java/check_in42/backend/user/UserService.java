@@ -77,7 +77,7 @@ public class UserService {
         };
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
                 .filter(room -> room.getDate().isAfter(LocalDate.now()) ||
-                        (room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterNowBit()) > 0))
+                        (room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterTimeBit()) > 0))
                 .sorted(descendingComparator)
                 .map(ConferenceRoomDTO::create)
                 .collect(Collectors.toList());

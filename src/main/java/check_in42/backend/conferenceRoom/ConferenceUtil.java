@@ -49,21 +49,25 @@ public class ConferenceUtil {
         return result;
     }
 
-    public static int getTimeIdx() {
-        LocalDateTime now = LocalDateTime.now();
-
-        if (now.getHour() < 8)
+    public static int getTimeIdx(LocalDateTime time) {
+        if (time.getHour() < 8)
             return 0;
-        return ((now.getHour() - 8) * 2) + (now.getMinute() >= 30 ? 1 : 0);
+        return ((time.getHour() - 8) * 2) + (time.getMinute() >= 30 ? 1 : 0);
     }
 
-    public static Long getAfterNowBit() {
-        int nowTimeIdx = getTimeIdx();
+    public static int getTimeIdx() {
+        return getTimeIdx(LocalDateTime.now());
+    }
 
+    public static Long getAfterTimeBit(int nowTimeIdx) {
         long timeBit = 0;
         for (int i = 0; i < nowTimeIdx; i++) {
             timeBit = (timeBit << 1) | 1;
         }
         return PlaceInfoBit.TIME.getValue() & ~timeBit;
+    }
+
+    public static Long getAfterTimeBit() {
+        return getAfterTimeBit(getTimeIdx());
     }
 }

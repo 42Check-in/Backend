@@ -55,6 +55,19 @@ public class ConferenceRoomService {
                 .orElseThrow(FormException.FormIdRunTimeException::new);
     }
 
+    public boolean isTodayFull() {
+        final int todayTimeCnt = ;
+        Long afterNowBit = ConferenceUtil.getAfterTimeBit();
+
+        List<ConferenceRoom> conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(LocalDate.now(), afterNowBit);
+        conferenceRooms.forEach(c -> {
+            Long reservationInfo = c.getReservationInfo();
+
+
+        });
+        return false;
+    }
+
     public Map<String, long[][]> makeBase() {
         Map<String, long[][]> result = new HashMap<>();
         PlaceInfo[] placeInfos = PlaceInfo.values();
@@ -69,7 +82,7 @@ public class ConferenceRoomService {
         Long[] reservationInfo;
         List<ConferenceRoom> conferenceRooms;
         if (date.isEqual(LocalDate.now()))
-            conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(date, ConferenceUtil.getAfterNowBit());
+            conferenceRooms = conferenceRoomRepository.findAllByDateAndAfterNow(date, ConferenceUtil.getAfterTimeBit());
         else
             conferenceRooms = conferenceRoomRepository.findAllByDate(date);
 
