@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity @Getter
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class ConferenceRoom {
 
     private Long reservationInfo; // 클러스터 2Bit, 방 6Bit, 시간 24Bit
 
-    private boolean checkInState;
+    private LocalDateTime checkInTime;
 
     @Builder
     protected ConferenceRoom(Long id, User user, LocalDate date, Long reservationCount, Long reservationInfo) {
@@ -33,10 +34,10 @@ public class ConferenceRoom {
         this.date = date;
         this.reservationCount = reservationCount;
         this.reservationInfo = reservationInfo;
-        this.checkInState = false;
+        this.checkInTime = null;
     }
 
-    public void setCheckInState(boolean checkInState) {
-        this.checkInState = checkInState;
+    public void setCheckInTime(LocalDateTime checkInTime) {
+        this.checkInTime = checkInTime;
     }
 }

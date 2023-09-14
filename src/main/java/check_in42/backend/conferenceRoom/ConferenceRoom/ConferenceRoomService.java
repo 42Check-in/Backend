@@ -57,8 +57,7 @@ public class ConferenceRoomService {
     }
 
     public boolean isTodayFull() {
-        LocalDateTime now = LocalDateTime.now();
-        int nowTimeIdx = ConferenceUtil.getTimeIdx(now);
+        int nowTimeIdx = ConferenceUtil.getTimeIdx() + 1;
         long afterNowBit = ConferenceUtil.getAfterTimeBit(nowTimeIdx);
         int todayLeftTimeCnt = 0;
 

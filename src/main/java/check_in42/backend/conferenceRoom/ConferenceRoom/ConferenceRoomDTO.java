@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class ConferenceRoomDTO {
     private LocalDate date;
     private Long reservationCount;
     private Long reservationInfo;
-    private boolean checkInState;
+    private LocalDateTime checkInTime;
 
     public static ConferenceRoomDTO create(ConferenceRoom conferenceRoom) {
         ConferenceRoomDTO conferenceRoomDTO = new ConferenceRoomDTO();
@@ -25,7 +26,7 @@ public class ConferenceRoomDTO {
         conferenceRoomDTO.date = conferenceRoom.getDate();
         conferenceRoomDTO.reservationCount = conferenceRoom.getReservationCount();
         conferenceRoomDTO.reservationInfo = conferenceRoom.getReservationInfo();
-        conferenceRoomDTO.checkInState = conferenceRoom.isCheckInState();
+        conferenceRoomDTO.checkInTime = conferenceRoom.getCheckInTime();
         return conferenceRoomDTO;
     }
 }
