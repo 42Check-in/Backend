@@ -56,7 +56,7 @@ public class ConferenceUtil {
     }
 
     public static int getTimeIdx() {
-        return getTimeIdx(LocalDateTime.now().withHour(10).withMinute(30));
+        return getTimeIdx(LocalDateTime.now().withHour(19));
     }
 
     public static Long getAfterTimeBit(int timeIdx) {
