@@ -36,8 +36,10 @@ public class ConferenceController {
 
         if (conferenceCheckDay != null)
             result = conferenceCheckDay.getDays();
-        if (conferenceRoomService.isTodayFull())
+        if (conferenceRoomService.isTodayFull()) {
+            log.info("isTodayFull 들어오나?");
             result |= 1L << LocalDate.now().getDayOfMonth() - 1;
+        }
         log.info("dayBit==> " + result);
         return ResponseEntity.ok().body(result);
     }
