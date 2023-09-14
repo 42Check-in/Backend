@@ -1,24 +1,32 @@
 package check_in42.backend.equipments;
 
+import check_in42.backend.equipments.utils.EquipmentDTO;
+import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.user.User;
 import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
     private final UserRepository userRepository;
+    private final EquipmentRepo equipmentRepo;
 
     @Transactional
     public Long join(Equipment equipment) {
@@ -55,12 +63,6 @@ public class EquipmentService {
     public Equipment create(User user, EquipmentDTO equipmentDTO) {
         return new Equipment(user, equipmentDTO);
     }
-
-
-    /*
-     * intraid -> user 특정 가능
-     * user가 갖고 있는 forms들을 모두 가져온 후 DTO에 맞춰서 생성, List에 담아서 내보내기
-     * */
     public List<EquipmentDTO> showAllFormByName(String intraId) {
         final User user = userRepository.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
@@ -77,41 +79,29 @@ public class EquipmentService {
         }
         return res;
     }
-
-    /*
-    *   1. String period
-        2. Sting returnDate
-        3. Long formId
-    * */
     @Transactional
-    public Long extendDate(String intraId, EquipmentDTO equipmentDTO) {
-        //DB의 dirty checking 이용
-        final Equipment equipment = equipmentRepository.findOne(equipmentDTO.getFormId()).get();
-        equipment.extendReturnDateByPeriod(equipmentDTO.getPeriod());
+    public Long extendDate(EquipmentDTO equipmentDTO) {
 
-        //userList의 업데이트
-        final Equipment inUserForm = getFormByIntraId(intraId, equipmentDTO.getFormId());
-        if (inUserForm != null)
-            inUserForm.extendReturnDateByPeriod(equipmentDTO.getPeriod());
-
+        final Equipment equipment = findOne(equipmentDTO.getFormId());
+        equipment.updateForExtension(equipmentDTO);
+        join(equipment);
         return equipment.getId();
     }
 
-    public List<Equipment> findAll() {
-        return equipmentRepository.findAll();
-    }
 
     // 수락 떨어지면 현재로 setDate
     @Transactional
-    public void setAgreeDates(List<Long> formIds) {
-//        for (Long id : formId) {
-//            Equipment equipment = equipmentRepository.findOne(id)
-//                    .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new);
-//            equipment.setApproval();
-//        }
-        formIds.stream().map(formId -> equipmentRepository.findOne(formId)
-                .orElseThrow(UserRunTimeException.FormIdDoesNotExist::new))
-                .forEach(Equipment::setApproval);
+    public void setAgreeDates(List<Long> formId) {
+
+        for (Long id : formId) {
+            Equipment form = equipmentRepository.findOne(id).get();
+            if (form.getExtension() == 1) {
+                form.extendReturnDateByPeriod(form.getPeriod());
+                form.setApproval();
+            } else {
+                form.setApproval();
+            }
+        }
     }
 
     // 알림창에 띄울거, 보컬으로부터 수락이 떨어진 뒤
@@ -122,10 +112,20 @@ public class EquipmentService {
     public List<EquipmentDTO> findAllDESC() {
         final List<Equipment> equipmentList = equipmentRepository.findAllDESC();
         final List<EquipmentDTO> result = equipmentList.stream()
+                .sorted(Comparator.comparing(Equipment::getApproval, Comparator.nullsFirst(Comparator.reverseOrder())))
                 .map(EquipmentDTO::create)
                 .collect(Collectors.toList());
         return result;
     }
+
+    public List<EquipmentDTO> findAll() {
+        final List<Equipment> equipmentList = equipmentRepository.findAll();
+        final List<EquipmentDTO> result = equipmentList.stream()
+                .map(EquipmentDTO::create)
+                .collect(Collectors.toList());
+        return result;
+    }
+
 
     public List<Equipment> findByNoticeFalse() {
         return equipmentRepository.findByNoticeFalse();
@@ -140,5 +140,27 @@ public class EquipmentService {
         final Long formId = join(equipment);
         user.addEquipForm(equipment);
         return formId;
+    }
+
+    public ResponseEquipment findAllApproval(Pageable pageable) {
+        final Page<Equipment> equipment = equipmentRepo.findByApprovalIsNotNull(pageable);
+
+        final List<EquipmentDTO> equipmentDTOS = equipment.getContent().stream().map(EquipmentDTO::create).toList();
+        final int count = equipment.getTotalPages();
+
+        ResponseEquipment res = ResponseEquipment.create(equipmentDTOS, count);
+
+        return res;
+    }
+
+    public ResponseEquipment findAllNotApproval(Pageable pageable) {
+        final Page<Equipment> equipment = equipmentRepo.findByApprovalIsNull(pageable);
+
+        final List<EquipmentDTO> equipmentDTOS = equipment.getContent().stream().map(EquipmentDTO::create).toList();
+        final int count = equipment.getTotalPages();
+
+        ResponseEquipment res = ResponseEquipment.create(equipmentDTOS, count);
+
+        return res;
     }
 }

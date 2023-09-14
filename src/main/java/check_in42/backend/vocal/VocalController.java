@@ -1,16 +1,19 @@
 package check_in42.backend.vocal;
 
-import check_in42.backend.equipments.EquipmentDTO;
 import check_in42.backend.equipments.EquipmentService;
+import check_in42.backend.equipments.utils.EquipmentDTO;
+import check_in42.backend.equipments.utils.ResponseEquipment;
 import check_in42.backend.presentation.PresentationService;
 import check_in42.backend.presentation.utils.PresentationDTO;
+import check_in42.backend.presentation.utils.ResponsePresentation;
 import check_in42.backend.user.UserService;
-import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.VisitorsService;
+import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import check_in42.backend.vocal.utils.FormIdList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/vocal/subscriptions")
+@RequestMapping("/bocal/subscriptions")
 public class VocalController {
 
     private final VisitorsService visitorsService;
@@ -35,28 +38,55 @@ public class VocalController {
         return ResponseEntity.ok().body(visitorsList);
     }
 
-    // 전체 수요지식회 목록을 보여주는 기능 월별로 sort?
-    /*
-    *
-    *   보컬의 수요 지식회 신청 목록 status 변경
-        대기열 바로 업데이트 원함..
-
-        최상위 → 신청 중
-        같은 날에 또 신청 → 대기중
-        보컬은 최상위의 1, 2, 3 상태값만 관리
-        * 추가 작업이 필요할듯...
-    * */
-    @GetMapping("/presentations")
-    public ResponseEntity allPresentation() {
-        List<PresentationDTO> presentationList = presentationService.findAllDESC();
+    @GetMapping("/presentations/form/approval")
+    public ResponseEntity allApprovalPresentation(Pageable pageable) {
+        log.info(pageable.toString() + "=======================================");
+        final ResponsePresentation presentationList =
+                presentationService.findAllApprovalPresentation(pageable);
         return ResponseEntity.ok(presentationList);
     }
 
-    // 전체 기자재 신청 목록을 보여주는 기능
-    @GetMapping("/equipments")
-    public ResponseEntity allEquipment() {
-        List<EquipmentDTO> equipmentList = equipmentService.findAllDESC();
+    @GetMapping("/presentations/form/not-approval")
+    public ResponseEntity allNotApprovalPresentation(Pageable pageable) {
+        log.info(pageable.toString() + "=======================================");
+
+        final ResponsePresentation presentation =
+                presentationService.findAllNotApprovalPresentation(pageable);
+        return ResponseEntity.ok(presentation);
+
+    }
+
+    @GetMapping("/presentations/form/all")
+    public ResponseEntity allFormByDate(Pageable pageable) {
+        final ResponsePresentation presentation =
+                presentationService.findAllByDate(pageable);
+        return ResponseEntity.ok(presentation);
+    }
+
+
+    @GetMapping("/equipments/form/approval")
+    public ResponseEntity allApprovalEquipment(Pageable pageable) {
+        final ResponseEquipment equipmentList = equipmentService.findAllApproval(pageable);
         return ResponseEntity.ok(equipmentList);
+    }
+
+    @GetMapping("/equipments/form/not-approval")
+    public ResponseEntity allNotApprovalEquipment(Pageable pageable) {
+        final ResponseEquipment equipmentList =
+                equipmentService.findAllNotApproval(pageable);
+        return ResponseEntity.ok(equipmentList);
+    }
+
+    @GetMapping("/equipments")
+    public ResponseEntity allFormEquipment() {
+        final List<EquipmentDTO> res = equipmentService.findAll();
+        return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/presentations")
+    public ResponseEntity allFormPresentation() {
+        final List<PresentationDTO> res = presentationService.findAll();
+        return ResponseEntity.ok(res);
     }
 
     // 외부인 신청에 대한 수락
@@ -66,9 +96,6 @@ public class VocalController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    // 수요지식회의 신청 상태를 운영진이 설정하는 api
-    // 신청중, 대기, 아젠다 등록, 스케쥴 완료, 강의 완료
-    // presentationDTO -> List<Long> formIds, PresentationStatus(int) status
     @PostMapping("/presentations")
     public ResponseEntity confirmPresentationApply(@RequestBody final FormIdList formIdList) {
         presentationService.setAgreeDatesAndStatus(formIdList.getPresenList());
@@ -87,4 +114,15 @@ public class VocalController {
         return ResponseEntity.ok(visitorsDTOS);
     }
 
+    @GetMapping("visitors/form/approval")
+    public ResponseEntity<VisitorVocalResponse> allApprovalFormVisitors(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
+
+    @GetMapping("visitors/form/not-approval")
+    public ResponseEntity<VisitorVocalResponse> allNotApprovalFormVisitors(Pageable pageable) {
+        final VisitorVocalResponse visitorVocalResponse = visitorsService.findNotApprovalVisitorsList(pageable);
+        return ResponseEntity.ok(visitorVocalResponse);
+    }
 }

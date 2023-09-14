@@ -25,11 +25,13 @@ public class OauthController {
         log.info(code);
         final TokenPair tokenPair = oauthService.login(code);
         final boolean staff = oauthService.isStaff(tokenPair.getAccessToken());
+        final String grade = oauthService.getGrade(tokenPair.getAccessToken());
 
         final LoginResponse loginResponse = LoginResponse.builder()
                 .accessToken(tokenPair.getAccessToken())
                 .refreshToken(tokenPair.getRefreshToken())
                 .staff(staff)
+                .grade(grade)
                 .build();
         return ResponseEntity.ok(loginResponse);
     }

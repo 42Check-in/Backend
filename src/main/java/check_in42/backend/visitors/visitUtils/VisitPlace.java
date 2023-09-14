@@ -1,5 +1,7 @@
 package check_in42.backend.visitors.visitUtils;
 
+import check_in42.backend.equipments.utils.EnumUtils;
+import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
 @Getter
@@ -11,9 +13,13 @@ public enum VisitPlace {
     THIRD_FLOOR("3층 회의실"),
     MARU_BUILDING("폴베가 있는 마루관");
 
-    private String placeType;
+    private String name;
 
-    VisitPlace(String placeType) {
-        this.placeType = placeType;
+    VisitPlace(String name) {
+        this.name = name;
+    }
+
+    public static int getOrdinalByDescription(String description) {
+        return EnumUtils.getOrdinalByDescription(VisitPlace.class, description);
     }
 }

@@ -5,10 +5,14 @@ import check_in42.backend.user.UserRepository;
 import check_in42.backend.user.exception.UserRunTimeException;
 import check_in42.backend.visitors.visitUtils.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class VisitorsService {
 
     private final VisitorsRepository visitorsRepository;
@@ -57,6 +62,7 @@ public class VisitorsService {
     public List<VisitorsDTO> findAll() {
         final List<Visitors> visitorsList = visitorsRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         final List<VisitorsDTO> result = visitorsList.stream()
+                .sorted(Comparator.comparing(Visitors::getApproval, Comparator.nullsFirst(Comparator.reverseOrder())))
                 .map(VisitorsDTO::create)
                 .collect(Collectors.toList());
         return result;
@@ -78,4 +84,23 @@ public class VisitorsService {
         return visitorsRepository.findByNoticeFalse();
     }
 
+    public VisitorVocalResponse findNotApprovalVisitorsList(Pageable pageable) {
+        final Page<Visitors> visitorsPage =
+                visitorsRepository.findAllByApprovalIsNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
+        final int offSet = visitorsPage.getTotalPages();
+        final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
+
+        return visitorVocalResponse;
+    }
+
+    public VisitorVocalResponse findApprovalVisitorsList(Pageable pageable) {
+        final Page<Visitors> visitorsPage =
+                visitorsRepository.findAllByApprovalIsNotNull(pageable);
+        final List<VisitorsDTO> list = visitorsPage.getContent().stream().map(VisitorsDTO::create).toList();
+        final int offSet = visitorsPage.getTotalPages();
+        final VisitorVocalResponse visitorVocalResponse = VisitorVocalResponse.create(list, offSet);
+
+        return visitorVocalResponse;
+    }
 }

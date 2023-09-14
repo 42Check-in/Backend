@@ -3,7 +3,7 @@ package check_in42.backend.myCheckIn;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
 import check_in42.backend.equipments.Equipment;
-import check_in42.backend.equipments.EquipmentDTO;
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.notice.utils.NoticeDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.utils.PresentationDTO;
@@ -79,7 +79,7 @@ public class MyCheckInService {
     }
 
     public List<ConferenceRoomDTO> userConferenceRoomList(final String intraId) {
-        final List<ConferenceRoomDTO> conferenceRoomDTOS = userService.findConferenceList(intraId);
+        final List<ConferenceRoomDTO> conferenceRoomDTOS = userService.findConferenceByAfterNowList(intraId);
         return conferenceRoomDTOS;
     }
 }

@@ -1,9 +1,12 @@
 package check_in42.backend.user;
 
+import check_in42.backend.conferenceRoom.ConferenceEnum.PlaceInfoBit;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoom;
 import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomDTO;
+import check_in42.backend.conferenceRoom.ConferenceRoom.ConferenceRoomService;
+import check_in42.backend.conferenceRoom.ConferenceUtil;
 import check_in42.backend.equipments.Equipment;
-import check_in42.backend.equipments.EquipmentDTO;
+import check_in42.backend.equipments.utils.EquipmentDTO;
 import check_in42.backend.presentation.Presentation;
 import check_in42.backend.presentation.utils.PresentationDTO;
 import check_in42.backend.user.exception.UserRunTimeException;
@@ -13,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +34,13 @@ public class UserService {
     }
 
     @Transactional
-    public User create(String intraId, boolean staff, String refreshToken) {
+    public User create(String intraId, boolean staff, String refreshToken, String grade) {
         User user = User.builder()
                 .intraId(intraId)
                 .staff(staff)
-                .refreshToken(refreshToken).build();
+                .refreshToken(refreshToken)
+                .grade(grade)
+                .build();
         userRepository.save(user);
         return user;
     }
@@ -57,12 +63,21 @@ public class UserService {
         return userRepository.findByRefreshToken(refreshToken);
     }
 
-    public List<ConferenceRoomDTO> findConferenceList (String intraId) {
+    public List<ConferenceRoomDTO> findConferenceByAfterNowList (String intraId) {
         final User user = this.findByName(intraId)
                 .orElseThrow(UserRunTimeException.NoUserException::new);
         final List<ConferenceRoom> conferenceRoomList = user.getConferenceRooms();
-        Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> v2.getId().compareTo(v1.getId());
+        Comparator<ConferenceRoom> descendingComparator = (v1, v2) -> {
+            if (v1.getDate().isEqual(v2.getDate())) {
+                Long v1TimeBit = v1.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+                Long v2TimeBit = v2.getReservationInfo() & PlaceInfoBit.TIME.getValue();
+                return v1TimeBit.compareTo(v2TimeBit);
+            }
+            return v1.getDate().compareTo(v2.getDate());
+        };
         final List<ConferenceRoomDTO> result = conferenceRoomList.stream()
+                .filter(room -> room.getDate().isAfter(LocalDate.now()) ||
+                        (room.getDate().isEqual(LocalDate.now()) && (room.getReservationInfo() & ConferenceUtil.getAfterTimeBit()) > 0))
                 .sorted(descendingComparator)
                 .map(ConferenceRoomDTO::create)
                 .collect(Collectors.toList());

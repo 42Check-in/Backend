@@ -26,11 +26,14 @@ public class User {
 
     private String refreshToken;
 
+    private String grade;
+
     @Builder
-    public User(String intraId, boolean staff, String refreshToken) {
+    public User(String intraId, boolean staff, String refreshToken, String grade) {
         this.intraId = intraId;
         this.staff = staff;
         this.refreshToken = refreshToken;
+        this.grade = grade;
     }
 
     public void setRefreshToken(String refreshToken) {

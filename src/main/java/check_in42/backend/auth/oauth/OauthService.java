@@ -47,7 +47,6 @@ public class OauthService {
         req = req42TokenHeader(code);
         log.info(code);
         res = resPostApi(req, req42TokenUri());
-        log.info(res.getBody());
         return readOauthToken(res.getBody());
     }
 
@@ -121,7 +120,7 @@ public class OauthService {
         params.add("client_id", "u-s4t2ud-f90f9eeac95b368279b59a8f0eb2e43a8b348db52752754f2aa249ded96390aa");
         params.add("client_secret", "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");
         params.add("code", code);
-        params.add("redirect_uri", "http://localhost:3000/oauth/login");
+        params.add("redirect_uri", "https://42check-in.kr/oauth/login");
 
         return new HttpEntity<>(params, headers);
     }
@@ -133,14 +132,16 @@ public class OauthService {
 
         final String intraId = user42Info.getLogin();
         final boolean staff = user42Info.isStaff();
-        log.info(user42Info.getCursus_users().get(0).getGrade() + "-----------------------------------");
+        final String grade = user42Info.getCursus_users().get(1).getGrade();
+        log.info("-----------grade????" + grade);
         final String accessToken = tokenProvider.createAccessToken(intraId);
         final String refreshToken = tokenProvider.createRefreshToken(intraId);
         userService.findByName(intraId)
                 .ifPresentOrElse(user -> user.setRefreshToken(refreshToken),
-                        () -> userService.create(intraId, staff, refreshToken));
+                        () -> userService.create(intraId, staff, refreshToken, grade));
         return new TokenPair(accessToken, refreshToken);
     }
+
 
     @Transactional
     public void logout(final String intraId) {
@@ -159,6 +160,18 @@ public class OauthService {
 
         return staff;
     }
+
+    public String getGrade(final String accessToken) {
+        final Claims claims = tokenProvider.parseAccessTokenClaim(accessToken);
+        final String intraId = claims.get("intraId", String.class);
+
+        final User user = userService.findByName(intraId)
+                .orElseThrow(UserRunTimeException.NoUserException::new);
+        final String grade = user.getGrade();
+
+        return grade;
+    }
+
 
     public String reissueToken(final String refreshToken) {
         final Claims claims = tokenProvider.parseRefreshTokenClaim(refreshToken);

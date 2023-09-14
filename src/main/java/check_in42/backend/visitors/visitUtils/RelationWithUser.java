@@ -1,5 +1,7 @@
 package check_in42.backend.visitors.visitUtils;
 
+import check_in42.backend.equipments.utils.EnumUtils;
+import check_in42.backend.equipments.utils.EquipmentType;
 import lombok.Getter;
 
 @Getter
@@ -10,9 +12,13 @@ public enum RelationWithUser {
     FAMILY("나의 소중한 \"가족\"(부모님,형제 등)"),
     TUTOR("멘토님과 상응하는 \"은사\"");
 
-    private String type;
+    private String name;
 
-    RelationWithUser(String type) {
-        this.type = type;
+    RelationWithUser(String name) {
+        this.name = name;
+    }
+
+    public static int getOrdinalByDescription(String description) {
+        return EnumUtils.getOrdinalByDescription(RelationWithUser.class, description);
     }
 }

@@ -14,18 +14,36 @@ public interface ConferenceRoomRepository extends JpaRepository<ConferenceRoom, 
     @Query("select sum(c.reservationCount) from ConferenceRoom c where c.date = :date")
     long getSumReservationCountByDate(@Param("date") LocalDate date);
 
-    @Query("select c from ConferenceRoom c where c.date = :date")
-    List<ConferenceRoom> findByDate(@Param("date") LocalDate date);
+    List<ConferenceRoom> findAllByDate(@Param("date") LocalDate date);
 
     @Query(value = "select * from conference_room " +
             "where date = :date " +
+            "and (reservation_info & :timeBit) > 0",
+            nativeQuery = true)
+    List<ConferenceRoom> findAllByDateAndAfterNow(@Param("date") LocalDate date,
+                                                  @Param("timeBit") Long timeBit);
+
+    @Query(value = "select * from conference_room " +
+            "where date = :date " +
+            "and (reservation_info & :placeInfo) = :placeInfo " +
+            "and (reservation_info & :timeBit) > 0 " +
+            "order by reservation_info asc",
+            nativeQuery = true)
+    List<ConferenceRoom> findAllByPlaceAndAfterNow(@Param("date") LocalDate date,
+                                                  @Param("placeInfo") Long placeInfo,
+                                                  @Param("timeBit") Long timeBit);
+
+//    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
+//    내가 신청한 폼과 같은 위치의 애들
+    @Query(value = "select * from conference_room " +
+            "where date = :date " +
             "and ((reservation_info & :reqPlaceInfoBit) = :reqPlaceInfoBit " +
-            "or (user_id = :userId and (reservation_info & :reqTimeBit) = :reqTimeBit))",
+            "or (user_id = :userId and (reservation_info & :reqTimeBit) > 0))",
             nativeQuery = true)
     List<ConferenceRoom> findByDateAndSamePlaceOrMySameTime(@Param("userId") Long userId, @Param("date") LocalDate date,
                                                 @Param("reqPlaceInfoBit") Long reqPlaceInfoBit,
                                                 @Param("reqTimeBit") Long reqTimeBit);
 
-//    내 폼중에 내가 신청한 폼과 같은 시간대에 있는 애들
-//    내가 신청한 폼과 같은 위치의 애들
+    @Query("DELETE FROM ConferenceRoom c WHERE c.date < :oneWeek")
+    void deleteAllByDateBeforeOneWeek(@Param("oneWeek") LocalDate oneWeek);
 }

@@ -2,8 +2,10 @@ package check_in42.backend.visitors;
 
 import check_in42.backend.auth.argumentresolver.UserId;
 import check_in42.backend.auth.argumentresolver.UserInfo;
+import check_in42.backend.visitors.visitUtils.VisitorVocalResponse;
 import check_in42.backend.visitors.visitUtils.VisitorsDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +29,5 @@ public class VisitorsController {
         visitorsService.delete(visitorsDTO.getFormId(), userInfo.getIntraId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
 }
