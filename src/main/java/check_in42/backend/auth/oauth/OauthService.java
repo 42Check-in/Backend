@@ -117,8 +117,8 @@ public class OauthService {
         headers.set("Content-type", "Application/x-www-form-urlencoded;charset=utf-8");
 
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "u-s4t2ud-f90f9eeac95b368279b59a8f0eb2e43a8b348db52752754f2aa249ded96390aa");
-        params.add("client_secret", "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");
+        params.add("client_id", "u-s4t2ud-216dca40c46a9ceef4ce38bfb3891a961cc8270d51701347321b4c68ffd70be3");
+        params.add("client_secret", "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");
         params.add("code", code);
         params.add("redirect_uri", "https://42check-in.kr/oauth/login");
 
