@@ -107,6 +107,7 @@ public class OauthService {
     }
 
     private URI req42TokenUri() {
+        log.info("in req42TokenUri?????????????????");
         return UriComponentsBuilder.fromHttpUrl("https://api.intra.42.fr/oauth/token")
                 .build()
                 .toUri();
