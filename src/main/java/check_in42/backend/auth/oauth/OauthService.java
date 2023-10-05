@@ -47,6 +47,7 @@ public class OauthService {
         req = req42TokenHeader(code);
         log.info(code);
         res = resPostApi(req, req42TokenUri());
+        log.info("뭐냐고");
         return readOauthToken(res.getBody());
     }
 
@@ -128,6 +129,7 @@ public class OauthService {
     @Transactional
     public TokenPair login(final String code) {
         final OauthToken oauthToken = this.getOauthToken(code);
+        log.info("오어스 너 머냐고");
         final User42Info user42Info = this.get42SeoulInfo(oauthToken.getAccess_token());
 
         final String intraId = user42Info.getLogin();
